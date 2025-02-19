@@ -1,0 +1,32 @@
+.produto-card.selecionado {
+  background-color: #d4edda; /* Verde claro */
+  border-color: #155724;
+}
+
+.produto-card {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+.produto-checkbox {
+  margin-top: 10px;
+}
+
+.botao.divergencia {
+  background-color: #f0ad4e;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: flex-end; /* Isso posiciona o botão à direita */
+}
+
+.botao.divergencia:hover {
+  background-color: #ec971f;
+}

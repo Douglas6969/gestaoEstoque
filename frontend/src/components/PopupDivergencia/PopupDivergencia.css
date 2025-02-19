@@ -1,0 +1,110 @@
+/* src/components/PopupDivergencia/PopupDivergencia.css */
+
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Popup de Divergência */
+.popup-divergencia-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: slideUp 0.4s ease-in-out;
+    transition: all 0.3s ease;
+    border: 1px solid #e1e1e1;
+}
+
+.popup-divergencia-container h3 {
+    color: #457a9c;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.popup-divergencia-container textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    transition: border-color 0.3s ease-in-out;
+    outline: none;
+}
+
+.popup-divergencia-container textarea:focus {
+    border-color: #457a9c;
+}
+
+.popup-divergencia-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.popup-divergencia-buttons .botao {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup-divergencia-buttons .botao.confirmar {
+    background-color: #28a745;
+    color: white;
+}
+
+.popup-divergencia-buttons .botao.confirmar:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.popup-divergencia-buttons .botao.cancelar {
+    background-color: #dc3545;
+    color: white;
+}
+
+.popup-divergencia-buttons .botao.cancelar:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+/* Animações */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

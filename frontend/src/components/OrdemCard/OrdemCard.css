@@ -1,0 +1,250 @@
+.ordem-card {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-medium);
+  margin-bottom: var(--spacing-medium);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+  position: relative; /* Necessário para posicionar o botão no canto esquerdo */
+}
+
+.ordem-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-medium);
+}
+
+.ordem-title {
+  font-weight: bold;
+  color: #457a9c; /* Cor atualizada */
+}
+
+.ordem-text {
+  color: #fefefe; /* Cor atualizada */
+}
+
+.popover-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-small);
+  gap: var(--spacing-small);
+}
+
+.popover-btn {
+  background-color: #457a9c; /* Cor atualizada */
+  color: white;
+  padding: var(--spacing-small) var(--spacing-medium);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: var(--font-size-medium);
+}
+
+.popover-btn:hover {
+  background-color: #a8dadc; /* Cor de hover atualizada */
+}
+
+.iniciar-conferencia {
+  background-color: #28a745;
+  border: none;
+  color: white;
+  padding: var(--spacing-small) var(--spacing-medium);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-medium);
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.iniciar-conferencia:hover {
+  background-color: #218838;
+}
+
+.access-details-bottom {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px; /* Ajusta para descer o botão mais para baixo */
+}
+
+.ver-pedido-btn {
+  background-color: #457a9c; /* Cor atualizada */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.ver-pedido-btn:hover {
+  background-color: #a8dadc; /* Cor de hover atualizada */
+}
+@media (max-width: 768px) {
+  .ordem-card {
+    width: 100vw; /* Aumenta a largura para celular */
+    height: 60vh; /* Aumenta a altura para celular */
+    margin-bottom: 35px; /* Ajuste de margem */
+    margin-top: 10px;
+  }
+}
+
+/* Detalhes da Ordem */
+.ordem-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-medium);
+}
+
+.ordem-title {
+  font-weight: bold;
+  color: #457a9c; /* Cor atualizada */
+}
+
+.ordem-text {
+  color: #fefefe; /* Cor atualizada */
+}
+
+/* Botão Popover */
+.popover-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-small);
+  gap: var(--spacing-small);
+}
+
+.popover-btn {
+  background-color: #457a9c; /* Cor atualizada */
+  color: white;
+  padding: var(--spacing-small) var(--spacing-medium);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: var(--font-size-medium);
+}
+
+.popover-btn:hover {
+  background-color: #a8dadc; /* Cor de hover atualizada */
+}
+
+/* Botão Iniciar Conferência */
+.iniciar-conferencia {
+  background-color: #28a745;
+  border: none;
+  color: white;
+  padding: var(--spacing-small) var(--spacing-medium);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-medium);
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.iniciar-conferencia:hover {
+  background-color: #218838;
+}
+
+/* Botão Ver Pedido */
+.access-details-bottom {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.ver-pedido-btn {
+  background-color: #457a9c; /* Cor atualizada */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.ver-pedido-btn:hover {
+  background-color: #a8dadc; /* Cor de hover atualizada */
+}
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+  /* Ordem Card */
+  .ordem-card {
+    width: 90vw; /* Ajuste para ficar 90% da largura da tela */
+    height: auto; /* A altura se ajusta automaticamente */
+    margin-bottom: 20px; /* Ajuste de margem inferior */
+    margin-top: 10px; /* Espaço superior */
+    padding: var(--spacing-small); /* Ajuste do padding */
+  }
+
+  /* Detalhes da ordem */
+  .ordem-detail {
+    font-size: var(--font-size-small); /* Diminui o tamanho da fonte */
+  }
+
+  /* Botões Popover */
+  .popover-container {
+    gap: var(--spacing-small); /* Distância entre os botões */
+  }
+
+  .popover-btn {
+    padding: var(--spacing-small) var(--spacing-medium); /* Ajuste do padding */
+    font-size: var(--font-size-small); /* Reduz o tamanho da fonte */
+  }
+
+  /* Botão Iniciar Conferência */
+  .iniciar-conferencia {
+    width: auto; /* Mantém o tamanho original */
+    padding: var(--spacing-small) var(--spacing-medium); /* Ajuste do padding */
+    margin-top: 10px; /* Espaço superior */
+    font-size: var(--font-size-small); /* Ajuste de fonte */
+  }
+
+  /* Botão Ver Pedido */
+  .access-details-bottom {
+    margin-top: 20px; /* Espaço superior */
+  }
+
+  .ver-pedido-btn {
+    padding: 8px 12px; /* Ajuste do padding */
+    font-size: var(--font-size-small); /* Ajuste do tamanho da fonte */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Ordem Card */
+  .ordem-card {
+    width: 90vw; /* Ajuste para ficar 90% da largura da tela */
+    margin-bottom: 15px; /* Menos margem inferior */
+    margin-top: 10px; /* Espaço superior */
+    padding: var(--spacing-small); /* Ajuste do padding */
+  }
+
+  /* Detalhes da ordem */
+  .ordem-detail {
+    font-size: var(--font-size-small); /* Tamanho da fonte reduzido */
+  }
+
+  /* Botões Popover */
+  .popover-container {
+    gap: var(--spacing-small); /* Distância entre os botões */
+  }
+
+  .popover-btn {
+    padding: var(--spacing-small) var(--spacing-medium); /* Ajuste do padding */
+    font-size: var(--font-size-small); /* Reduz o tamanho da fonte */
+  }
+
+  /* Botão Iniciar Conferência */
+  .iniciar-conferencia {
+    width: auto; /* Mantém o tamanho original */
+    padding: var(--spacing-small) var(--spacing-medium); /* Ajuste do padding */
+    margin-top: 10px; /* Espaço superior */
+    font-size: var(--font-size-small); /* Ajuste de fonte */
+  }
+
+  /* Botão Ver Pedido */
+  .ver-pedido-btn {
+    padding: 8px 12px; /* Ajuste do padding */
+    font-size: var(--font-size-small); /* Ajuste do tamanho da fonte */
+  }
+}

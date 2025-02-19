@@ -1,0 +1,123 @@
+/* Reset para evitar scroll lateral */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* Remove scroll lateral */
+}
+
+/* Estilo do Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #457a9c, #a8dadc);
+    padding: 15px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 8%;
+    position: fixed; /* Mantém fixo no topo */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Garante que o header fique acima do conteúdo */
+    flex-wrap: nowrap; /* Impede que os itens quebrem para outra linha */
+    justify-content: center; /* Centraliza os itens */
+}
+
+/* Ajusta o espaço para o conteúdo não ficar atrás do header */
+body {
+    padding-top: 80px;
+}
+
+/* Logo */
+.header-logo-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .header-logo {
+    height: 50px; /* Ajuste conforme necessário */
+    width: 250px;
+  }
+
+/* Contêiner para os botões de ícones (usuario e logout) */
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Afastamento entre os botões */
+}
+
+/* Botões de ícones */
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+    font-size: 20px;
+    padding: 8px;
+}
+
+.icon-button:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+.icon-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px;
+    }
+
+    .header-title {
+        font-size: 20px;
+    }
+
+    .icon-button {
+        font-size: 18px;
+        padding: 5px;
+    }
+
+    .header-buttons {
+        gap: 15px; /* Menor afastamento nos dispositivos menores */
+    }
+}
+
+@media (max-width: 480px) {
+    .header-logo-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+      
+      .header-logo {
+        height: 50px; /* Ajuste conforme necessário */
+        width: 130px;
+        margin-left: 40px;
+      }
+    
+   
+    .header {
+        padding: 8px;
+    }
+
+    .header-title {
+        font-size: 18px;
+    }
+
+    .icon-button {
+        font-size: 16px;
+    }
+}

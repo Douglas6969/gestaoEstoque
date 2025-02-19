@@ -1,0 +1,169 @@
+/* Estilo global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background: linear-gradient(135deg, #457a9c, #a8dadc); /* Gradiente igual ao da página de separação */
+}
+
+/* Container do Login */
+.login-container {
+    background-color: #fefefe; /* Cor de fundo branca */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    min-width: 320px;
+    position: relative;
+}
+
+/* Título */
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #e63946; /* Cor ajustada para o título */
+    text-align: center;
+}
+
+/* Mensagem de erro */
+.error-message {
+    color: #e63946; /* Cor de erro ajustada */
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Container dos inputs */
+.input-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+/* Ícones */
+.icon {
+    margin-right: 8px;
+    color: #888;
+}
+
+/* Inputs */
+.input {
+    flex: 1;
+    height: 50px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+/* Botão de mostrar/esconder senha */
+.toggle-password {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+}
+
+/* Botão de Login */
+.login-button {
+    background-color: #457a9c; /* Cor ajustada para o botão */
+    color: #fff;
+    padding: 12px 40px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #a8dadc; /* Cor de hover ajustada */
+}
+
+/* Overlay de Carregamento */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    z-index: 9999;
+}
+
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loading-text {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #457a9c; /* Cor ajustada */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 30px;
+        max-width: 90%; /* Ajuste para telas médias */
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .input {
+        font-size: 14px;
+    }
+
+    .login-button {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 25px;
+        max-width: 100%;
+        min-width: 90%;
+    }
+
+    .title {
+        font-size: 22px;
+    }
+
+    .input {
+        font-size: 14px;
+        height: 45px;
+    }
+
+    .login-button {
+        font-size: 16px;
+        padding: 10px;
+    }
+}

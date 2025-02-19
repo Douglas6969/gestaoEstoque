@@ -1,0 +1,205 @@
+:root {
+  --color-primary: #457a9c;
+  --color-primary-hover: #a8dadc;
+  --color-background: rgba(255, 255, 255, 0.1);
+  --color-text: #fefefe;
+  --color-text-light: rgba(254, 254, 254, 0.8);
+  --color-error: #e63946;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --border-radius: 12px;
+  --spacing-small: 10px;
+  --spacing-medium: 20px;
+  --spacing-large: 30px;
+  --font-size-small: 12px;
+  --font-size-medium: 14px;
+  --font-size-large: 16px;
+  --font-size-title: 24px;
+}
+
+/* Container principal */
+.lista-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  padding: var(--spacing-medium);
+  text-align: center;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  position: relative;
+}
+
+/* Conteúdo da lista */
+.lista-content {
+  width: 100%;
+  max-width: 1000px;
+  padding: var(--spacing-large);
+  background-color: var(--color-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  color: var(--color-text);
+  overflow-y: auto;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}
+
+/* Título da lista */
+.lista-title {
+  font-size: var(--font-size-title);
+  font-weight: bold;
+  margin-bottom: var(--spacing-medium);
+  color: var(--color-text);
+}
+
+/* Mensagem de no data */
+.lista-no-data {
+  font-size: var(--font-size-large);
+  color: var(--color-text-light);
+  margin-top: var(--spacing-medium);
+}
+
+/* Detalhes da Ordem */
+
+/* Container principal */
+.lista-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  padding: var(--spacing-medium);
+  text-align: center;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  padding-bottom: var(--spacing-large);  /* Adiciona um espaço extra na parte inferior */
+}
+
+
+.ordem-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-medium);
+  word-wrap: break-word;
+  width: 100%;
+}
+
+.ordem-title {
+  font-weight: bold;
+  color: var(--color-primary);
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ordem-text {
+  color: var(--color-text-light);
+  word-wrap: break-word;
+  text-align: left;
+}
+
+/* Estilo do scroll */
+.lista-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.lista-content::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 5px;
+}
+
+.lista-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Botão de iniciar conferência */
+.iniciar-conferencia {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text);
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.iniciar-conferencia:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+/* Pop-up */
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* Conteúdo do pop-up */
+.popup {
+  background: var(--color-text);
+  padding: var(--spacing-large);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+  color: var(--color-primary);
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .popup {
+      width: 90%;
+      max-width: 380px;
+  }
+  .lista-content {
+      height: calc(100vh - 180px); /* Ajuste dinâmico da altura (subtrai um valor fixo para garantir espaço no fundo) */
+      margin-top: 20px;
+      padding: var(--spacing-medium);
+  }
+  .lista-container {
+    padding-bottom: var(--spacing-large);  /* Adicionando mais espaço na parte inferior */
+    padding-top: var(--spacing-medium);    /* Espaço adicional na parte superior */
+  }
+}
+
+@media (max-width: 480px) {
+  .popup {
+      width: 95%;
+      max-width: 350px;
+  }
+  .lista-content {
+      height: calc(100vh - 150px); /* Ajuste a altura também para dar espaço no fundo */
+      margin-top: 20px;
+      padding: var(--spacing-small);
+  }
+  .popup-buttons {
+      flex-direction: column;
+  }
+  .popup-buttons button {
+      width: 100%;
+  }
+  .lista-container {
+    padding-bottom: var(--spacing-large);  /* Mais espaço no rodapé */
+    padding-top: var(--spacing-small);     /* Espaço na parte superior */
+  }
+}

@@ -1,0 +1,308 @@
+/* Container principal do pedido */
+.detalhes-pedido-container {
+  background-color: #fefefe;
+  padding: 20px;
+  transition: background-color 0.3s ease;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Fundo verde quando selecionado */
+.detalhes-pedido-container.green-background {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Cabeçalho */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  color: #457a9c;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Mensagem quando não há detalhes */
+.no-details-message {
+  text-align: center;
+  color: #e63946;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Lista de produtos com rolagem */
+.produto-list-container {
+  max-height: 750px;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 15px;
+  border-radius: 8px;
+}
+
+/* Ajustes no card do produto */
+.produto-card {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.produto-card:hover {
+  transform: scale(1.02);
+}
+
+/* Layout do produto */
+.produto-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.produto-label {
+  font-weight: bold;
+  color: #457a9c;
+}
+
+.produto-value {
+  color: #333;
+  text-align: right;
+}
+
+/* Mensagem de erro */
+.error-message {
+  color: #e63946;
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Container dos botões */
+.botoes-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 15px;
+  gap: 12px;
+}
+
+/* Estilização dos botões */
+.botao {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.finalizar {
+  background-color: #28a745;
+  color: white;
+}
+
+.finalizar:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.divergencia {
+  background-color: #ffc107;
+  color: black;
+}
+
+.divergencia:hover {
+  background-color: #e0a800;
+  transform: scale(1.05);
+}
+
+.voltar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.voltar:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+/* --- Estilos do Popup --- */
+
+/* Overlay escuro ao fundo */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Container do popup */
+.popup-container {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: slideUp 0.3s ease-in-out;
+}
+
+/* Animação do popup */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Título do popup */
+.popup-container h3 {
+  color: #457a9c;
+  font-size: 22px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+/* Campo de entrada */
+.popup-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.popup-input:focus {
+  border-color: #457a9c;
+  outline: none;
+}
+
+/* Botões dentro do popup */
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.popup-button {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+}
+
+/* Botão de confirmar */
+.popup-button.confirmar {
+  background-color: #28a745;
+  color: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.popup-button.confirmar:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+/* Botão de cancelar */
+.popup-button.cancelar {
+  background-color: #dc3545;
+  color: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.popup-button.cancelar:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .produto-list-container {
+    max-height: 500px;
+    margin-top: 10px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .produto-card {
+    padding: 12px;
+  }
+
+  .produto-row {
+    font-size: 14px;
+  }
+
+  .botoes-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .botao {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .popup-container {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .popup-input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .popup-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .popup-container {
+    width: 80%;
+  }
+
+  .popup-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .popup-button {
+    width: 100%;
+  }
+}
