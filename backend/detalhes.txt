@@ -1,0 +1,570 @@
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "",
+  "appkey": "",
+  "username": "",
+  "password": ""
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "",
+  "appkey": "",
+  "username": "",
+  "password": ""
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "",
+  "appkey": "",
+  "username": "",
+  "password": ""
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "krugfdf@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "krugfdf@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "krugfdf@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "krugfdf@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: undefined
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: undefined
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "krugfdf@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "krugfdf@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "krugfdf@gmail.com",
+  "password": "123456"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "krugfdf@gmail.com",
+  "password": "123456"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "ti01.bascel@gmail.com",
+  "password": "123456"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "krugfdf@gmail.com",
+  "password": "123456"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "23049a70-4fe1-44dc-a1d4-615fc6c08d3e",
+  "appkey": "35074503-9b22-4416-8327-061d68cd716e",
+  "username": "fcbzim@gmail.com",
+  "password": "Abl315ci@#"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "23049a70-4fe1-44dc-a1d4-615fc6c08d3e",
+  "appkey": "35074503-9b22-4416-8327-061d68cd716e",
+  "username": "fcbzim@gmail.com",
+  "password": "Abl315ci@#"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "23049a70-4fe1-44dc-a1d4-615fc6c08d3e",
+  "appkey": "35074503-9b22-4416-8327-061d68cd716e",
+  "username": "fcbzim@gmail.com",
+  "password": "Abl315ci@#"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "23049a70-4fe1-44dc-a1d4-615fc6c08d3e",
+  "appkey": "35074503-9b22-4416-8327-061d68cd716e",
+  "username": "fcbzim@gmail.com",
+  "password": "Abl315ci@#"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "ti01.bascel@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "username": "ti01.bascel@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "username": "ti01.bascel@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "username": "ti01.bascel@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "username": "ti01.bascel@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "username": "ti01.bascel@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "username": "ti01.bascel@gmail.com",
+  "password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "Appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "Token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "Username": "ti01.bascel@gmail.com",
+  "Password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "Appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "Token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "Username": "ti01.bascel@gmail.com",
+  "Password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
+
+===== ERRO =====
+Headers Enviados: {
+  "Appkey": "668007dc-939a-4dff-ae33-ae9cd1815bde",
+  "Token": "3a1dd7f7-0a7c-469b-ab67-f3b96b01903c",
+  "Username": "ti01.bascel@gmail.com",
+  "Password": "K0r1ng4$#@"
+}
+Erro: Request failed with status code 401
+Resposta do Servidor: {
+  "fieldSet": null,
+  "paginate": null,
+  "error": {
+    "codigo": "GTW2510",
+    "descricao": "O Header Authorization é obrigatório para esta requisição."
+  }
+}
+=================
+
+
