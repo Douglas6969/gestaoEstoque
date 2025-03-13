@@ -38,11 +38,15 @@ const ProdutoCard = ({ item, onAbrirPopup }) => {
       </div>
       <div className="produto-row">
         <span className="produto-label">Quantidade:</span>
-        <span className="produto-value">{item.Quantidade}</span>
+        <span className="produto-value">{Number(item.Quantidade).toLocaleString("pt-BR")}</span>
       </div>
       <div className="produto-row">
         <span className="produto-label">Localização:</span>
-        <span className="produto-value">{item.Localizacao}</span>
+        <span className="produto-value">{item.Localizacao} {/*item.Armazenagem*/}</span>
+      </div> 
+      <div className="produto-row">
+        <span className="produto-label">Armazenagem:</span>
+        <span className="produto-value">{item.Armazenagem}</span>
       </div>
       
 

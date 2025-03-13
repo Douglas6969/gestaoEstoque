@@ -12,10 +12,11 @@ import { atualizarStatusConferencia } from './controllers/atualizarStatusConfere
 import { registrarDivergencia } from './controllers/registrarDivergencia.controller.js';
 import { associarSeparador } from './controllers/associarSeparador.controller.js';
 import { listarOrdensPorSeparador } from './controllers/listarOrdensPorSeparador.controller.js';
-
 import { registrarDivergenciainput } from './controllers/registrarDivergenciainput.controller.js';
 import {  verificarSePodeSeparar } from './controllers/verificarSePodeSeparar.controller.js';
 import { separacaoFinalizada } from './controllers/separacaoFinalizada.controller.js';
+import { atualizarHistorico } from './controllers/historico.controller.js';
+import { imprimirEtiqueta } from './controllers/ImprimirEtiqueta.controller.js';
 
 dotenv.config();
 const app = express();
@@ -50,6 +51,10 @@ app.put('/api/v1/users/associar-separador', associarSeparador);
 app.get('/api/ordens-carga', listarOrdensPorSeparador);
 
 app.put('/api/v1/separacao-finalizada/:nroUnico',separacaoFinalizada);
+
+app.put ('/api/v1/historico/:nroUnico',atualizarHistorico)
+
+app.put('/api/v1/imprimir/:nroUnico',imprimirEtiqueta)
 
 
 

@@ -21,7 +21,7 @@ export const verificarSePodeSeparar = async (req, res) => {
       SELECT COUNT(CAB.NUNOTA) AS "Qtd_Ordens_Conferencia_Iniciada"
       FROM TGFCAB CAB
       WHERE CAB.AD_SEPARADORNEW = ${separadorCodigo} 
-        AND CAB.AD_STATUSDACONFERENCIA = 7
+        AND CAB.AD_CODIGO = 2
     `;
 
     const requestBody = {

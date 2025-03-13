@@ -46,9 +46,9 @@ export const listarOrdensPorSeparador = async (req, res) => {
         TRA.RAZAOSOCIAL || ' - ' || CAB.CODPARCTRANSP AS "Transportadora",
         EMP.RAZAOSOCIAL AS "Nome_Empresa",
         CASE 
-            WHEN CAB.AD_STATUSDACONFERENCIA = '1' THEN 'Aguardando Conferência'
-            WHEN CAB.AD_STATUSDACONFERENCIA = '7' THEN 'Conferência iniciada'
-            WHEN CAB.AD_STATUSDACONFERENCIA = '3' THEN 'Divergência Encontrada'
+            WHEN CAB.AD_CODIGO = '1' THEN 'Liberado para Separação'
+            WHEN CAB.AD_CODIGO = '2' THEN 'Separação Iniciada'
+            WHEN CAB.AD_CODIGO = '7' THEN 'Divergência Encontrada'
         END AS "Status",
         CAB.AD_DS_MOTIVODIV AS "Motivo",
         TOP.DESCROPER || ' - ' || CAB.CODTIPOPER AS "Top",
@@ -77,7 +77,7 @@ export const listarOrdensPorSeparador = async (req, res) => {
         LEFT JOIN AD_SEPARADOR SEP ON CAB.AD_SEPARADORNEW = SEP.SEPARADOR 
       WHERE CAB.CODTIPOPER IN (1000, 1003, 1005)
         AND CAB.PENDENTE = 'S'
-        AND CAB.AD_STATUSDACONFERENCIA IN ('7', '3')  -- Filtrando para "Conferência iniciada" e "Divergência Encontrada"
+        AND CAB.AD_CODIGO IN ('7', '2')  -- Filtrando para "Conferência iniciada" e "Divergência Encontrada"
         AND SEP.SEPARADOR = ${separadorCodigo}  -- Usando o código do separador
       ORDER BY "Prioridade", "Ordem", "Nro_Unico"
     `;

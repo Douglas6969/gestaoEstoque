@@ -11,9 +11,9 @@ const OrdemCard = ({ ordem, iniciarConferencia }) => {
     </Popover>
   );
 
-  const podeIniciarConferencia = ordem?.Status === "Aguardando Conferência";
-  const podeVerPedido = ["conferência iniciada", "divergência encontrada"].includes(
-    ordem?.Status?.trim().toLowerCase()
+  const podeIniciarConferencia = ordem?.Status === "Liberado para Separação";
+  const podeVerPedido = ["Separação Iniciada", "Divergência Encontrada"].includes(
+    ordem?.Status?.trim()
   );
 
   return (
@@ -54,7 +54,7 @@ const OrdemCard = ({ ordem, iniciarConferencia }) => {
             }
           }}
         >
-          Iniciar Conferência
+          Iniciar Separação
         </button>
       )}
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import OrdemCard from "../../components/OrdemCard/OrdemCard";
-import "./ListaSeparacao.css";
+import "./listaseparacao.css";
 import Header from "../../components/Header/Header";
 
 const ListaSeparacao = () => {
@@ -12,7 +12,7 @@ const ListaSeparacao = () => {
   const fetchOrdem = async () => {
     try {
       const response = await axios.get("http://10.10.10.33:5000/api/ordem-carga");
-      const ordensDisponiveis = response.data.ordens?.filter((ordem) => ordem.Status === "Aguardando Conferência") || [];
+      const ordensDisponiveis = response.data.ordens?.filter((ordem) => ordem.Status === "Liberado para Separação") || [];
       setOrdemAtual(ordensDisponiveis[0] || null);
     } catch (error) {
       console.error("Erro ao buscar ordens:", error);
@@ -31,7 +31,6 @@ const ListaSeparacao = () => {
   }, []);
 
   
-
   const iniciarConferencia = async (nroUnico) => {
     const separadorCodigo = localStorage.getItem("codsep");
   
@@ -40,16 +39,26 @@ const ListaSeparacao = () => {
       return;
     }
   
-    try {
-      
+    if (ordemAtual.Status !== "Liberado para Separação") {
+      alert("A ordem não está mais disponível para separação.");
+      return;
+    }
   
-      // 🔹 Se não há conferência ativa, inicia normalmente
+    try {
       const response = await axios.put(
         `http://10.10.10.33:5000/api/ordem-carga/iniciar-conferencia/${nroUnico}`,
         { separadorCodigo }
       );
   
-      if (response.data?.mensagem?.includes("Conferência Iniciada")) {
+      // Verificar a mensagem exata da resposta
+      if (response.data?.mensagem?.includes("Status do pedido")) {
+        await axios.put(
+          `http://10.10.10.33:5000/api/v1/imprimir/${nroUnico}`,
+          { separadorCodigo }
+        );
+        
+        
+
         fetchOrdem();
         navigate(`/detalhes/${nroUnico}`);
       } else {
@@ -57,10 +66,11 @@ const ListaSeparacao = () => {
         fetchOrdem();
       }
     } catch (error) {
-      console.error("Erro ao iniciar conferência:", error);
-      alert("Erro ao iniciar conferência.");
+      console.error("Erro ao iniciar separação:", error);
+      alert("Erro ao iniciar separação.");
     }
   };
+  
   
   
 

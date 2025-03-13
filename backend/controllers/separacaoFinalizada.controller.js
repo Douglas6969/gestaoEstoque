@@ -1,15 +1,13 @@
 import axios from 'axios';
-import { db } from '../database/connection.database.js'; // Conexão com o banco de dados
+import { db } from '../database/connection.database.js';
+import moment from 'moment-timezone';
 
-// Função para obter o bearer_token do banco de dados
 const getBearerTokenFromDB = async () => {
   try {
     const result = await db.query('SELECT bearer_token FROM tokens LIMIT 1');
-    
     if (result.rows.length === 0) {
       throw new Error('Bearer token não encontrado no banco de dados');
     }
-
     return result.rows[0].bearer_token;
   } catch (error) {
     console.error('Erro ao buscar bearer token do banco:', error.message);
@@ -17,92 +15,77 @@ const getBearerTokenFromDB = async () => {
   }
 };
 
-// Controller - Atualizar status da conferência
 export const separacaoFinalizada = async (req, res) => {
-  const { nroUnico } = req.params; // Número único do pedido (NUNOTA)
-  const { separadorCodigo } = req.body; // Código do separador (CODSEP)
-  const novoStatus = "2"; // Conferência Iniciada (novo status)
+  const { nroUnico } = req.params;
+  const { separadorCodigo } = req.body;
+  const novoStatus = "4";
 
   try {
-    const token = await getBearerTokenFromDB(); // Obtendo o bearer token do banco de dados
-
+    const token = await getBearerTokenFromDB();
     if (!token) {
       return res.status(500).json({ erro: 'Token de autenticação não encontrado' });
     }
 
-    // 1. Verificar se o separador já está associado a um pedido com status 7
     const verificarSeparadorResponse = await axios.post(
       'https://api.sandbox.sankhya.com.br/gateway/v1/mge/service.sbr?serviceName=DatasetSP.load&outputType=json',
       {
         serviceName: "DatasetSP.load",
         requestBody: {
-          entityName: "CabecalhoNota", // Instância da tabela
+          entityName: "CabecalhoNota",
           standAlone: false,
-          fields: ["AD_STATUSDACONFERENCIA", "AD_SEPARADORNEW"], // Campos para buscar o status e separador
-          records: [
-            {
-              fields: {
-                "AD_SEPARADORNEW": separadorCodigo, // Verificar se o separador já está associado a algum pedido
-              }
-            }
-          ]
+          fields: ["AD_CODIGO", "AD_SEPARADORNEW"],
+          filters: { "AD_SEPARADORNEW": separadorCodigo }
         }
       },
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }
-      }
+      { headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } }
     );
 
-    // Verificando se existe algum pedido com o separador e status 7
-    const pedidoExistente = verificarSeparadorResponse.data?.records?.find(record => record.fields["AD_STATUSDACONFERENCIA"] === "7");
-
-    // Se encontrar um pedido com status 7, não permite iniciar outra conferência
+    const pedidoExistente = verificarSeparadorResponse.data?.responseBody?.records?.find(record => record.fields["AD_CODIGO"] === "7");
     if (pedidoExistente) {
-      return res.status(400).json({
-        erro: `O separador ${separadorCodigo} já está associado a um pedido com status 'Conferência Iniciada'. Não é possível iniciar uma nova conferência.`
-      });
+      return res.status(400).json({ erro: `O separador ${separadorCodigo} já está associado a um pedido com status 'Conferência Iniciada'.` });
     }
 
-    // 2. Se não houver pedidos com o separador e status 7, prossegue com a atualização
     const requestBody = {
       serviceName: "DatasetSP.save",
       requestBody: {
-        entityName: "CabecalhoNota", // Instância da tabela
+        entityName: "CabecalhoNota",
         standAlone: false,
-        fields: ["AD_STATUSDACONFERENCIA", "AD_SEPARADORNEW"], // Campos a serem atualizados
-        records: [
-          {
-            pk: { NUNOTA: nroUnico }, // Chave primária do pedido
-            values: {
-              "0": novoStatus, // Novo status da conferência
-              "1": separadorCodigo // Código do separador
-            }
-          }
-        ]
+        fields: ["AD_CODIGO", "AD_SEPARADORNEW"],
+        records: [{ pk: { NUNOTA: nroUnico }, values: { "0": novoStatus, "1": separadorCodigo } }]
       }
     };
 
-    // Fazendo a requisição para atualizar o status na API do Sankhya
     const response = await axios.post(
       'https://api.sandbox.sankhya.com.br/gateway/v1/mge/service.sbr?serviceName=DatasetSP.save&outputType=json',
       requestBody,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      }
+      { headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } }
     );
 
-    // Log da resposta da API
-    console.log("Resposta da API Sankhya:", response.data);
-
-    // Verificando se a atualização foi bem-sucedida
     if (response.data?.status === '1') {
-      return res.json({ mensagem: `Status do pedido ${nroUnico} atualizado para 'separação finalizada' e separador registrado.` });
+      const formatarDataHora = () => moment().tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm:ss");
+
+      const updateRequestBodyStatus3 = {
+        serviceName: "DatasetSP.save",
+        requestBody: {
+          entityName: "AD_TGFEXP",
+          standAlone: false,
+          fields: ["DATA",  "OPERADOR"],
+          records: [{ pk: { NUNOTA: nroUnico, STATUS: "4" }, values: { "0": formatarDataHora(),  "1": separadorCodigo } }]
+        }
+      };
+
+      const updateResponseStatus3 = await axios.post(
+        'https://api.sandbox.sankhya.com.br/gateway/v1/mge/service.sbr?serviceName=DatasetSP.save&outputType=json',
+        updateRequestBodyStatus3,
+        { headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } }
+      );
+
+      if (updateResponseStatus3.data?.status !== '1') {
+        console.error("Erro ao atualizar a tabela AD_TGFEXP:", updateResponseStatus3.data);
+        return res.status(400).json({ erro: "Erro ao atualizar a tabela AD_TGFEXP para o status 3." });
+      }
+
+      return res.json({ mensagem: `Status do pedido ${nroUnico} atualizado para 'Separação Finalizada' e separador registrado.` });
     } else {
       console.error("Erro na resposta da API Sankhya:", response.data);
       return res.status(400).json({ erro: "Erro ao atualizar o status da conferência." });

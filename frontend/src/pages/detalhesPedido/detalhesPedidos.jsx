@@ -38,12 +38,25 @@ const DetalhesPedido = () => {
             return;
         }
         try {
+            // Primeira ação: Finalizar a separação
             const response = await axios.put(`http://10.10.10.33:5000/api/v1/separacao-finalizada/${nroUnico}`, { separadorCodigo });
             console.log("Resposta completa da API:", response.data); // Verifique a resposta completa
             
-            // Verificando se a mensagem contém "separação"
-            if (response.data?.mensagem?.includes("separação")) {
+            // Verificando se a separação foi finalizada com sucesso
+            if (response.data?.mensagem?.toLowerCase().includes("separação finalizada")) {
                 alert("✅ Separação finalizada com sucesso!");
+    
+                // Segunda ação: Atualizar o histórico
+                const historicoResponse = await axios.put(`http://10.10.10.33:5000/api/v1/historico/${nroUnico}`);
+                console.log("Resposta do histórico:", historicoResponse.data);
+    
+                if (historicoResponse.data?.mensagem?.toLowerCase().includes("histórico atualizado")) {
+                   
+                } else {
+                    alert("❌ Erro ao atualizar o histórico.");
+                }
+    
+                // Recarregar os detalhes da ordem
                 await fetchOrdem();
                 navigate(`/lista`);
             } else {
@@ -55,6 +68,7 @@ const DetalhesPedido = () => {
             alert("Erro ao finalizar separação.");
         }
     };
+    
     const handleVoltar = () => navigate("/Home");
 
     const handleAbrirPopup = (produto) => {
@@ -73,11 +87,31 @@ const DetalhesPedido = () => {
         }
         const { sequencia } = produtoSelecionado;
         try {
-            await axios.put(`http://10.10.10.33:5000/api/divergencia/${nroUnico}`, { motivoDivergencia });
+            // Registrar a divergência
+            const divergenciaResponse = await axios.put(`http://10.10.10.33:5000/api/divergencia/${nroUnico}`, { motivoDivergencia });
             await axios.put(`http://10.10.10.33:5000/api/divergenciainput/${nroUnico}/${sequencia}`, { motivoDivergencia });
-            console.log("Divergência registrada com sucesso!");
-            setPopupAberto(false);
-            setMotivoDivergencia("");
+        
+            // Verificar se a divergência foi registrada com sucesso
+            if (divergenciaResponse.status === 200) {
+                console.log("Divergência registrada com sucesso!");
+        
+                // Atualizar o histórico se a divergência for bem-sucedida
+                const historicoResponse = await axios.put(`http://10.10.10.33:5000/api/v1/historico/${nroUnico}`);
+                console.log("Resposta do histórico:", historicoResponse.data);
+        
+                if (historicoResponse.data?.mensagem?.toLowerCase().includes("histórico atualizado")) {
+                    // Sucesso ao atualizar o histórico
+                    console.log("Histórico atualizado com sucesso!");
+                    setPopupAberto(false);
+                    setMotivoDivergencia(""); // Limpar o motivo da divergência
+                } else {
+                    // Erro ao atualizar o histórico
+                    alert("❌ Erro ao atualizar o histórico.");
+                }
+            } else {
+                // Erro ao registrar a divergência
+                alert("❌ Erro ao registrar a divergência.");
+            }
         } catch (error) {
             console.error("Erro ao registrar a divergência:", error);
             alert("Erro ao registrar a divergência. Tente novamente.");

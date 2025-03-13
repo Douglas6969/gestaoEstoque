@@ -1,94 +1,55 @@
 import axios from 'axios';
-import { db } from '../database/connection.database.js'; // Assumindo que você tenha a conexão com o banco configurada
+import { db } from '../database/connection.database.js';
 import dotenv from 'dotenv';
+import moment from 'moment-timezone';
 
 dotenv.config();
 
-// Função para obter o bearer_token do banco de dados
 const getBearerTokenFromDB = async () => {
   try {
     const result = await db.query('SELECT bearer_token FROM tokens LIMIT 1');
-    
     if (result.rows.length === 0) {
       throw new Error('Bearer token não encontrado no banco de dados');
     }
-
     return result.rows[0].bearer_token;
   } catch (error) {
-    console.error('Erro ao buscar bearer token do banco:', error.message);
+    console.error('Erro ao buscar bearer token:', error.message);
     throw error;
   }
 };
 
-// Controller - Atualizar status da conferência
 export const atualizarStatusConferencia = async (req, res) => {
-  const { nroUnico } = req.params; // Número único do pedido (NUNOTA)
-  const { separadorCodigo } = req.body; // Código do separador (CODSEP)
-  const novoStatus = "7"; // Conferência Iniciada (novo status)
+  const { nroUnico } = req.params;
+  const { separadorCodigo } = req.body;
+  const novoStatus = "2"; // Novo status de conferência
 
   try {
-    const token = await getBearerTokenFromDB(); // Obtendo o bearer token do banco de dados
-
+    // Busca o token de autenticação do banco de dados
+    const token = await getBearerTokenFromDB();
     if (!token) {
       return res.status(500).json({ erro: 'Token de autenticação não encontrado' });
     }
 
-    // 1. Verificar se o separador já está associado a um pedido com status 7
-    const verificarSeparadorResponse = await axios.post(
-      'https://api.sandbox.sankhya.com.br/gateway/v1/mge/service.sbr?serviceName=DatasetSP.load&outputType=json',
-      {
-        serviceName: "DatasetSP.load",
-        requestBody: {
-          entityName: "CabecalhoNota", // Instância da tabela
-          standAlone: false,
-          fields: ["AD_STATUSDACONFERENCIA", "AD_SEPARADORNEW"], // Campos para buscar o status e separador
-          records: [
-            {
-              fields: {
-                "AD_SEPARADORNEW": separadorCodigo, // Verificar se o separador já está associado a algum pedido
-              }
-            }
-          ]
-        }
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }
-      }
-    );
-
-    // Verificando se existe algum pedido com o separador e status 7
-    const pedidoExistente = verificarSeparadorResponse.data?.records?.find(record => record.fields["AD_STATUSDACONFERENCIA"] === "7");
-
-    // Se encontrar um pedido com status 7, não permite iniciar outra conferência
-    if (pedidoExistente) {
-      return res.status(400).json({
-        erro: `O separador ${separadorCodigo} já está associado a um pedido com status 'Conferência Iniciada'. Não é possível iniciar uma nova conferência.`
-      });
-    }
-
-    // 2. Se não houver pedidos com o separador e status 7, prossegue com a atualização
+    // Monta o corpo da requisição para a API Sankhya
     const requestBody = {
       serviceName: "DatasetSP.save",
       requestBody: {
-        entityName: "CabecalhoNota", // Instância da tabela
+        entityName: "CabecalhoNota",
         standAlone: false,
-        fields: ["AD_STATUSDACONFERENCIA", "AD_SEPARADORNEW"], // Campos a serem atualizados
+        fields: ["AD_CODIGO", "AD_SEPARADORNEW"],
         records: [
           {
-            pk: { NUNOTA: nroUnico }, // Chave primária do pedido
+            pk: { NUNOTA: nroUnico },
             values: {
-              "0": novoStatus, // Novo status da conferência
-              "1": separadorCodigo // Código do separador
+              "0": novoStatus,
+              "1": separadorCodigo
             }
           }
         ]
       }
     };
 
-    // Fazendo a requisição para atualizar o status na API do Sankhya
+    // Chama a API Sankhya para atualizar o status da ordem
     const response = await axios.post(
       'https://api.sandbox.sankhya.com.br/gateway/v1/mge/service.sbr?serviceName=DatasetSP.save&outputType=json',
       requestBody,
@@ -100,18 +61,58 @@ export const atualizarStatusConferencia = async (req, res) => {
       }
     );
 
-    // Log da resposta da API
-    console.log("Resposta da API Sankhya:", response.data);
-
-    // Verificando se a atualização foi bem-sucedida
+    // Se a resposta for positiva, prossegue com a atualização da tabela AD_TGFEXP
     if (response.data?.status === '1') {
-      return res.json({ mensagem: `Status do pedido ${nroUnico} atualizado para 'Conferência Iniciada' e separador registrado.` });
+      const formatarDataHora = () => moment().tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm:ss"); // Formato correto
+
+      const insertRequestBody = {
+        serviceName: "DatasetSP.save",
+        requestBody: {
+          entityName: "AD_TGFEXP",
+          standAlone: false,
+          fields: ["DATA", "NUNOTA", "STATUS", "CODUSU", "OPERADOR"],
+          records: [
+            {
+              values: {
+                "0": formatarDataHora(),
+                "1": nroUnico,
+                "2": novoStatus,
+                "3": "0", // Pode ser substituído por um código de usuário se necessário
+                "4": separadorCodigo // Pode ser ajustado dependendo do campo correto para "OPERADOR"
+              }
+            }
+          ]
+        }
+      };
+
+      // Chama a API Sankhya para inserir o histórico na tabela AD_TGFEXP
+      const insertResponse = await axios.post(
+        'https://api.sandbox.sankhya.com.br/gateway/v1/mge/service.sbr?serviceName=DatasetSP.save&outputType=json',
+        insertRequestBody,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      // Verifica se a inserção na tabela AD_TGFEXP foi bem-sucedida
+      if (insertResponse.data?.status !== '1') {
+        console.error("Erro ao registrar na tabela AD_TGFEXP:", insertResponse.data);
+        return res.status(400).json({ erro: "Erro ao registrar na tabela AD_TGFEXP." });
+      }
+
+      return res.json({ mensagem: `Status do pedido ${nroUnico} atualizado para 'Conferência Iniciada' e separado pelo código ${separadorCodigo}.` });
     } else {
       console.error("Erro na resposta da API Sankhya:", response.data);
       return res.status(400).json({ erro: "Erro ao atualizar o status da conferência." });
     }
+
   } catch (error) {
-    console.error("Erro ao atualizar o status da conferência:", error);
+    console.error("Erro ao atualizar status da conferência:", error);
     return res.status(500).json({ erro: "Erro ao atualizar o status da conferência." });
   }
 };
+
+  

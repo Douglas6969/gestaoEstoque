@@ -5,10 +5,11 @@ import { atualizarStatusConferencia} from '../controllers/atualizarStatusConfere
 import { registrarDivergencia } from '../controllers/registrarDivergencia.controller.js';
 import { associarSeparador } from '../controllers/associarSeparador.controller.js';
 import {  listarOrdensPorSeparador } from '../controllers/listarOrdensPorSeparador.controller.js';
-
 import { registrarDivergenciainput } from '../controllers/registrarDivergenciainput.controller.js';
 import { verificarSePodeSeparar } from '../controllers/verificarSePodeSeparar.controller.js';
 import { separacaoFinalizada } from '../controllers/separacaoFinalizada.controller.js';
+import { atualizarHistorico } from '../controllers/historico.controller.js';
+import { imprimirEtiqueta } from '../controllers/ImprimirEtiqueta.controller.js';
 
 const router = express.Router();
 
@@ -22,5 +23,8 @@ router.put('/api/v1/users/associar-separador', associarSeparador);
 router.get('api/ordens-carga', listarOrdensPorSeparador);
 router.get('/api/v1/verificar-separacao/:separadorCodigo', verificarSePodeSeparar);
 router.put('/api/v1/separacao-finalizada/:nroUnico',separacaoFinalizada);
+router.put('/api/v1/historico/:nroUnico',atualizarHistorico)
+router.put('/api/v1/imprimir/:nroUnico',imprimirEtiqueta)
+
 
 export default router; // Exporte o router
