@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./ProdutoCard.css";
+import "./produtoCard.css";
 
 const ProdutoCard = ({ item, onAbrirPopup }) => {
   const [selecionado, setSelecionado] = useState(false);

@@ -45,7 +45,7 @@ const PerfilUsuario = () => {
     <div className="per" >
     <div className="perfil-container">
       <Header />
-      <h1>Ordens de Carga</h1>
+      <h1>Pedidos para separação</h1>
       {error && <p className="error-message">{error}</p>}
       {loading ? (
         <p>Carregando...</p>
@@ -56,7 +56,7 @@ const PerfilUsuario = () => {
           ))}
         </div>
       ) : (
-        <p>Nenhuma ordem de carga encontrada.</p>
+        <p>Nenhum Pedido de separação encontrado.</p>
       )}
 
     </div>
