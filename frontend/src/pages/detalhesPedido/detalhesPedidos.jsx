@@ -19,7 +19,7 @@ const DetalhesPedido = () => {
 
     const fetchOrdem = async () => {
         try {
-            const response = await axios.get(`http://10.10.10.33:5000/api/detalhes/${nroUnico}`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/detalhes/${nroUnico}`);
             setDetalhes(response.data.detalhes);
         } catch (error) {
             console.error("Erro ao buscar a ordem:", error);
@@ -39,7 +39,7 @@ const DetalhesPedido = () => {
         }
         try {
             // Primeira ação: Finalizar a separação
-            const response = await axios.put(`http://10.10.10.33:5000/api/v1/separacao-finalizada/${nroUnico}`, { separadorCodigo });
+            const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/separacao-finalizada/${nroUnico}`, { separadorCodigo });
             console.log("Resposta completa da API:", response.data); // Verifique a resposta completa
             
             // Verificando se a separação foi finalizada com sucesso
@@ -47,7 +47,7 @@ const DetalhesPedido = () => {
                 alert("✅ Separação finalizada com sucesso!");
     
                 // Segunda ação: Atualizar o histórico
-                const historicoResponse = await axios.put(`http://10.10.10.33:5000/api/v1/historico/${nroUnico}`);
+                const historicoResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/historico/${nroUnico}`);
                 console.log("Resposta do histórico:", historicoResponse.data);
     
                 if (historicoResponse.data?.mensagem?.toLowerCase().includes("histórico atualizado")) {
@@ -88,15 +88,15 @@ const DetalhesPedido = () => {
         const { sequencia } = produtoSelecionado;
         try {
             // Registrar a divergência
-            const divergenciaResponse = await axios.put(`http://10.10.10.33:5000/api/divergencia/${nroUnico}`, { motivoDivergencia });
-            await axios.put(`http://10.10.10.33:5000/api/divergenciainput/${nroUnico}/${sequencia}`, { motivoDivergencia });
+            const divergenciaResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/divergencia/${nroUnico}`, { motivoDivergencia });
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/divergenciainput/${nroUnico}/${sequencia}`, { motivoDivergencia });
         
             // Verificar se a divergência foi registrada com sucesso
             if (divergenciaResponse.status === 200) {
                 console.log("Divergência registrada com sucesso!");
         
                 // Atualizar o histórico se a divergência for bem-sucedida
-                const historicoResponse = await axios.put(`http://10.10.10.33:5000/api/v1/historico/${nroUnico}`);
+                const historicoResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/historico/${nroUnico}`);
                 console.log("Resposta do histórico:", historicoResponse.data);
         
                 if (historicoResponse.data?.mensagem?.toLowerCase().includes("histórico atualizado")) {

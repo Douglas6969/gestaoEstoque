@@ -6,6 +6,8 @@ import Lottie from "react-lottie-player";
 import loadingAnimation from "../../assets/loading.json"; // Animação de carregamento
 import "./Login.css"; // Importando o CSS
 
+
+
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -24,10 +26,10 @@ const Login = () => {
         setLoading(true);
     
         try {
-            const response = await axios.post("http://10.10.10.33:5000/api/v1/users/login",  {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/users/login`, {
                 ds_usuario: username,
                 ds_senha: password,
-            });
+              });
     
             if (response.data.ok) {
                 localStorage.setItem("token", response.data.token);

@@ -16,7 +16,7 @@ const Home = () => {
 
     try {
       const response = await axios.get(
-        `http://10.10.10.33:5000/api/v1/verificar-separacao/${separadorCodigo}`
+        `${import.meta.env.VITE_API_URL}/api/v1/verificar-separacao/${separadorCodigo}`
       );
 
       if (response.data.message === 'Você pode iniciar uma nova separação.') {

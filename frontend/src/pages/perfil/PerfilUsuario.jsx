@@ -23,7 +23,7 @@ const PerfilUsuario = () => {
         setLoading(true);
         setError(null);
 
-        const response = await axios.get(`http://10.10.10.33:5000/api/ordens-carga?separadorCodigo=${codsep}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/ordens-carga?separadorCodigo=${codsep}`);
         if (response.data?.ordens) {
           setOrdens(response.data.ordens);
           localStorage.setItem("temPedidos", "true"); // Armazena que existem pedidos
