@@ -16,7 +16,7 @@ const getBearerTokenFromDB = async () => {
 };
 
 export const atualizarHistorico = async (req, res) => {
-  const { nroUnico } = req.params; // Número único do pedido (NUNOTA)
+  const { nroUnico } = req.params; 
 
   try {
     console.log(`🔍 Buscando histórico para o pedido: ${nroUnico}`);
@@ -80,11 +80,11 @@ export const atualizarHistorico = async (req, res) => {
         records: [
           {
             pk: {
-              DATA: dataFormatada, // Usando o formato correto de data
+              DATA: dataFormatada, 
               NUNOTA
             },
             values: {
-              '0': moment().tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm:ss'), // DATAFIN com a data e hora atual no formato correto
+              '0': moment().tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm:ss'), 
               '1': CODUSU,
               '2': OPERADOR
             }

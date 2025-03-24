@@ -25,7 +25,7 @@ const Header = () => {
       navigate("/");
       setLoading(true);
       try {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/logout`);
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`);
       } catch (error) {
         console.error("Erro ao fazer logout:", error);
       } finally {

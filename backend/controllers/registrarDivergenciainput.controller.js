@@ -28,7 +28,7 @@ export const registrarDivergenciainput = async (req, res) => {
     }
 
     try {
-        const token = await getBearerTokenFromDB(); // Obtendo o bearer token do banco de dados
+        const token = await getBearerTokenFromDB(); 
 
         if (!token) {
             return res.status(500).json({ erro: 'Token de autenticação não encontrado' });

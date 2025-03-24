@@ -11,7 +11,7 @@ const ListaSeparacao = () => {
 
   const fetchOrdem = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/ordem-carga`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/ordem-carga`);
       const ordensDisponiveis = response.data.ordens?.filter((ordem) => ordem.Status === "Liberado para Separação") || [];
       setOrdemAtual(ordensDisponiveis[0] || null);
     } catch (error) {
@@ -46,14 +46,14 @@ const ListaSeparacao = () => {
   
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/ordem-carga/iniciar-conferencia/${nroUnico}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/ordem-carga/iniciar-conferencia/${nroUnico}`,
         { separadorCodigo }
       );
   
       // Verificar a mensagem exata da resposta
       if (response.data?.mensagem?.includes("Status do pedido")) {
         await axios.put(
-          `${import.meta.env.VITE_API_URL}/api/v1/imprimir/${nroUnico}`,
+         // `${import.meta.env.VITE_API_URL}/api/v1/imprimir/${nroUnico}`,
           { separadorCodigo }
         );
         
@@ -84,7 +84,7 @@ const ListaSeparacao = () => {
 
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/divergenciainput/${dadosDivergencia.nroUnico}/${dadosDivergencia.codigoProduto}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/divergenciainput/${dadosDivergencia.nroUnico}/${dadosDivergencia.codigoProduto}`,
         {
           quantidade: dadosDivergencia.quantidade,
           motivoDivergencia: dadosDivergencia.motivoDivergencia,

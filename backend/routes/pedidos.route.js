@@ -1,10 +1,10 @@
 import express from 'express';
-import { listarOrdemCarga } from '../controllers/ordemCarga.controller.js'; // Importe o controlador
+import { listarOrdemCarga } from '../controllers/ordemCarga.controller.js';
 import { listarDetalhesPedido } from '../controllers/listarDetalhesPedido.controller.js';
-import { atualizarStatusConferencia} from '../controllers/atualizarStatusConferencia.controller.js';
+import { atualizarStatusConferencia } from '../controllers/atualizarStatusConferencia.controller.js';
 import { registrarDivergencia } from '../controllers/registrarDivergencia.controller.js';
 import { associarSeparador } from '../controllers/associarSeparador.controller.js';
-import {  listarOrdensPorSeparador } from '../controllers/listarOrdensPorSeparador.controller.js';
+import { listarOrdensPorSeparador } from '../controllers/listarOrdensPorSeparador.controller.js';
 import { registrarDivergenciainput } from '../controllers/registrarDivergenciainput.controller.js';
 import { verificarSePodeSeparar } from '../controllers/verificarSePodeSeparar.controller.js';
 import { separacaoFinalizada } from '../controllers/separacaoFinalizada.controller.js';
@@ -13,18 +13,23 @@ import { imprimirEtiqueta } from '../controllers/ImprimirEtiqueta.controller.js'
 
 const router = express.Router();
 
-// Rota para listar a ordem de carga
+// Rotas de ordem de carga
 router.get('/ordem-carga', listarOrdemCarga);
+router.get('/perfil', listarOrdensPorSeparador);
+router.put('/ordem-carga/iniciar-conferencia/:nroUnico', atualizarStatusConferencia);
+
+// Rotas de detalhes e divergências
 router.get('/detalhes/:nroUnico', listarDetalhesPedido);
-router.put('/ordem-carga/iniciar-conferencia/:nroUnico',atualizarStatusConferencia);
-router.put('/api/divergencia/:nroUnico', registrarDivergencia);
-router.put('/api/divergenciainput/:nroUnico/:sequencia', registrarDivergenciainput);
-router.put('/api/v1/users/associar-separador', associarSeparador);
-router.get('api/ordens-carga', listarOrdensPorSeparador);
-router.get('/api/v1/verificar-separacao/:separadorCodigo', verificarSePodeSeparar);
-router.put('/api/v1/separacao-finalizada/:nroUnico',separacaoFinalizada);
-router.put('/api/v1/historico/:nroUnico',atualizarHistorico)
-router.put('/api/v1/imprimir/:nroUnico',imprimirEtiqueta)
+router.put('/divergencia/:nroUnico', registrarDivergencia);
+router.put('/divergenciainput/:nroUnico/:sequencia', registrarDivergenciainput);
 
+// Rotas de separador
+router.get('/verificar-separacao/:separadorCodigo', verificarSePodeSeparar);
+router.put('/users/associar-separador', associarSeparador);
 
-export default router; // Exporte o router
+// Outras rotas
+router.put('/separacao-finalizada/:nroUnico', separacaoFinalizada);
+router.put('/historico/:nroUnico', atualizarHistorico);
+router.put('/imprimir/:nroUnico', imprimirEtiqueta);
+
+export default router;

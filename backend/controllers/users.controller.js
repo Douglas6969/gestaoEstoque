@@ -8,7 +8,7 @@ const register = async (req, res) => {
     try {
         const { ds_usuario, ds_senha, codsep } = req.body;
 
-        // Validação básica
+       
         if (!ds_usuario || !ds_senha || !codsep) {
             return res.status(400).json({ ok: false, msg: "Por favor, preencha todos os campos obrigatórios" });
         }
@@ -32,7 +32,7 @@ const register = async (req, res) => {
         const newUser = await usuarioModel.create({
             ds_usuario,
             ds_senha: hashedPassword,
-            codsep   // Incluindo o codsep que foi passado na requisição
+            codsep   
         });
 
         // Gerando o token JWT

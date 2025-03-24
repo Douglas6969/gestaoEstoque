@@ -1,4 +1,4 @@
-import {db} from '../database/connection.database.js' // Agora deve funcionar corretamente
+import {db} from '../database/connection.database.js' //Funciona disgraçaaaaaaaaaa
 import { QueryTypes } from 'sequelize';
 
 export const associarSeparador = async (req, res) => {

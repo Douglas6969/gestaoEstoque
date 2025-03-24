@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { db } from '../database/connection.database.js'; // Conexão com o banco de dados
-import moment from 'moment-timezone'; // Biblioteca para data/hora
+import { db } from '../database/connection.database.js'; 
+import moment from 'moment-timezone';
 
-// Função para obter o bearer_token do banco de dados
+
 const getBearerTokenFromDB = async () => {
   try {
     const result = await db.query('SELECT bearer_token FROM tokens LIMIT 1');
@@ -18,19 +18,18 @@ const getBearerTokenFromDB = async () => {
   }
 };
 
-// Função para formatar data e hora no formato adequado
 const formatarDataHora = () => {
-  return moment().tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm:ss"); // Formato correto
+  return moment().tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm:ss");
 };
 
 // Controller - Atualizar status da conferência com registro de divergência
 export const registrarDivergencia = async (req, res) => {
-  const { nroUnico } = req.params; // Número único do pedido (NUNOTA)
-  const { separadorCodigo, divergencia } = req.body; // Código do separador e a divergência encontrada
-  const novoStatus = "7"; // Conferência Iniciada (novo status)
+  const { nroUnico } = req.params; 
+  const { separadorCodigo, divergencia } = req.body;
+  const novoStatus = "7";
 
   try {
-    const token = await getBearerTokenFromDB(); // Obtendo o bearer token do banco de dados
+    const token = await getBearerTokenFromDB();
 
     if (!token) {
       return res.status(500).json({ erro: 'Token de autenticação não encontrado' });
@@ -40,14 +39,14 @@ export const registrarDivergencia = async (req, res) => {
     const requestBody = {
       serviceName: "DatasetSP.save",
       requestBody: {
-        entityName: "CabecalhoNota", // Instância da tabela
+        entityName: "CabecalhoNota",
         standAlone: false,
-        fields: ["AD_CODIGO"], // Campos a serem atualizados
+        fields: ["AD_CODIGO"], 
         records: [
           {
-            pk: { NUNOTA: nroUnico }, // Chave primária do pedido
+            pk: { NUNOTA: nroUnico },
             values: {
-              "0": novoStatus, // Novo status da conferência
+              "0": novoStatus, 
             }
           }
         ]
@@ -66,13 +65,13 @@ export const registrarDivergencia = async (req, res) => {
       }
     );
 
-    // Log da resposta da API
+
     console.log("Resposta da API Sankhya:", response.data);
 
-    // Verificando se a atualização foi bem-sucedida
+
     if (response.data?.status === '1') {
       const formatarDataHora = () => {
-             return moment().tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm:ss"); // Formato correto
+             return moment().tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm:ss"); 
            };
            
            const insertRequestBody = {
@@ -84,7 +83,7 @@ export const registrarDivergencia = async (req, res) => {
                records: [
                  {
                    values: {
-                     "0": formatarDataHora(), // Pegando a hora certinha
+                     "0": formatarDataHora(), 
                      "1": nroUnico,
                      "2": "7",
                      "3": "0",
@@ -110,7 +109,7 @@ export const registrarDivergencia = async (req, res) => {
      // Log da resposta da API
     console.log("Resposta da API Sankhya:", response.data);
 
-    // Verificando se a atualização foi bem-sucedida
+
     if (response.data?.status === '1') {
       return res.json({ mensagem: `Status do pedido ${nroUnico} atualizado para 'divergência encontrada'.` });
     }

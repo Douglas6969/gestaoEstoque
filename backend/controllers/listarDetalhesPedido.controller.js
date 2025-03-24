@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { db } from '../database/connection.database.js'; // Conexão com o banco de dados
 
-// Função para obter o bearer_token do banco de dados
+
 const getBearerTokenFromDB = async () => {
   try {
     const result = await db.query('SELECT bearer_token FROM tokens LIMIT 1');
@@ -18,11 +18,11 @@ const getBearerTokenFromDB = async () => {
 };
 
 const listarDetalhesPedido = async (req, res) => {
-  const { nroUnico } = req.params; // Número único do pedido (NUNOTA)
+  const { nroUnico } = req.params; 
 
   try {
-    const token = await getBearerTokenFromDB(); // Obtendo o bearer token do banco de dados
-    const appkey = process.env.SANKHYA_APPKEY; // A appkey ainda será obtida do arquivo .env
+    const token = await getBearerTokenFromDB(); 
+    const appkey = process.env.SANKHYA_APPKEY; 
 
     if (!token) {
       return res.status(500).json({ erro: 'Token de autenticação não encontrado' });

@@ -63,7 +63,7 @@ export const atualizarStatusConferencia = async (req, res) => {
 
     // Se a resposta for positiva, prossegue com a atualização da tabela AD_TGFEXP
     if (response.data?.status === '1') {
-      const formatarDataHora = () => moment().tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm:ss"); // Formato correto
+      const formatarDataHora = () => moment().tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm:ss"); 
 
       const insertRequestBody = {
         serviceName: "DatasetSP.save",
@@ -77,8 +77,8 @@ export const atualizarStatusConferencia = async (req, res) => {
                 "0": formatarDataHora(),
                 "1": nroUnico,
                 "2": novoStatus,
-                "3": "0", // Pode ser substituído por um código de usuário se necessário
-                "4": separadorCodigo // Pode ser ajustado dependendo do campo correto para "OPERADOR"
+                "3": "0",
+                "4": separadorCodigo 
               }
             }
           ]

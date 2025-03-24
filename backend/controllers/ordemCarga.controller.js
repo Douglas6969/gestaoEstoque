@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 // Carregando as variáveis de ambiente
 dotenv.config();
 
-// Função para obter o bearer_token do banco de dados
+
 const getBearerTokenFromDB = async () => {
   try {
     const result = await db.query('SELECT bearer_token FROM tokens LIMIT 1');
@@ -24,8 +24,8 @@ const getBearerTokenFromDB = async () => {
 // Função para listar as ordens de carga
 const listarOrdemCarga = async (req, res) => {
   try {
-    const bearerToken = await getBearerTokenFromDB(); // Obtendo o bearer token do banco de dados
-    const appkey = process.env.SANKHYA_APPKEY; // A appkey ainda vem do .env
+    const bearerToken = await getBearerTokenFromDB();
+    const appkey = process.env.SANKHYA_APPKEY;
 
     if (!bearerToken || !appkey) {
       return res.status(500).json({ error: 'Credenciais não encontradas' });
@@ -80,13 +80,12 @@ const listarOrdemCarga = async (req, res) => {
       requestBody: { sql: sqlQuery }
     };
 
-    // Enviando a requisição com Bearer Token
     const response = await axios.post(
       'https://api.sandbox.sankhya.com.br/gateway/v1/mge/service.sbr?serviceName=DbExplorerSP.executeQuery&outputType=json',
       requestBody,
       {
         headers: {
-          'Authorization': `Bearer ${bearerToken}`, // Usando o bearer token obtido do banco
+          'Authorization': `Bearer ${bearerToken}`, 
           'Content-Type': 'application/json',
           'appkey': appkey
         }

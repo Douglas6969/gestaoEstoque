@@ -19,7 +19,7 @@ const DetalhesPedido = () => {
 
     const fetchOrdem = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/detalhes/${nroUnico}`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/detalhes/${nroUnico}`);
             setDetalhes(response.data.detalhes);
         } catch (error) {
             console.error("Erro ao buscar a ordem:", error);
@@ -88,8 +88,8 @@ const DetalhesPedido = () => {
         const { sequencia } = produtoSelecionado;
         try {
             // Registrar a divergência
-            const divergenciaResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/divergencia/${nroUnico}`, { motivoDivergencia });
-            await axios.put(`${import.meta.env.VITE_API_URL}/api/divergenciainput/${nroUnico}/${sequencia}`, { motivoDivergencia });
+            const divergenciaResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/divergencia/${nroUnico}`, { motivoDivergencia });
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/divergenciainput/${nroUnico}/${sequencia}`, { motivoDivergencia });
         
             // Verificar se a divergência foi registrada com sucesso
             if (divergenciaResponse.status === 200) {

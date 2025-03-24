@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { db } from '../database/connection.database.js'; // Conexão com o banco de dados
+import { db } from '../database/connection.database.js'; 
 
 // Função para obter o bearer_token do banco de dados
 const getBearerTokenFromDB = async () => {
@@ -19,18 +19,18 @@ const getBearerTokenFromDB = async () => {
 
 // Função para listar ordens de carga por separador
 export const listarOrdensPorSeparador = async (req, res) => {
-  const { separadorCodigo } = req.query; // Pegando da URL
+  const { separadorCodigo } = req.query;
 
   console.log('Valor do separador recebido:', separadorCodigo);
 
-  // Verificação de parâmetros
+
   if (!separadorCodigo || isNaN(parseInt(separadorCodigo, 10))) {
     return res.status(400).json({ error: "Código do separador inválido." });
   }
 
   try {
-    const token = await getBearerTokenFromDB(); // Obtendo o bearer token do banco de dados
-    const appkey = process.env.SANKHYA_APPKEY; // A appkey ainda será obtida do arquivo .env
+    const token = await getBearerTokenFromDB(); 
+    const appkey = process.env.SANKHYA_APPKEY; 
 
     if (!token) {
       return res.status(500).json({ erro: 'Token de autenticação não encontrado' });
@@ -107,7 +107,7 @@ export const listarOrdensPorSeparador = async (req, res) => {
           key: `${row.Data_Pedido}-${index}`,
           Nro_Unico: row[1] || null,
           Status: row[7] ? String(row[7]).trim() : 'Status não disponível',
-          Des_Prioridade: row[14] || 'Normal',  // Aqui será 'Normal' ou 'Urgente'
+          Des_Prioridade: row[14] || 'Normal',  
           Cliente: row[2] || null,
           Qtd_Vol: row[4] || null,
           Data: row[0] || null,

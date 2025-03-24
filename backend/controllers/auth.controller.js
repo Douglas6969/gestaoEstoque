@@ -75,15 +75,15 @@ export const getBearerToken = async () => {
 
   // Verificar se o token já foi obtido e se ele não está expirado
   if (storedBearerToken && now - tokenGeneratedAt < TOKEN_EXPIRATION_TIME) {
-    return storedBearerToken;  // Retorna o token existente e válido
+    return storedBearerToken; 
   }
 
   // Se o token não existir ou estiver expirado, verifica se já estamos buscando o token
   if (isTokenFetching) {
     console.log('Aguardando obtenção do token...');
-    // Se já estamos buscando o token, aguarda
+
     while (isTokenFetching) {
-      await new Promise(resolve => setTimeout(resolve, 500)); // Aguarda 500ms e tenta novamente
+      await new Promise(resolve => setTimeout(resolve, 500));
     }
     return storedBearerToken; // Retorna o token obtido após a espera
   }

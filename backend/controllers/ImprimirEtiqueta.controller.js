@@ -2,17 +2,17 @@ import express from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import net from 'net';
-import { db } from '../database/connection.database.js'; // Com a extensão .js
+import { db } from '../database/connection.database.js'; 
 
 dotenv.config();
 
 const app = express();
 const port = 5000;
 
-// Configuração para usar JSON no corpo da requisição
+
 app.use(express.json());
 
-// Função para buscar o Bearer Token do banco de dados
+
 const getBearerTokenFromDB = async () => {
   try {
     const result = await db.query('SELECT bearer_token FROM tokens LIMIT 1');
@@ -80,7 +80,7 @@ const getSeparadorName = async (separadorCodigo) => {
 
 
 
-// Função para enviar dados à impressora
+
 const sendToPrinter = (ip, port, content) => {
   return new Promise((resolve, reject) => {
     const client = new net.Socket();
@@ -117,7 +117,6 @@ ${nroUnico}
 `;
 };
 
-// Rota para imprimir a etiqueta
 export const imprimirEtiqueta = async (req, res) => {
  
   const { nroUnico } = req.params;
