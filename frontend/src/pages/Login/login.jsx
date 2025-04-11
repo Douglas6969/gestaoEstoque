@@ -22,19 +22,19 @@ const Login = () => {
             setError("Preencha todos os campos!");
             return;
         }
-    
+
         setLoading(true);
-    
+
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/users/login`, {
                 ds_usuario: username,
                 ds_senha: password,
-              });
-    
+            });
+
             if (response.data.ok) {
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("codsep", response.data.codsep); // Salva o CODSEP
-    
+
                 setTimeout(() => {
                     setLoading(false);
                     setSuccess(true);
@@ -53,7 +53,7 @@ const Login = () => {
             setError("Erro ao autenticar. Verifique sua conexão.");
         }
     };
-    
+
 
     return (
         <div className="login-container">
@@ -104,6 +104,9 @@ const Login = () => {
                             animationData={loadingAnimation}
                             play={loading}
                             style={{ width: 150, height: 150 }}
+                            rendererSettings={{
+                                preserveAspectRatio: 'xMidYMid slice'
+                            }}
                         />
                         <p className="loading-text">Validando Usuário...</p>
                     </div>

@@ -7,9 +7,12 @@ import userRouter from './routes/users.route.js';
 import authRoutes from './routes/auth.route.js';
 import pedidosroutes from './routes/pedidos.route.js';
 
-// Configuração do ambiente
 dotenv.config();
 const app = express();
+
+app.use(cors()); // Habilitar CORS
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Middlewares
 app.use(cors());
@@ -22,9 +25,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/v1', pedidosroutes);
 
 // Configuração do servidor
+
+
 const PORT = process.env.PORT || 5000;
+const HOST = '0.0.0.0';
 
-
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Servidor rodando em http://0.0.0.0:${PORT}`);
+app.listen(PORT, HOST, () => {console.log(`Servidor rodando em http://${HOST}:${PORT}`)
 });

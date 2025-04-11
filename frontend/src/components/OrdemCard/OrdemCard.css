@@ -1,250 +1,310 @@
+/* Variáveis já definidas em outro arquivo */
+:root {
+  --tooltip-bg: rgba(51, 51, 51, 0.9);
+  --status-liberado: #28a745;
+  --status-separacao: #007bff;
+  --status-divergencia: #e63946;
+}
+
+/* Card Principal */
 .ordem-card {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: var(--border-radius);
-  padding: var(--spacing-medium);
-  margin-bottom: var(--spacing-medium);
-  box-shadow: var(--shadow);
+  background: rgba(69, 122, 156, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-small);
-  position: relative; /* Necessário para posicionar o botão no canto esquerdo */
+  gap: 20px;
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  width: 100%;
+  overflow: hidden;
 }
 
-.ordem-detail {
+.ordem-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Cabeçalho do Card */
+.ordem-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: var(--font-size-medium);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 16px;
+  margin-bottom: 8px;
 }
 
-.ordem-title {
-  font-weight: bold;
-  color: #457a9c; /* Cor atualizada */
+.ordem-numero {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.ordem-text {
-  color: #fefefe; /* Cor atualizada */
+.ordem-status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.popover-container {
+.ordem-status-badge.liberado-para-separação {
+  background: linear-gradient(145deg, var(--status-liberado), rgba(40, 167, 69, 0.7));
+}
+
+.ordem-status-badge.separação-iniciada {
+  background: linear-gradient(145deg, var(--status-separacao), rgba(0, 123, 255, 0.7));
+}
+
+.ordem-status-badge.divergência-encontrada {
+  background: linear-gradient(145deg, var(--status-divergencia), rgba(230, 57, 70, 0.7));
+}
+
+/* Conteúdo do Card */
+.ordem-content {
+  flex: 1;
+}
+
+.ordem-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.ordem-info-item {
   display: flex;
-  justify-content: center;
-  margin-top: var(--spacing-small);
-  gap: var(--spacing-small);
+  align-items: flex-start;
+  gap: 10px;
 }
 
-.popover-btn {
-  background-color: #457a9c; /* Cor atualizada */
-  color: white;
-  padding: var(--spacing-small) var(--spacing-medium);
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: var(--font-size-medium);
+.ordem-info-icon {
+  font-size: 18px;
+  opacity: 0.9;
 }
 
-.popover-btn:hover {
-  background-color: #a8dadc; /* Cor de hover atualizada */
-}
-
-.iniciar-conferencia {
-  background-color: #28a745;
-  border: none;
-  color: white;
-  padding: var(--spacing-small) var(--spacing-medium);
-  border-radius: var(--border-radius);
-  font-size: var(--font-size-medium);
-  cursor: pointer;
-  margin-left: auto;
-}
-
-.iniciar-conferencia:hover {
-  background-color: #218838;
-}
-
-.access-details-bottom {
+.ordem-info-content {
   display: flex;
-  justify-content: flex-start;
-  margin-top: 20px; /* Ajusta para descer o botão mais para baixo */
+  flex-direction: column;
 }
 
-.ver-pedido-btn {
-  background-color: #457a9c; /* Cor atualizada */
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  text-decoration: none;
-  display: inline-block;
+.ordem-info-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.ver-pedido-btn:hover {
-  background-color: #a8dadc; /* Cor de hover atualizada */
-}
-@media (max-width: 768px) {
-  .ordem-card {
-    width: 100vw; /* Aumenta a largura para celular */
-    height: 60vh; /* Aumenta a altura para celular */
-    margin-bottom: 35px; /* Ajuste de margem */
-    margin-top: 10px;
-  }
+.ordem-info-value {
+  font-size: 16px;
+  font-weight: 500;
+  color: #FFFFFF;
+  word-break: break-word;
 }
 
-/* Detalhes da Ordem */
-.ordem-detail {
+/* Botões de Ação */
+.ordem-actions {
   display: flex;
-  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.ordem-btn {
+  display: flex;
   align-items: center;
-  font-size: var(--font-size-medium);
-}
-
-.ordem-title {
-  font-weight: bold;
-  color: #457a9c; /* Cor atualizada */
-}
-
-.ordem-text {
-  color: #fefefe; /* Cor atualizada */
-}
-
-/* Botão Popover */
-.popover-container {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--spacing-small);
-  gap: var(--spacing-small);
-}
-
-.popover-btn {
-  background-color: #457a9c; /* Cor atualizada */
-  color: white;
-  padding: var(--spacing-small) var(--spacing-medium);
+  gap: 8px;
+  padding: 10px 16px;
   border: none;
-  border-radius: var(--border-radius);
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
-  font-size: var(--font-size-medium);
+  transition: all 0.3s ease;
+  color: #FFFFFF;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
 }
 
-.popover-btn:hover {
-  background-color: #a8dadc; /* Cor de hover atualizada */
+.btn-icon {
+  font-size: 18px;
 }
 
-/* Botão Iniciar Conferência */
-.iniciar-conferencia {
-  background-color: #28a745;
-  border: none;
-  color: white;
-  padding: var(--spacing-small) var(--spacing-medium);
-  border-radius: var(--border-radius);
-  font-size: var(--font-size-medium);
-  cursor: pointer;
+.btn-text {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.motivo-btn {
+  background: linear-gradient(145deg, #e63946, #c72f3b);
+}
+
+.motivo-btn:hover {
+  background: linear-gradient(145deg, #c72f3b, #e63946);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(230, 57, 70, 0.3);
+}
+
+.iniciar-btn {
+  background: linear-gradient(145deg, #28a745, #218838);
   margin-left: auto;
 }
 
-.iniciar-conferencia:hover {
-  background-color: #218838;
+.iniciar-btn:hover {
+  background: linear-gradient(145deg, #218838, #28a745);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
 }
 
-/* Botão Ver Pedido */
-.access-details-bottom {
+.ver-btn {
+  background: linear-gradient(145deg, #457a9c, #366480);
+  margin-left: auto;
+}
+
+.ver-btn:hover {
+  background: linear-gradient(145deg, #366480, #457a9c);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(69, 122, 156, 0.3);
+  color: #FFFFFF;
+}
+
+/* Notificação Inline */
+.notificacao-card {
+  position: absolute;
+  top: -80px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 90%;
   display: flex;
-  justify-content: flex-start;
-  margin-top: 20px;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background-color: rgba(23, 162, 184, 0.9);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: slideDown 0.5s forwards, slideUp 0.5s 4.5s forwards;
+  z-index: 100;
 }
 
-.ver-pedido-btn {
-  background-color: #457a9c; /* Cor atualizada */
-  color: white;
+.notificacao-card.sucesso {
+  background-color: rgba(40, 167, 69, 0.9);
+}
+
+.notificacao-card.erro {
+  background-color: rgba(230, 57, 70, 0.9);
+}
+
+.notificacao-card.aviso {
+  background-color: rgba(255, 193, 7, 0.9);
+}
+
+.notificacao-icon {
+  margin-right: 12px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.notificacao-mensagem {
+  flex: 1;
+  margin: 0;
+  font-size: 14px;
+}
+
+.notificacao-fechar {
+  background: none;
   border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  text-decoration: none;
-  display: inline-block;
+  color: #FFFFFF;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.2s;
 }
 
-.ver-pedido-btn:hover {
-  background-color: #a8dadc; /* Cor de hover atualizada */
+.notificacao-fechar:hover {
+  opacity: 1;
 }
-/* Responsividade para dispositivos móveis */
+
+@keyframes slideDown {
+  from { top: -80px; opacity: 0; }
+  to { top: 16px; opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { top: 16px; opacity: 1; }
+  to { top: -80px; opacity: 0; }
+}
+
+/* Estilo para o Popover do Bootstrap */
+.motivo-popover {
+  max-width: 300px;
+}
+
+.motivo-popover .popover-header {
+  background-color: #e63946;
+  color: #FFFFFF;
+  font-weight: 600;
+  text-align: center;
+}
+
+.motivo-popover .popover-body {
+  color: #212529;
+  padding: 12px;
+  font-size: 14px;
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
-  /* Ordem Card */
-  .ordem-card {
-    width: 90vw; /* Ajuste para ficar 90% da largura da tela */
-    height: auto; /* A altura se ajusta automaticamente */
-    margin-bottom: 20px; /* Ajuste de margem inferior */
-    margin-top: 10px; /* Espaço superior */
-    padding: var(--spacing-small); /* Ajuste do padding */
-  }
 
-  /* Detalhes da ordem */
-  .ordem-detail {
-    font-size: var(--font-size-small); /* Diminui o tamanho da fonte */
+  
+  .ordem-actions {
+    flex-direction: column;
+    gap: 10px;
   }
-
-  /* Botões Popover */
-  .popover-container {
-    gap: var(--spacing-small); /* Distância entre os botões */
+  
+  .ordem-btn {
+    width: 100%;
+    justify-content: center;
   }
-
-  .popover-btn {
-    padding: var(--spacing-small) var(--spacing-medium); /* Ajuste do padding */
-    font-size: var(--font-size-small); /* Reduz o tamanho da fonte */
+  
+  .iniciar-btn, .ver-btn {
+    margin-left: 0;
   }
-
-  /* Botão Iniciar Conferência */
-  .iniciar-conferencia {
-    width: auto; /* Mantém o tamanho original */
-    padding: var(--spacing-small) var(--spacing-medium); /* Ajuste do padding */
-    margin-top: 10px; /* Espaço superior */
-    font-size: var(--font-size-small); /* Ajuste de fonte */
-  }
-
-  /* Botão Ver Pedido */
-  .access-details-bottom {
-    margin-top: 20px; /* Espaço superior */
-  }
-
-  .ver-pedido-btn {
-    padding: 8px 12px; /* Ajuste do padding */
-    font-size: var(--font-size-small); /* Ajuste do tamanho da fonte */
-  }
+  
+  
 }
 
 @media (max-width: 480px) {
-  /* Ordem Card */
   .ordem-card {
-    width: 90vw; /* Ajuste para ficar 90% da largura da tela */
-    margin-bottom: 15px; /* Menos margem inferior */
-    margin-top: 10px; /* Espaço superior */
-    padding: var(--spacing-small); /* Ajuste do padding */
+    padding: 12px;
   }
-
-  /* Detalhes da ordem */
-  .ordem-detail {
-    font-size: var(--font-size-small); /* Tamanho da fonte reduzido */
+  
+  .ordem-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
-
-  /* Botões Popover */
-  .popover-container {
-    gap: var(--spacing-small); /* Distância entre os botões */
+  
+  .ordem-info-label {
+    font-size: 10px;
   }
-
-  .popover-btn {
-    padding: var(--spacing-small) var(--spacing-medium); /* Ajuste do padding */
-    font-size: var(--font-size-small); /* Reduz o tamanho da fonte */
+  
+  .ordem-info-value {
+    font-size: 14px;
   }
-
-  /* Botão Iniciar Conferência */
-  .iniciar-conferencia {
-    width: auto; /* Mantém o tamanho original */
-    padding: var(--spacing-small) var(--spacing-medium); /* Ajuste do padding */
-    margin-top: 10px; /* Espaço superior */
-    font-size: var(--font-size-small); /* Ajuste de fonte */
-  }
-
-  /* Botão Ver Pedido */
-  .ver-pedido-btn {
-    padding: 8px 12px; /* Ajuste do padding */
-    font-size: var(--font-size-small); /* Ajuste do tamanho da fonte */
+  
+  .notificacao-card {
+    width: 95%;
   }
 }

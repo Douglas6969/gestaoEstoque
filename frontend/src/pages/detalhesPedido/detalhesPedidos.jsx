@@ -12,63 +12,83 @@ const DetalhesPedido = () => {
     const [detalhes, setDetalhes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState(null);
-
     const [popupAberto, setPopupAberto] = useState(false);
     const [produtoSelecionado, setProdutoSelecionado] = useState(null);
     const [motivoDivergencia, setMotivoDivergencia] = useState("");
+    const [notificacao, setNotificacao] = useState(null);
+
+    // Sistema de notificação inline
+    const mostrarNotificacao = (mensagem, tipo = "info") => {
+        setNotificacao({ mensagem, tipo });
+        // Remover a notificação após 5 segundos
+        setTimeout(() => setNotificacao(null), 5000);
+    };
 
     const fetchOrdem = async () => {
+        const separadorCodigo = localStorage.getItem("codsep");
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/detalhes/${nroUnico}`);
+            setLoading(true);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/detalhes/${nroUnico}/${separadorCodigo}`);
             setDetalhes(response.data.detalhes);
+            setLoading(false);
         } catch (error) {
             console.error("Erro ao buscar a ordem:", error);
+            setErro("Não foi possível carregar os detalhes do pedido. Por favor, tente novamente mais tarde.");
+            setLoading(false);
         }
     };
 
     useEffect(() => {
         fetchOrdem();
-        setLoading(false);
     }, [nroUnico]);
 
     const finalizarSeparacao = async () => {
         const separadorCodigo = localStorage.getItem("codsep");
         if (!separadorCodigo) {
-            alert("Erro: Separador não encontrado no sistema.");
+            mostrarNotificacao("Separador não encontrado no sistema. Faça login novamente.", "erro");
             return;
         }
+
         try {
             // Primeira ação: Finalizar a separação
             const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/separacao-finalizada/${nroUnico}`, { separadorCodigo });
-            console.log("Resposta completa da API:", response.data); // Verifique a resposta completa
             
             // Verificando se a separação foi finalizada com sucesso
             if (response.data?.mensagem?.toLowerCase().includes("separação finalizada")) {
-                alert("✅ Separação finalizada com sucesso!");
-    
+                mostrarNotificacao("Separação finalizada com sucesso!", "sucesso");
+                
                 // Segunda ação: Atualizar o histórico
-                const historicoResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/historico/${nroUnico}`);
-                console.log("Resposta do histórico:", historicoResponse.data);
-    
-                if (historicoResponse.data?.mensagem?.toLowerCase().includes("histórico atualizado")) {
-                   
-                } else {
-                    alert("❌ Erro ao atualizar o histórico.");
+                try {
+                    const historicoResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/historico/${nroUnico}`);
+                    
+                    if (!historicoResponse.data?.mensagem?.toLowerCase().includes("histórico atualizado")) {
+                        console.warn("Aviso: Histórico não foi atualizado corretamente");
+                    }
+                    
+                    // Redirecionando após curto delay para mostrar a notificação
+                    setTimeout(() => {
+                        navigate(`/lista`);
+                    }, 1500);
+                    
+                } catch (historicoError) {
+                    console.error("Erro ao atualizar histórico:", historicoError);
+                    mostrarNotificacao("Separação finalizada, mas houve um erro ao atualizar o histórico.", "aviso");
+                    
+                    // Mesmo com erro no histórico, redireciona após delay
+                    setTimeout(() => {
+                        navigate(`/lista`);
+                    }, 2000);
                 }
-    
-                // Recarregar os detalhes da ordem
-                await fetchOrdem();
-                navigate(`/lista`);
             } else {
-                alert("❌ Erro ao finalizar separação. Recarregando pedidos...");
-                await fetchOrdem();
+                mostrarNotificacao("Erro ao finalizar separação. Tente novamente.", "erro");
+                await fetchOrdem(); // Recarrega dados
             }
         } catch (error) {
             console.error("Erro ao finalizar separação:", error);
-            alert("Erro ao finalizar separação.");
+            mostrarNotificacao("Erro ao finalizar separação. Verifique sua conexão.", "erro");
         }
     };
-    
+
     const handleVoltar = () => navigate("/Home");
 
     const handleAbrirPopup = (produto) => {
@@ -78,43 +98,55 @@ const DetalhesPedido = () => {
 
     const handleConfirmarDivergencia = async () => {
         if (!motivoDivergencia.trim()) {
-            alert("Por favor, descreva o motivo da divergência.");
+            mostrarNotificacao("Por favor, descreva o motivo da divergência.", "aviso");
             return;
         }
+
         if (!produtoSelecionado || !produtoSelecionado.sequencia) {
-            alert("Erro: Sequência do produto não encontrada.");
+            mostrarNotificacao("Erro: Dados do produto incompletos.", "erro");
             return;
         }
+
         const { sequencia } = produtoSelecionado;
+        
         try {
             // Registrar a divergência
-            const divergenciaResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/divergencia/${nroUnico}`, { motivoDivergencia });
-            await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/divergenciainput/${nroUnico}/${sequencia}`, { motivoDivergencia });
-        
+            const divergenciaResponse = await axios.put(
+                `${import.meta.env.VITE_API_URL}/api/v1/divergencia/${nroUnico}`, 
+                { motivoDivergencia }
+            );
+            
+            await axios.put(
+                `${import.meta.env.VITE_API_URL}/api/v1/divergenciainput/${nroUnico}/${sequencia}`,
+                { motivoDivergencia }
+            );
+
             // Verificar se a divergência foi registrada com sucesso
             if (divergenciaResponse.status === 200) {
-                console.log("Divergência registrada com sucesso!");
-        
-                // Atualizar o histórico se a divergência for bem-sucedida
-                const historicoResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/historico/${nroUnico}`);
-                console.log("Resposta do histórico:", historicoResponse.data);
-        
-                if (historicoResponse.data?.mensagem?.toLowerCase().includes("histórico atualizado")) {
-                    // Sucesso ao atualizar o histórico
-                    console.log("Histórico atualizado com sucesso!");
+                // Atualizar o histórico
+                try {
+                    const historicoResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/v1/historico/${nroUnico}`);
+                    
+                    // Sucesso nas duas operações
+                    mostrarNotificacao("Divergência registrada com sucesso!", "sucesso");
                     setPopupAberto(false);
                     setMotivoDivergencia(""); // Limpar o motivo da divergência
-                } else {
-                    // Erro ao atualizar o histórico
-                    alert("❌ Erro ao atualizar o histórico.");
+                    
+                    // Atualizar a lista após registro
+                    await fetchOrdem();
+                    
+                } catch (historicoError) {
+                    console.error("Erro ao atualizar histórico:", historicoError);
+                    mostrarNotificacao("Divergência registrada, mas houve um erro ao atualizar o histórico.", "aviso");
+                    setPopupAberto(false);
+                    setMotivoDivergencia("");
                 }
             } else {
-                // Erro ao registrar a divergência
-                alert("❌ Erro ao registrar a divergência.");
+                mostrarNotificacao("Erro ao registrar a divergência. Tente novamente.", "erro");
             }
         } catch (error) {
             console.error("Erro ao registrar a divergência:", error);
-            alert("Erro ao registrar a divergência. Tente novamente.");
+            mostrarNotificacao("Falha na comunicação com o servidor. Verifique sua conexão.", "erro");
         }
     };
 
@@ -123,30 +155,87 @@ const DetalhesPedido = () => {
         setMotivoDivergencia("");
     };
 
-    if (loading) return <div className="loading-spinner">Carregando...</div>;
-    if (erro) return <p className="error-message">{erro}</p>;
+    if (loading) {
+        return (
+            <>
+                <Header />
+                <div className="loading-spinner">Carregando detalhes do pedido...</div>
+            </>
+        );
+    }
+
+    if (erro) {
+        return (
+            <>
+                <Header />
+                <div className="error-message">
+                    <div>❌ {erro}</div>
+                    <button 
+                        className="botao voltar" 
+                        style={{ marginTop: '20px', maxWidth: '200px' }} 
+                        onClick={handleVoltar}
+                    >
+                        Voltar
+                    </button>
+                </div>
+            </>
+        );
+    }
 
     return (
         <>
             <Header />
+            
+            {/* Notificação inline */}
+            {notificacao && (
+                <div className={`notificacao-card ${notificacao.tipo}`}>
+                    <div className="notificacao-icon">
+                        {notificacao.tipo === "sucesso" ? "✓" : 
+                         notificacao.tipo === "erro" ? "✕" : "ℹ️"}
+                    </div>
+                    <p className="notificacao-mensagem">{notificacao.mensagem}</p>
+                    <button className="notificacao-fechar" onClick={() => setNotificacao(null)}>×</button>
+                </div>
+            )}
+            
             <div className="detalhes-pedido-container">
                 <h2 className="title">Detalhes do Pedido</h2>
                 <p className="nro-unico">Nro Único: {nroUnico}</p>
+                
                 <div className="produto-list-container">
                     {detalhes.length > 0 ? (
                         detalhes.map((item, index) => (
-                            <ProdutoCard key={index} item={item} nroUnico={nroUnico} onAbrirPopup={handleAbrirPopup} />
+                            <ProdutoCard 
+                                key={index} 
+                                item={item} 
+                                nroUnico={nroUnico} 
+                                onAbrirPopup={handleAbrirPopup} 
+                            />
                         ))
                     ) : (
-                        <div className="no-details-message">Nenhum detalhe encontrado.</div>
+                        <div className="no-details-message">
+                            Nenhum produto encontrado para este pedido.
+                        </div>
                     )}
                 </div>
+                
                 <div className="botoes-container">
-                    <button className="botao finalizar" onClick={finalizarSeparacao}>Finalizar Separação</button>
-                    <button className="botao voltar" onClick={handleVoltar}>❌ Voltar</button>
+                    <button className="botao finalizar" onClick={finalizarSeparacao}>
+                        <span>✓</span> Finalizar Separação
+                    </button>
+                    <button className="botao voltar" onClick={handleVoltar}>
+                        <span>←</span> Voltar
+                    </button>
                 </div>
             </div>
-            <PopupDivergencia isOpen={popupAberto} motivoDivergencia={motivoDivergencia} setMotivoDivergencia={setMotivoDivergencia} onConfirmar={handleConfirmarDivergencia} onCancelar={handleCancelarDivergencia} />
+            
+            <PopupDivergencia 
+                isOpen={popupAberto} 
+                motivoDivergencia={motivoDivergencia} 
+                setMotivoDivergencia={setMotivoDivergencia} 
+                onConfirmar={handleConfirmarDivergencia} 
+                onCancelar={handleCancelarDivergencia} 
+            />
         </>
     );
 };

@@ -1,123 +1,301 @@
-/* Reset para evitar scroll lateral */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    width: 100%;
-    overflow-x: hidden; /* Remove scroll lateral */
-}
-
-/* Estilo do Header */
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(135deg, #457a9c, #a8dadc);
-    padding: 15px 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #1a2130, #457a9c);
+    padding: 10px 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     width: 100%;
-    height: 8%;
-    position: fixed; /* Mantém fixo no topo */
+    height: 70px;
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000; /* Garante que o header fique acima do conteúdo */
-    flex-wrap: nowrap; /* Impede que os itens quebrem para outra linha */
-    justify-content: center; /* Centraliza os itens */
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
 }
 
-/* Ajusta o espaço para o conteúdo não ficar atrás do header */
-body {
-    padding-top: 80px;
+/* Logo *//* Estilo global */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', 'Arial', sans-serif;
 }
 
-/* Logo */
+body, html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background-color: #1a2130;
+  color: #e1e5ee;
+}
+
+/* Container da página Home */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #1a2130, #305570);
+  padding: 20px;
+  padding-top: 80px;
+  overflow-x: hidden;
+}
+
+/* Conteúdo centralizado */
+.home-content {
+  max-width: 600px;
+  width: 100%;
+  padding: 40px;
+  background-color: rgba(36, 46, 66, 0.7);
+  border-radius: 16px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de brilho */
+.home-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(69, 122, 156, 0.2) 0%, transparent 70%);
+  animation: shine 5s infinite linear;
+}
+
+@keyframes shine {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Título */
+.home-title {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: #e1e5ee;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+/* Descrição */
+.home-description {
+  font-size: 20px;
+  margin-bottom: 40px;
+  color: #a1a7bb;
+  text-align: center;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+/* Botão de Separação */
+.separacao-button {
+  background: linear-gradient(135deg, #457a9c, #2c3e50);
+  color: #e1e5ee;
+  border: none;
+  border-radius: 12px;
+  padding: 18px 50px;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.separacao-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: all 0.6s;
+}
+
+.separacao-button:hover::before {
+  left: 100%;
+}
+
+.separacao-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.separacao-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Mensagem de Erro */
+.error-message {
+  background-color: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 16px;
+  width: 100%;
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.success-animation {
+  width: 250px;
+  height: 250px;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .home-title {
+    font-size: 32px;
+  }
+  
+  .home-description {
+    font-size: 18px;
+  }
+  
+  .separacao-button {
+    font-size: 20px;
+    padding: 15px 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-content {
+    padding: 30px 15px;
+  }
+  
+  .home-title {
+    font-size: 28px;
+  }
+  
+  .home-description {
+    font-size: 16px;
+  }
+  
+  .separacao-button {
+    font-size: 18px;
+    padding: 15px 30px;
+  }
+}
+
 .header-logo-button {
     background: none;
     border: none;
     cursor: pointer;
     padding: 0;
-  }
-  
-  .header-logo {
-    height: 50px; /* Ajuste conforme necessário */
-    width: 250px;
-  }
-
-/* Contêiner para os botões de ícones (usuario e logout) */
-.header-buttons {
     display: flex;
     align-items: center;
-    gap: 20px; /* Afastamento entre os botões */
+    transition: transform 0.3s ease;
+}
+
+.header-logo-button:hover {
+    transform: scale(1.05);
+}
+
+.header-logo {
+    height: 45px;
+    width: auto;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
 }
 
 /* Botões de ícones */
 .icon-button {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
     cursor: pointer;
     color: #fff;
-    transition: transform 0.2s ease, opacity 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     font-size: 20px;
-    padding: 8px;
+    padding: 10px;
+    margin: 0 5px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .icon-button:hover {
-    transform: scale(1.1);
-    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.icon-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .icon-button:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
+    transform: none;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
     .header {
-        padding: 10px;
+        padding: 8px 15px;
+        height: 60px;
     }
 
-    .header-title {
-        font-size: 20px;
+    .header-logo {
+        height: 40px;
     }
 
     .icon-button {
         font-size: 18px;
-        padding: 5px;
-    }
-
-    .header-buttons {
-        gap: 15px; /* Menor afastamento nos dispositivos menores */
+        padding: 8px;
+        margin: 0 3px;
     }
 }
 
 @media (max-width: 480px) {
-    .header-logo-button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-      }
-      
-      .header-logo {
-        height: 50px; /* Ajuste conforme necessário */
-        width: 130px;
-        margin-left: 40px;
-      }
-    
-   
     .header {
-        padding: 8px;
+        padding: 6px 10px;
+        height: 55px;
     }
 
-    .header-title {
-        font-size: 18px;
+    .header-logo {
+        height: 35px;
+        margin-left: 20px;
     }
 
     .icon-button {
         font-size: 16px;
+        padding: 6px;
+        margin: 0 2px;
     }
 }

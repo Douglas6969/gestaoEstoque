@@ -41,26 +41,28 @@ const Header = () => {
 
   return (
     <header className="header">
-      <button className="icon-button back" onClick={handleBack}>
-        <ArrowLeft size={28} />
-      </button>
-
-      {/* Fazendo a imagem ser um botão clicável */}
-      <button className="header-logo-button" onClick={handleHome}>
-        <img src={logo} alt="Logo" className="header-logo" />
-      </button>
-
-      <div>
-        <button className="icon-button user" onClick={handleUserProfile}>
-          <User size={28} />
+        <div className="header-left">
+            <button className="icon-button back" onClick={handleBack}>
+                <ArrowLeft size={24} />
+            </button>
+        </div>
+        
+        <button className="header-logo-button" onClick={handleHome}>
+            <img src={logo} alt="Logo" className="header-logo" />
         </button>
-
-        <button className="icon-button logout" onClick={handleLogout} disabled={loading}>
-          <LogOut size={28} />
-        </button>
-      </div>
+        
+        <div className="header-right">
+            <button className="icon-button user" onClick={handleUserProfile}>
+                <User size={24} />
+            </button>
+            <button className="icon-button logout" onClick={handleLogout} disabled={loading}>
+                <LogOut size={24} />
+            </button>
+        </div>
     </header>
-  );
+);
+
+ 
 };
 
 export default Header;

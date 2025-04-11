@@ -4,15 +4,18 @@ import axios from "axios";
 import Lottie from "lottie-react";
 import successListAnimation from "../../assets/successlist.json";
 import "./home.css";
-import Header from "../../components/Header/Header"; // Importando o Header
+import Header from "../../components/Header/Header";
 
 const Home = () => {
   const navigate = useNavigate();
   const [showAnimation, setShowAnimation] = useState(false);
-  const [erro, setErro] = useState(""); // Para armazenar mensagens de erro, se houver
+  const [erro, setErro] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSeparacaoClick = async () => {
-    const separadorCodigo = localStorage.getItem("codsep"); // Recupera o CODSEP do usuário logado
+    const separadorCodigo = localStorage.getItem("codsep");
+    setErro("");
+    setIsLoading(true);
 
     try {
       const response = await axios.get(
@@ -22,15 +25,26 @@ const Home = () => {
       if (response.data.message === 'Você pode iniciar uma nova separação.') {
         setShowAnimation(true);
         setTimeout(() => {
-          navigate("/lista"); // Mostra a animação antes de ir para a próxima tela
+          navigate("/lista");
         }, 1200);
       } else {
-        setErro(response.data.error); // Exibe o erro caso não seja possível iniciar a separação
+        setErro(response.data.error || "Não foi possível iniciar a separação.");
       }
     } catch (error) {
-      setErro("Erro ao verificar se pode iniciar a separação.");
-      console.log("Token usado na requisição:", armazenadoBearerToken);
-      console.error(error);
+      console.error("Erro ao verificar separação:", error);
+      
+      if (error.response) {
+        // O servidor respondeu com um status de erro
+        setErro(error.response.data.message || "Erro no servidor. Tente novamente.");
+      } else if (error.request) {
+        // A requisição foi feita, mas não houve resposta
+        setErro("Sem resposta do servidor. Verifique sua conexão.");
+      } else {
+        // Algo aconteceu ao configurar a requisição
+        setErro("Erro ao processar a solicitação. Tente novamente.");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -39,18 +53,26 @@ const Home = () => {
       <Header />
       <div className="home-container">
         <div className="home-content">
-          <h1 className="home-title">Bem-vindo ao Sistema de Separação</h1>
+          <h1 className="home-title">Sistema de Separação</h1>
           <p className="home-description">
-            Clique no botão abaixo para iniciar o processo de separação.
+            Clique no botão abaixo para iniciar o processo de separação de pedidos.
           </p>
-
-          {erro && <p className="error-message">{erro}</p>}
-
+          
+          {erro && <div className="error-message">{erro}</div>}
+          
           {showAnimation ? (
-            <Lottie animationData={successListAnimation} loop={false} className="success-animation" />
+            <Lottie 
+              animationData={successListAnimation} 
+              loop={false} 
+              className="success-animation" 
+            />
           ) : (
-            <button className="separacao-button" onClick={handleSeparacaoClick}>
-              Iniciar Separação
+            <button 
+              className="separacao-button" 
+              onClick={handleSeparacaoClick}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Carregando...' : 'Iniciar Separação'}
             </button>
           )}
         </div>

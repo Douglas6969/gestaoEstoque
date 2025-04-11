@@ -46,6 +46,8 @@
     font-size: 16px;
     transition: border-color 0.3s ease-in-out;
     outline: none;
+    color: #000; /* Adicionado para garantir texto preto */
+    background-color: #fff; /* Garantir fundo branco */
 }
 
 .popup-divergencia-container textarea:focus {
