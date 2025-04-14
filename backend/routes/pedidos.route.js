@@ -30,7 +30,7 @@ router.put('/users/associar-separador', associarSeparador);
 
 // Outras rotas
 router.put('/separacao-finalizada/:nroUnico', separacaoFinalizada);
-router.put('/historico/:nroUnico', atualizarHistorico);
+router.put('/historico/:nroUnico/:separadorCodigo', atualizarHistorico);
 router.put('/imprimir/:nroUnico/:separadorCodigo', imprimirEtiqueta);
 
 export default router;

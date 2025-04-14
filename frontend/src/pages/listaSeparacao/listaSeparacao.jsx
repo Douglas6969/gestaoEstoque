@@ -100,11 +100,11 @@ const ListaSeparacao = () => {
           
           if (response.data?.mensagem?.includes("Status do pedido")) {
             await axios.put(
-              `${import.meta.env.VITE_API_URL}/api/v1/imprimir/${nroUnico}/${separadorCodigo}`,
-              { separadorCodigo }
+             // `${import.meta.env.VITE_API_URL}/api/v1/imprimir/${nroUnico}/${separadorCodigo}`,
+             // { separadorCodigo }
             );
             fetchOrdem();
-            navigate(`/detalhes/${nroUnico}/${separadorCodigo}`);
+            navigate(`/detalhes/${nroUnico}`);
           } else {
             mostrarNotificacao("Pedido já iniciado por outro separador.", "aviso");
             fetchOrdem();

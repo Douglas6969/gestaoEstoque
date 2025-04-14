@@ -185,8 +185,7 @@ const sendToPrinter = (ip, port, content) => {
 
 // Função principal para gerar e imprimir a etiqueta
 export const imprimirEtiqueta = async (req, res) => {
-    const { nroUnico } = req.params;
-    const { separadorCodigo } = req.body;
+    const { nroUnico, separadorCodigo } = req.params;
     console.log('Parâmetros recebidos:', { separadorCodigo, nroUnico });
     if (!separadorCodigo || !nroUnico) {
         return res.status(400).json({ erro: 'Parâmetros incompletos: separadorCodigo ou nroUnico faltando.' });

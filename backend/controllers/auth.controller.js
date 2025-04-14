@@ -84,7 +84,7 @@ const logoutFromSankhya = async (id_usuario) => {
             }
         );
         console.log('Logout realizado com sucesso:', response.data);
-        await storeTokenInDB(id_usuario, ''); // Limpa o token no banco
+        await clearTokenInDB(id_usuario); // Limpa o token no banco
         return response.data;
     } catch (error) {
         console.error('Erro ao fazer logout da Sankhya:', error.response?.data || error.message);
