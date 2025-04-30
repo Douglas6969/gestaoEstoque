@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Popover, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Link } from "react-router-dom"; // Importando Link para navegação
 import "./OrdemCard.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -28,11 +29,24 @@ const OrdemCard = ({ ordem, iniciarConferencia }) => {
     }
   };
 
+  // Verificar se pode iniciar a conferência
   const podeIniciarConferencia = ordem?.Status === "Liberado para Separação";
   
-  const podeVerPedido = ["Separação Iniciada", "Divergência Encontrada"].includes(
+  // Verificar se pode ver o pedido de acordo com os status
+  const podeVerPedido = ["Separação Iniciada", "Divergência Encontrada", "Conferencia Iniciada"].includes(
     ordem?.Status?.trim()
   );
+
+  // Determinar a URL para o botão "Ver Pedido" baseado no status
+  const getPedidoUrl = () => {
+    const conferenteCodigo = localStorage.getItem("codsep") || "0";
+    
+    if (ordem?.Status?.trim() === "Conferencia Iniciada") {
+      return `/conferencia/${ordem.Nro_Unico}/${conferenteCodigo}`;
+    } else {
+      return `/detalhes/${ordem.Nro_Unico}`;
+    }
+  };
 
   return (
     <div className="ordem-card">
@@ -46,14 +60,12 @@ const OrdemCard = ({ ordem, iniciarConferencia }) => {
           <button className="notificacao-fechar" onClick={() => setNotificacao(null)}>×</button>
         </div>
       )}
-
       <div className="ordem-header">
         <div className="ordem-numero">#{ordem?.Nro_Unico}</div>
         <div className={`ordem-status-badge ${ordem?.Status?.toLowerCase().replace(/\s+/g, '-')}`}>
           {ordem?.Status || "Sem status"}
         </div>
       </div>
-
       <div className="ordem-content">
         <div className="ordem-info-grid">
           {[
@@ -62,7 +74,7 @@ const OrdemCard = ({ ordem, iniciarConferencia }) => {
             { label: "Qtd. Volumes", value: ordem?.Qtd_Vol, icon: "📦" },
             { label: "Data Pedido", value: ordem?.Data, icon: "📅" },
             { label: "Ordem", value: ordem?.Ordem || "Sem ordem", icon: "⏱️" },
-            { label: "Separador", value: ordem?.Nome_Separador, icon: "👷" },
+            { label: "Usuario", value: ordem?.Nome_Separador, icon: "👷" },
           ].map((item, index) => (
             <div className="ordem-info-item" key={index}>
               <div className="ordem-info-icon">{item.icon}</div>
@@ -74,13 +86,12 @@ const OrdemCard = ({ ordem, iniciarConferencia }) => {
           ))}
         </div>
       </div>
-
       <div className="ordem-actions">
         {ordem?.Motivo && (
-          <OverlayTrigger 
-            trigger="click" 
-            placement="top" 
-            overlay={motivoPopover} 
+          <OverlayTrigger
+            trigger="click"
+            placement="top"
+            overlay={motivoPopover}
             rootClose
           >
             <button className="ordem-btn motivo-btn">
@@ -89,7 +100,6 @@ const OrdemCard = ({ ordem, iniciarConferencia }) => {
             </button>
           </OverlayTrigger>
         )}
-
         {podeIniciarConferencia && (
           <button
             className="ordem-btn iniciar-btn"
@@ -99,15 +109,14 @@ const OrdemCard = ({ ordem, iniciarConferencia }) => {
             <span className="btn-text">Iniciar Separação</span>
           </button>
         )}
-
         {podeVerPedido && (
-          <a 
-            href={`/detalhes/${ordem.Nro_Unico}`} 
+          <Link
+            to={getPedidoUrl()}
             className="ordem-btn ver-btn"
           >
             <span className="btn-icon">👁️</span>
             <span className="btn-text">Ver Pedido</span>
-          </a>
+          </Link>
         )}
       </div>
     </div>

@@ -7,31 +7,6 @@ import { getBearerToken } from './auth.controller.js';
 dotenv.config();
 
 // Função para obter o token do usuário a partir do token JWT
-const getBearerTokenFromDB = async (jwtToken) => {
-    try {
-        // Decodifica o token JWT para obter informações do usuário
-        const decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
-        // Busca o ID do usuário (assumindo que o token contém o ID)
-        const query = `
-            SELECT bearer_token
-            FROM tokens_usuario
-            WHERE id_usuario = (
-                SELECT id_usuario
-                FROM usuario
-                WHERE ds_usuario = $1
-            )
-            AND expira_em > NOW()
-        `;
-        const result = await db.query(query, [decoded.ds_usuario]);
-        if (result.rows.length === 0) {
-            throw new Error('Bearer token não encontrado para este usuário');
-        }
-        return result.rows[0].bearer_token;
-    } catch (error) {
-        console.error('Erro ao buscar bearer token:', error.message);
-        throw error;
-    }
-};
 
 export const atualizarStatusConferencia = async (req, res) => {
     const { nroUnico } = req.params;
@@ -44,7 +19,7 @@ export const atualizarStatusConferencia = async (req, res) => {
         }
 
         // Buscar o id_usuario no banco de dados com base no separadorCodigo
-        const result = await db.query('SELECT id_usuario FROM usuario WHERE separador_codigo = $1', [parseInt(separadorCodigo, 10)]);
+        const result = await db.query('SELECT id_usuario FROM usuario WHERE codsep = $1', [parseInt(separadorCodigo, 10)]);
         if (result.rows.length === 0) {
             return res.status(404).json({ erro: "Separador não encontrado." });
         }

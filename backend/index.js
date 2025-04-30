@@ -6,6 +6,8 @@ import cors from 'cors';
 import userRouter from './routes/users.route.js';
 import authRoutes from './routes/auth.route.js';
 import pedidosroutes from './routes/pedidos.route.js';
+import conferenciaroutes from './routes/conferencia.routes.js'
+
 
 dotenv.config();
 const app = express();
@@ -23,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/users', userRouter);
 app.use('/api/auth', authRoutes);
 app.use('/api/v1', pedidosroutes);
+app.use('/api/v2', conferenciaroutes);
 
 // Configuração do servidor
 

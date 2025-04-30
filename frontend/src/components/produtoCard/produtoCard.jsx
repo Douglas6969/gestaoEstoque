@@ -89,6 +89,7 @@ const ProdutoCard = ({ item, onAbrirPopup }) => {
       </div>
       
       <div className="produto-acoes">
+        
         <div className="produto-checkbox">
           <label className="checkbox-container">
             <input
@@ -100,7 +101,8 @@ const ProdutoCard = ({ item, onAbrirPopup }) => {
             <span className="checkbox-text">Produto Separado</span>
           </label>
         </div>
-        
+        <div></div>
+        <div>
         <button
           className="botao divergencia"
           onClick={handleAbrirPopup}
@@ -108,6 +110,7 @@ const ProdutoCard = ({ item, onAbrirPopup }) => {
           <span className="btn-icon">⚠️</span>
           <span className="btn-text">Divergência</span>
         </button>
+        </div>
       </div>
     </div>
   );

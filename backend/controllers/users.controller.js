@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import { usuarioModel } from "../models/users.model.js";
 import jwt from 'jsonwebtoken';
-import { authController } from '../controllers/auth.controller.js';
+import { authController } from './auth.controller.js';
 
 // /api/v1/users/register
 const register = async (req, res) => {

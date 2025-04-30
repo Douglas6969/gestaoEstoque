@@ -1,0 +1,374 @@
+.etiquetas-pagina {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Evitar rolagem dupla */
+  box-sizing: border-box;
+}
+
+.etiquetas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  flex-shrink: 0; /* Impedir que o cabeçalho encolha */
+  width: 100%;
+}
+
+.etiquetas-acoes {
+  display: flex;
+  gap: 10px;
+}
+
+
+.botao-imprimir {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+
+.botao-imprimir {
+  background-color: #0066cc;
+  color: white;
+}
+
+.etiquetas-container {
+  display: flex;
+  flex-direction: column; /* Organizar em coluna */
+  gap: 20px;
+  align-items: center;
+  overflow-y: auto; /* Adicionar rolagem vertical */
+  overflow-x: hidden; /* Esconder rolagem horizontal */
+  padding: 10px 0 30px; /* Aumentar padding inferior para evitar corte */
+  flex-grow: 1; /* Preencher o espaço disponível */
+  width: 100%;
+  max-height: calc(100vh - 120px); /* Altura máxima ajustada considerando o header */
+  box-sizing: border-box;
+  scrollbar-width: thin; /* Para Firefox */
+}
+
+/* Etiqueta - Tamanho 8x10 cm */
+.etiqueta {
+  width: 150mm;
+  height: 99mm;
+  min-height: 90mm; /* Garantir altura mínima */
+  border: 2px solid #000; /* Aumentar a borda para ficar mais visível */
+  padding: 0.5cm;
+  position: relative;
+  background-color: white;
+  page-break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+ /* Centralizar cada etiqueta e adicionar margem inferior */
+  flex-shrink: 0; /* Impedir que as etiquetas encolham */
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Adicionar uma sombra sutil para destacar */
+  border-radius: 2px; /* Pequeno arredondamento nos cantos */
+}
+
+/* Garantir que a última etiqueta tenha espaço suficiente */
+.etiqueta:last-child {
+  margin-bottom: 40px;
+}
+
+/* Header da etiqueta */
+.etiqueta-titulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+ 
+
+}
+
+.titulo-pedido {
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+  text-transform: uppercase;
+  margin-right: 0.7cm;
+}
+
+.numero-pedido {
+  font-size: 26px;
+  font-weight: bold;
+  width: 190px;
+  color: #ffffff;
+  text-align: center;
+  margin-right: 1.0cm;
+  background-color: black;
+  border-radius: 2px; /* Adicionar pequeno arredondamento */
+}
+
+/* Informações da empresa */
+.etiqueta-empresa {
+  margin-bottom: 0.1cm;
+  width: 100%;
+}
+
+.empresa-nome {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 0.1cm;
+  color: #000;
+}
+
+.empresa-endereco,
+.empresa-cidade {
+  font-size: 12px;
+
+  color: #000;
+  font-weight: bold;
+}
+
+/* Estilo para etiqueta-cliente e etiqueta-endereco */
+.etiqueta-cliente,
+.etiqueta-endereco {
+  margin-bottom: 0.3cm;
+  width: 100%;
+}
+
+/* Estilo para as labels */
+.label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #ffffff;
+  display: block;
+  text-align: start;
+  margin-left: 0.2cm;
+  background-color: #000;
+  padding: 2px 5px; /* Adicionar um pequeno padding para melhorar a aparência */
+  border-radius: 2px; /* Pequeno arredondamento nos cantos */
+  width: calc(100% - 0.4cm); /* Ajustar largura considerando as margens */
+}
+
+/* Estilo para os valores */
+.valor {
+  font-size: 12px;
+  color: #000;
+  line-height: 1.3;
+  text-align: start;
+  font-weight: bold;
+  margin-left: 0.2cm;
+  padding: 2px 0; /* Pequeno padding vertical */
+  width: calc(100% - 0.4cm); /* Ajustar largura considerando as margens */
+}
+
+/* Cliente sempre em maiúsculas como na imagem */
+.etiqueta-cliente .valor {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* Informações de volume */
+.etiqueta-volume {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: auto; /* Empurrar para baixo dentro da etiqueta */
+}
+
+.etiqueta-volume .label {
+  display: inline-block;
+  margin-right: 0.1cm;
+  margin-bottom: 0;
+  padding: 2px 5px;
+  width: auto;
+}
+
+.etiqueta-volume .valor {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Barra de rolagem personalizada */
+.etiquetas-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.etiquetas-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.etiquetas-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.etiquetas-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.empresa-logo {
+  max-width: 300px; /* Triplique o tamanho máximo */
+  max-height: 150px; /* Triplique o tamanho máximo */
+  object-fit: contain; /* Mantém a proporção das imagens */
+
+  display: block; /* Garante que o alinhamento seja correto */
+  margin-left: auto; /* Centraliza a imagem na horizontal */
+  margin-right: auto;
+}
+
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    box-sizing: border-box !important;
+  }
+
+  .empresa-logo {
+    max-width: 270mm; /* Triplique o tamanho máximo */
+    max-height: 120mm; /* Triplique o tamanho máximo */
+    object-fit: contain; /* Mantém a proporção das imagens */
+    margin-bottom: 10px; /* Espaçamento inferior entre logo e texto */
+    display: block; /* Garante que o alinhamento seja correto */
+    margin-left: auto; /* Centraliza a imagem na horizontal */
+    margin-right: auto;
+  }
+
+  body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    background-color: white !important;
+    overflow: visible !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .etiquetas-pagina,
+  .etiquetas-container {
+    all: unset;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .etiqueta {
+    width: 120vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    page-break-after: always;
+  }
+
+  /* Corrige última etiqueta */
+  .etiqueta:last-of-type {
+    page-break-after: auto !important;
+  }
+
+  .numero-pedido,
+  .label {
+    background-color: black !important;
+    color: white !important;
+  }
+
+  @page {
+    size: 110mm 99mm;
+    margin: 0;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .etiqueta {
+    width: 110vw;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
+
+  .empresa-logo {
+    max-width: 300px; /* Triplique o tamanho máximo */
+    max-height: 150px; /* Triplique o tamanho máximo */
+    object-fit: contain; /* Mantém a proporção das imagens */
+    display: block; /* Garante que o alinhamento seja correto */
+    margin-left: auto; /* Centraliza a imagem na horizontal */
+    margin-right: auto;
+  }
+
+  .header {
+    text-align: center;
+    
+  }
+
+  .pedido-titulo {
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .numero-pedido {
+    font-size: 48px;
+    font-weight: bold;
+    background: black;
+    color: white;
+    margin-left: 170;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+
+  .empresa {
+    text-align: center;
+    margin: 20px 0 30px 0;
+    font-size: 20px;
+  }
+
+  .empresa small {
+    font-size: 16px;
+  }
+
+  .info {
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .label {
+    background: black;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 2px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .value {
+    font-size: 14px;
+  }
+
+  .volume {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+  .etiqueta-volume .valor {
+    font-weight: bold;
+    font-size: 18px;
+  }
+}

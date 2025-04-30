@@ -10,7 +10,7 @@ const listarOrdensPorSeparador = async (req, res) => {
     return res.status(400).json({ error: "Código do separador inválido." });
   }
   try {
-    const result = await db.query('SELECT id_usuario FROM usuario WHERE separador_codigo = $1', [separadorCodigoInt]);
+    const result = await db.query('SELECT id_usuario FROM usuario WHERE codsep = $1', [separadorCodigoInt]);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Separador não encontrado." });
     }
@@ -34,6 +34,8 @@ const listarOrdensPorSeparador = async (req, res) => {
           WHEN CAB.AD_CODIGO = '1' THEN 'Liberado para Separação'
           WHEN CAB.AD_CODIGO = '2' THEN 'Separação Iniciada'
           WHEN CAB.AD_CODIGO = '7' THEN 'Divergência Encontrada'
+          WHEN CAB.AD_CODIGO = '5' THEN 'Conferencia Iniciada'
+
         END AS "Status",
         CAB.AD_DS_MOTIVODIV AS "Motivo",
         TOP.DESCROPER || ' - ' || CAB.CODTIPOPER AS "Top",
@@ -62,7 +64,7 @@ const listarOrdensPorSeparador = async (req, res) => {
         LEFT JOIN AD_SEPARADOR SEP ON CAB.AD_SEPARADORNEW = SEP.SEPARADOR
       WHERE CAB.CODTIPOPER IN (1000, 1003, 1005)
         AND CAB.PENDENTE = 'S'
-        AND CAB.AD_CODIGO IN ('7', '2')
+        AND CAB.AD_CODIGO IN ('7', '2','5')
         AND SEP.SEPARADOR = ${separadorCodigoInt}
       ORDER BY "Prioridade", "Ordem", "Nro_Unico"
     `;
@@ -119,7 +121,7 @@ const calcularPontuacaoSeparadores = async (req, res) => {
     return res.status(400).json({ error: "Código do separador inválido." });
   }
   try {
-    const result = await db.query('SELECT id_usuario FROM usuario WHERE separador_codigo = $1', [separadorCodigoInt]);
+    const result = await db.query('SELECT id_usuario FROM usuario WHERE codsep = $1', [separadorCodigoInt]);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Separador não encontrado." });
     }

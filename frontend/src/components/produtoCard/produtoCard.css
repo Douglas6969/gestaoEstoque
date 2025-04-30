@@ -4,26 +4,22 @@
   --primary-color: #457a9c;
   --primary-light: rgba(69, 122, 156, 0.7);
   --primary-dark: #305570;
-  
   /* Estados */
   --success-color: #28a745;
   --success-light: rgba(40, 167, 69, 0.2);
   --danger-color: #e63946;
   --warning-color: #ffc107;
   --info-color: #17a2b8;
-  
   /* Background escuro */
   --bg-dark: #1a2130;
   --bg-dark-light: #242e42;
   --bg-card: #1e2738;
   --bg-hover: #2c3750;
-  
   /* Texto */
   --text-primary: #e1e5ee;
   --text-secondary: #a1a7bb;
   --text-highlight: #ffffff;
   --text-muted: #6c7a94;
-  
   /* Bordas e efeitos */
   --border-color: rgba(255, 255, 255, 0.1);
   --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
@@ -100,7 +96,7 @@
 /* Estado selecionado com efeito neon */
 .produto-card.selecionado {
   border: 1px solid var(--success-color);
-  box-shadow: 0 0 20px rgba(40, 167, 69, 0.3), 
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.3),
               0 10px 25px rgba(0, 0, 0, 0.3);
   animation: pulse 3s infinite ease-in-out;
 }
@@ -178,9 +174,9 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(255, 255, 255, 0.2) 50%, 
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
     transparent 100%);
   animation: shimmer 2s infinite;
   background-size: 100% 100%;
@@ -286,6 +282,8 @@
   position: relative;
   padding-left: 36px;
   cursor: pointer;
+  /* Removi o background-color verde ou alterado para uma cor mais suave */
+  background-color: transparent; /* ou uma cor mais suave como #f8f9fa */
   font-size: 15px;
   user-select: none;
   transition: transform 0.3s ease;
@@ -309,7 +307,7 @@
   left: 0;
   height: 24px;
   width: 24px;
-  background: rgba(0, 0, 0, 0.2);
+  background: #e0e0e0; /* Cor sólida para evitar transparência */
   border: 1px solid var(--border-color);
   border-radius: 6px;
   transition: all 0.3s ease;
@@ -317,8 +315,8 @@
 }
 
 .checkbox-container:hover input ~ .checkmark {
-  background: rgba(69, 122, 156, 0.2);
-  box-shadow: 0 0 8px rgba(69, 122, 156, 0.2), 
+  background: #d4e4f0; /* Cor sólida mais clara para hover */
+  box-shadow: 0 0 8px rgba(69, 122, 156, 0.2),
               inset 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
@@ -364,11 +362,24 @@
   font-weight: 600;
 }
 
-/* Botão de divergência */
+/* Adicionei a animação que estava faltando */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+
+/* Botão de divergência com largura reduzida */
 .botao.divergencia {
   background: linear-gradient(135deg, var(--warning-color), #e0a800);
   color: #000;
-  padding: 10px 16px;
+  padding: 8px 14px; /* Reduzido o padding horizontal */
   font-size: 14px;
   font-weight: 600;
   border: none;
@@ -378,9 +389,12 @@
   box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px; /* Reduzido o espaço entre ícone e texto */
   position: relative;
   overflow: hidden;
+  min-width: 110px; /* Define uma largura mínima controlada */
+  max-width: 130px; /* Limita a largura máxima */
+  justify-content: center; /* Centraliza o conteúdo */
 }
 
 .botao.divergencia:hover {
@@ -393,14 +407,15 @@
 }
 
 .btn-icon {
-  font-size: 17px;
+  font-size: 16px; /* Ligeiramente menor */
   filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1));
 }
 
 .btn-text {
-  font-size: 13px;
-  letter-spacing: 0.8px;
+  font-size: 12px; /* Reduzido um pouco o tamanho da fonte */
+  letter-spacing: 0.5px; /* Menos espaçamento entre letras */
   text-transform: uppercase;
+  white-space: nowrap; /* Evita quebra de linha */
 }
 
 /* Notificação inline */
@@ -476,6 +491,7 @@
   background: rgba(255, 255, 255, 0.3);
   transform: rotate(90deg);
 }
+
 .detalhes-pedido-container {
   max-height: 90vh; /* Altura máxima padrão */
   overflow-y: auto;
@@ -495,7 +511,7 @@
     padding: 4px 6px; /* Reduzido ainda mais */
     width: 100%;
   }
-
+  
   .produto-row:nth-child(3) .produto-label,
   .produto-row:nth-child(4) .produto-label,
   .produto-row:nth-child(5) .produto-label,
@@ -506,7 +522,7 @@
     width: 100%;
     color: var(--text-secondary);
   }
-
+  
   .produto-row:nth-child(3) .produto-value,
   .produto-row:nth-child(4) .produto-value,
   .produto-row:nth-child(5) .produto-value,
@@ -520,29 +536,29 @@
     width: 100%;
     color: var(--text-primary);
   }
-
+  
   /* Redução geral de tamanho */
   .detalhes-pedido-container {
     height: calc(100vh - 60px); /* Reduzido ainda mais */
     padding: 3px;
     max-height: 95vh;
   }
-
+  
   .produto-card {
     padding: 8px;
     margin-bottom: 6px;
   }
-
+  
   .produto-header {
     margin-bottom: 6px;
     padding-bottom: 6px;
   }
-
+  
   .produto-grid {
     gap: 4px;
     margin-bottom: 6px;
   }
-
+  
   .produto-row {
     padding: 3px 5px;
     min-height: 32px;
@@ -550,14 +566,14 @@
     align-items: center;
     justify-content: space-between;
   }
-
+  
   .produto-label {
     font-size: 8px;
     margin-bottom: 0;
     flex-shrink: 0;
     margin-right: 6px;
   }
-
+  
   .produto-value {
     font-size: 10px;
     line-height: 1.1;
@@ -565,6 +581,22 @@
     flex-grow: 1;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  
+  /* Botão de divergência para telas menores */
+  .botao.divergencia {
+    padding: 6px 10px;
+    min-width: 90px;
+    max-width: 110px;
+  }
+  
+  .btn-text {
+    font-size: 10px;
+    letter-spacing: 0.3px;
+  }
+  
+  .btn-icon {
+    font-size: 14px;
   }
 }
 
@@ -578,22 +610,38 @@
     font-size: 9px;
     line-height: 1.1;
   }
-
+  
   .produto-card {
     padding: 6px;
     margin-bottom: 4px;
   }
-
+  
   .produto-label {
     font-size: 7px;
   }
-
+  
   .produto-value {
     font-size: 9px;
   }
-
+  
   .produto-row {
     min-height: 28px;
     padding: 2px 4px;
+  }
+  
+  /* Botão ainda menor para telas muito pequenas */
+  .botao.divergencia {
+    padding: 5px 8px;
+    min-width: 80px;
+    max-width: 100px;
+  }
+  
+  .btn-text {
+    font-size: 9px;
+    letter-spacing: 0.2px;
+  }
+  
+  .btn-icon {
+    font-size: 12px;
   }
 }

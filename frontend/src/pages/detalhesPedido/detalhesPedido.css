@@ -16,17 +16,20 @@
 
 /* Container principal do pedido */
 .detalhes-pedido-container {
+  height: 100%;
   background: rgba(69, 122, 156, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 16px;
+  margin-top: 70px;
   padding: 24px;
   margin-bottom: 24px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
   overflow: hidden;
   position: relative;
+  
 }
 
 .detalhes-pedido-container:hover {
@@ -61,7 +64,7 @@
 
 /* Lista de produtos com rolagem */
 .produto-list-container {
-  max-height: 750px;
+  height: 580px;
   overflow-y: auto;
   padding-right: 10px;
   margin-top: 15px;
@@ -381,12 +384,16 @@
 /* Responsividade */
 @media (max-width: 768px) {
   .detalhes-pedido-container {
-    padding: 16px;
+    margin-top: 130px;
+    padding: 15px;
+    height: 95vh;
+    
   }
 
   .produto-list-container {
-    max-height: 500px;
+    max-height: 55vh;
     margin-top: 10px;
+   
   }
 
   .title {

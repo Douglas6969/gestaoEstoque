@@ -33,7 +33,7 @@ export const registrarDivergenciainput = async (req, res) => {
 
     try {
         // Buscar id_usuario com base no separadorCodigo
-        const result = await db.query('SELECT id_usuario FROM usuario WHERE separador_codigo = $1', [separadorCodigo]);
+        const result = await db.query('SELECT id_usuario FROM usuario WHERE codsep = $1', [separadorCodigo]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: "Separador não encontrado." });
         }

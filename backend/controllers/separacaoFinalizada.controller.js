@@ -67,7 +67,7 @@ export const separacaoFinalizada = async (req, res) => {
             return res.status(400).json({ error: "Código do separador inválido." });
         }
 
-        const result = await db.query('SELECT id_usuario FROM usuario WHERE separador_codigo = $1', [separadorCodigoInt]);
+        const result = await db.query('SELECT id_usuario FROM usuario WHERE codsep = $1', [separadorCodigoInt]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: "Separador não encontrado." });
         }

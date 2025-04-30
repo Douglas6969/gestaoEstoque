@@ -16,7 +16,7 @@ const listarOrdemCarga = async (req, res) => {
         }
 
         // Buscar o id_usuario no banco de dados com base no separadorCodigo
-        const result = await db.query('SELECT id_usuario FROM usuario WHERE separador_codigo = $1', [parseInt(separadorCodigo, 10)]);
+        const result = await db.query('SELECT id_usuario FROM usuario WHERE codsep = $1', [parseInt(separadorCodigo, 10)]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: "Separador não encontrado." });
         }
