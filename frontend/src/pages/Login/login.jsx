@@ -50,7 +50,7 @@ const Login = () => {
         } catch (error) {
             console.error(error);
             setLoading(false);
-            setError("Erro ao autenticar. Verifique sua conexão.");
+            setError("ERRO Verifique Usuario e senha ");
         }
     };
 

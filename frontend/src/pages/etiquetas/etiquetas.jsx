@@ -16,6 +16,8 @@ const Etiquetas = () => {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
   const [finalizando, setFinalizando] = useState(false);
+  const [imprimindo, setImprimindo] = useState(false);
+  const [notificacao, setNotificacao] = useState(null);
 
   useEffect(() => {
     const carregarDetalhesPedido = async () => {
@@ -35,7 +37,38 @@ const Etiquetas = () => {
     carregarDetalhesPedido();
   }, [conferenteCodigo, nroUnico]);
 
-  const finalizarConferenciaEImprimir = async () => {
+  // Função para mostrar notificação
+  const mostrarNotificacao = (mensagem, tipo) => {
+    setNotificacao({ mensagem, tipo });
+    // Limpa a notificação após alguns segundos
+    setTimeout(() => {
+      setNotificacao(null);
+    }, 3000);
+  };
+
+  // Função para voltar para a página de conferência
+  const voltarParaConferencia = () => {
+    navigate(`/conferencia-pedido/${nroUnico}/${conferenteCodigo}`);
+  };
+
+  const imprimir = () => {
+    try {
+      // Prepara para impressão
+      setImprimindo(true);
+      // Função que executa a impressão após um pequeno delay
+      setTimeout(() => {
+        window.print();
+        setImprimindo(false);
+      }, 300);
+    } catch (error) {
+      console.error("Erro ao imprimir:", error);
+      setImprimindo(false);
+      setErro("Erro ao imprimir relatório");
+    }
+  };
+
+  // Função para finalizar a conferência
+  const finalizar = async () => {
     try {
       setFinalizando(true);
       // Chamando a API de finalização
@@ -43,12 +76,11 @@ const Etiquetas = () => {
         `${import.meta.env.VITE_API_URL}/api/v2/finalizar/${conferenteCodigo}`,
         { nroUnico: nroUnico }
       );
-      // Se a finalização foi bem-sucedida, prosseguir com a impressão
-      window.print();
-      // Após a impressão, redireciona para a página inicial de conferência
+      mostrarNotificacao("Conferência finalizada com sucesso!", "sucesso");
+      // Após finalizar, redireciona para a página inicial de conferência
       setTimeout(() => {
         navigate(`/iniciar-conferencia/${conferenteCodigo}`);
-      }, 1000); // Pequeno delay para garantir que a impressão seja concluída
+      }, 1000); // Pequeno delay para garantir que a notificação seja vista
     } catch (error) {
       console.error("Erro ao finalizar conferência:", error);
       setErro(`Erro ao finalizar conferência: ${error.response?.data?.detalhes || error.message}`);
@@ -56,7 +88,6 @@ const Etiquetas = () => {
       setFinalizando(false);
     }
   };
-
 
   const getLogoSrc = (empresaNome) => {
     switch (empresaNome.toLowerCase()) {
@@ -80,11 +111,6 @@ const Etiquetas = () => {
         <p>Carregando detalhes do pedido...</p>
       </div>
     );
-  }
-
-  if (finalizando) {
-    
-  
   }
 
   if (erro) {
@@ -145,20 +171,37 @@ const Etiquetas = () => {
 
   return (
     <div className="etiquetas-pagina">
-      <div className="no-print"><Header/></div>
+      <div className="no-print"><Header /></div>
+      
+      {notificacao && (
+        <div className={`notificacao ${notificacao.tipo}`}>
+          {notificacao.mensagem}
+        </div>
+      )}
+      
       <div className="etiquetas-header no-print">
         <h1>Etiquetas para Impressão</h1>
         <div className="etiquetas-acoes">
-          <button 
-            className="botao-imprimir" 
-            onClick={finalizarConferenciaEImprimir}
+          <button
+            className="botao-imprimir"
+            onClick={imprimir}
+            disabled={finalizando || imprimindo}
+          >
+            {imprimindo ? "Imprimindo..." : "🖨️ Imprimir"}
+          </button>
+          <button
+            className="botao-imprimir"
+            onClick={finalizar}
             disabled={finalizando}
           >
-            {finalizando ? "Finalizando..." : "Finalizar e Imprimir"}
+            {finalizando ?
+              <span><span className="spinner"></span> Finalizando...</span> :
+              "✓ Finalizar Conferência"
+            }
           </button>
-         
         </div>
       </div>
+      
       <div className="etiquetas-container">
         {etiquetas.map((numero) => (
           <div key={numero} className="etiqueta">

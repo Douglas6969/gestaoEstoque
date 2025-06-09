@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ConferenciaPedido.css";
 import Header from "../../components/Header/Header";
+import DevolucaoSeparadorPopup from "../../components/DevolucaoSeparadorPopup/DevolucaoSeparadorPopup";
 
 const ConferenciaPedido = () => {
   const { nroUnico, conferenteCodigo } = useParams();
@@ -24,6 +25,10 @@ const ConferenciaPedido = () => {
   const relatorioRef = useRef(null);
   // Estado para controlar a quantidade indo no relatório
   const [quantidadesRelatorio, setQuantidadesRelatorio] = useState({});
+  const [showDevolucaoPopup, setShowDevolucaoPopup] = useState(false);
+const [devolucaoPopupItems, setDevolucaoPopupItems] = useState([]);
+// Estado para controlar volumes e suas quantidades
+const [volumesExpedicao, setVolumesExpedicao] = useState({}); // Define o estado para volumes e quantidades
 
   // Função para criar chave única para cada produto baseada no código e lote
   const getProdutoChaveUnica = (produto) => {
@@ -54,6 +59,20 @@ const ConferenciaPedido = () => {
     return null;
   };
 
+  const abrirDevolucaoSeparadorPopup = () => {
+  // Aqui você define como pegar os itens que deverão aparecer no popup.
+  // Eu vou usar todos os produtos do pedido (produtos + produtosConferidos). Ajuste se quiser só um desses:
+ 
+  const itensPopup = [
+    ...produtos.map(p => ({ ...p, origem: 'aConferir' })),
+    ...produtosConferidos.map(p => ({ ...p, origem: 'conferidos' }))
+  ];
+
+  setDevolucaoPopupItems(itensPopup);
+  setShowDevolucaoPopup(true);
+};
+
+
   // Efeito para salvar o estado sempre que produtos ou produtosConferidos mudarem
   useEffect(() => {
     if (produtos.length > 0 || produtosConferidos.length > 0) {
@@ -70,7 +89,7 @@ const ConferenciaPedido = () => {
         const estadoSalvo = recuperarEstadoLocal();
         const agora = new Date().getTime();
         const umDiaEmMs = 24 * 60 * 60 * 1000;
-        
+
         // Se existir um estado salvo e não for muito antigo (menos de 1 dia)
         if (estadoSalvo && (agora - estadoSalvo.timestamp) < umDiaEmMs) {
           setProdutos(estadoSalvo.produtos);
@@ -79,7 +98,7 @@ const ConferenciaPedido = () => {
           mostrarNotificacao("Dados recuperados da sua sessão anterior", "info");
           return;
         }
-        
+
         // Se não tiver dados salvos ou dados antigos, carrega da API
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v2/conferencia/pedido/${nroUnico}/${conferenteCodigo}`);
         if (response.data && response.data.detalhes) {
@@ -87,7 +106,7 @@ const ConferenciaPedido = () => {
           const produtosDisponiveis = response.data.detalhes.filter(p => !p.bloqueado);
           const produtosBloqueados = response.data.detalhes.filter(p => p.bloqueado);
           setProdutos(produtosDisponiveis);
-          
+
           // Adicionar produtos já bloqueados à lista de conferidos (como erros)
           setProdutosConferidos(produtosBloqueados.map(p => ({
             ...p,
@@ -110,6 +129,31 @@ const ConferenciaPedido = () => {
     setProdutoSelecionado(produto);
     setQuantidade("");
   };
+// --- Funções para gerenciar volumes de expedição ---
+const handleVolumeSelection = (volNum) => {
+  const volumeKey = String(volNum);
+  setVolumesExpedicao(prev => {
+    const newState = { ...prev };
+    if (newState[volumeKey] !== undefined) {
+      // Se já estava selecionado, desmarca e remove a quantidade
+      delete newState[volumeKey];
+    } else {
+      // Se não estava selecionado, marca e inicializa a quantidade como 0
+      newState[volumeKey] = 0;
+    }
+    return newState;
+  });
+};
+
+const handleVolumeQuantityChange = (volNum, quantity) => {
+  const volumeKey = String(volNum);
+  const qtd = parseInt(quantity) || 0; // Garante que é um número inteiro, ou 0 se inválido
+  setVolumesExpedicao(prev => ({
+    ...prev,
+    [volumeKey]: qtd
+  }));
+};
+// --- Fim das funções de volume ---
 
   // Função para verificar a quantidade informada
   const verificarQuantidade = async () => {
@@ -123,19 +167,21 @@ const ConferenciaPedido = () => {
         mostrarNotificacao("Informe um valor numérico válido", "erro");
         return;
       }
-      
+
       // Modifica a filtragem para considerar tanto o código quanto o lote
       const novosProdutos = produtos.filter(p =>
         !(p.Codigo_Produto === produtoSelecionado.Codigo_Produto &&
           p.Lote === produtoSelecionado.Lote)
       );
-      
+
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/v2/conferencia/verificar/${nroUnico}/${produtoSelecionado.Codigo_Produto}/${produtoSelecionado.Lote || ""}/${conferenteCodigo}`,
+          // Modifique a linha para:
+          `${import.meta.env.VITE_API_URL}/api/v2/conferencia/verificar/${nroUnico}/${produtoSelecionado.Codigo_Produto}/${encodeURIComponent(produtoSelecionado.Lote || "")}/${conferenteCodigo}`
+          ,
           { quantidadeInformada: quantidade }
         );
-        
+
         // Atualizar o produto na lista de conferidos
         const produtoConferido = {
           ...produtoSelecionado,
@@ -150,22 +196,22 @@ const ConferenciaPedido = () => {
               ? "Tentativas excedidas!"
               : `Quantidade incorreta! ${response.data.tentativas_restantes} tentativa(s) restante(s)`
         };
-        
+
         // Atualizar estado
         setProdutos(novosProdutos);
         setProdutosConferidos(prev => [...prev, produtoConferido]);
-        
+
         // Definir quantidade inicial para o relatório
         const chave = getProdutoChaveUnica(produtoConferido);
         setQuantidadesRelatorio(prev => ({
           ...prev,
           [chave]: qtd
         }));
-        
+
         // Limpar seleção e campo de quantidade
         setProdutoSelecionado(null);
         setQuantidade("");
-        
+
         // Mostrar notificação baseado no resultado
         if (response.data.acerto) {
           mostrarNotificacao("Quantidade conferida com sucesso!", "sucesso");
@@ -187,6 +233,56 @@ const ConferenciaPedido = () => {
     }
   };
 
+
+
+
+
+
+
+
+
+
+
+
+  // Adicionando estado para mensagens de divergência
+const [mensagemDivergencia, setMensagemDivergencia] = useState(null);
+
+// Função de registrar divergência ajustada
+const registrarDivergenciaConferencia = async () => {
+  try {
+    // Mostrar status de carregamento
+    setMensagemDivergencia({ tipo: "carregando", texto: "Registrando divergência..." });
+    
+    // URL correta - contém apenas o número único e o código do conferente
+    const url = `${import.meta.env.VITE_API_URL}/api/v2/divergenciaConf/${nroUnico}/${conferenteCodigo}`;
+    console.log(`Enviando requisição para: ${url}`);
+    
+    // Enviar requisição PUT
+    const divergenciaResponse = await axios.put(url);
+    
+    // Verificar se a divergência foi registrada com sucesso
+    if (divergenciaResponse.status === 200) {
+      setMensagemDivergencia({
+        tipo: "sucesso",
+        texto: "Divergência registrada com sucesso!"
+      });
+      
+      // Mostrar notificação
+      mostrarNotificacao("Divergência registrada com sucesso!", "sucesso");
+      return true;
+    } else {
+      throw new Error("Resposta inesperada do servidor");
+    }
+  } catch (error) {
+    console.error("Erro ao registrar divergência:", error);
+    const mensagemErro = error.response?.data?.error ||
+                       "Não foi possível registrar a divergência. Tente novamente.";
+    setMensagemDivergencia({ tipo: "erro", texto: mensagemErro });
+    mostrarNotificacao(mensagemErro, "erro");
+    return false;
+  }
+};
+
   // Função de editar produto conferido
   const editarProdutoConferido = (produto) => {
     // Verificar se o produto está bloqueado
@@ -194,29 +290,29 @@ const ConferenciaPedido = () => {
       mostrarNotificacao("Este produto está bloqueado para edição", "aviso");
       return;
     }
-    
+
     // Adicionar o produto de volta à lista de produtos a conferir
     setProdutos(prev => [...prev, produto]);
-    
+
     // Remover da lista de produtos conferidos, usando código e lote
     setProdutosConferidos(prev => prev.filter(p =>
       !(p.Codigo_Produto === produto.Codigo_Produto && p.Lote === produto.Lote)
     ));
-    
+
     // Remover da lista de itens selecionados
     setItensSelecionados(prev => {
       const chave = getProdutoChaveUnica(produto);
       const { [chave]: _, ...rest } = prev;
       return rest;
     });
-    
+
     // Remover da lista de quantidades do relatório
     setQuantidadesRelatorio(prev => {
       const chave = getProdutoChaveUnica(produto);
       const { [chave]: _, ...rest } = prev;
       return rest;
     });
-    
+
     // Selecionar o produto para conferência
     setProdutoSelecionado(produto);
     setQuantidade("");
@@ -240,53 +336,71 @@ const ConferenciaPedido = () => {
     setShowFinalizarPopup(true);
   };
 
+
   // Função para fechar o popup
   const fecharPopup = () => {
     setShowFinalizarPopup(false);
   };
 
-  // Função para finalizar a conferência
-  const finalizarConferencia = async () => {
-    try {
-      setCarregando(true);
-      console.log(`Enviando requisição para finalizar conferência:`, {
-        url: `${import.meta.env.VITE_API_URL}/api/v2/volumes/${conferenteCodigo}/${nroUnico}`,
-        dados: {
-          qtdEtiquetas: parseInt(qtdEtiquetas),
-          qtdVolumes: parseInt(qtdVolumes)
-        }
-      });
-      
-      // Certifique-se de que os parâmetros da URL estão na ordem correta
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/v2/volumes/${conferenteCodigo}/${nroUnico}`,
-        {
-          qtdEtiquetas: parseInt(qtdEtiquetas),
-          qtdVolumes: parseInt(qtdVolumes)
-        }
-      );
-      
-      console.log("Resposta da API:", response.data);
-      
-      // Fechar o popup
-      fecharPopup();
-      
-      // Mostrar notificação de sucesso
-      mostrarNotificacao("Conferência finalizada com sucesso!", "sucesso");
-      
-      // Limpar dados locais visto que a conferência foi concluída
-      localStorage.removeItem(`conferencia_${nroUnico}_${conferenteCodigo}`);
-      
-      // Redirecionar para a página de etiquetas
-      navigate(`/etiquetas/${conferenteCodigo}/${nroUnico}`);
-    } catch (error) {
-      console.error("Erro ao finalizar conferência:", error);
-      const mensagemErro = error.response?.data?.mensagem || error.message;
-      mostrarNotificacao(`Erro ao finalizar a conferência: ${mensagemErro}`, "erro");
-    } finally {
-      setCarregando(false);
-    }
-  };
+  // Função para finalizar a conferência
+  const finalizarConferencia = async () => {
+    try {
+      setCarregando(true);
+
+      // 1. Preparar dados dos volumes de expedição
+      const volumeData = Object.entries(volumesExpedicao).map(([volume, quantidade]) => ({
+        volume: parseInt(volume), // Garante que o número do volume seja um número
+        quantidade: quantidade // Quantidade já é número (ou 0)
+      }));
+
+      console.log(`Enviando dados de volumes de expedição:`, {
+        url: `${import.meta.env.VITE_API_URL}/api/v2/volume-expedicao/conferente/${conferenteCodigo}/nota/${nroUnico}`,
+        dados: volumeData
+      });
+
+      // 2. Enviar dados dos volumes de expedição (Nova requisição POST)
+      const volumesResponse = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/v2/volume-expedicao/conferente/${conferenteCodigo}/nota/${nroUnico}`,
+        volumeData
+      );
+      console.log("Resposta da API (Volumes):", volumesResponse.data);
+
+      // 3. Finalizar a conferência (Requisição PUT existente)
+      console.log(`Enviando requisição para finalizar conferência:`, {
+        url: `${import.meta.env.VITE_API_URL}/api/v2/volumes/${conferenteCodigo}/${nroUnico}`,
+        dados: {
+          qtdEtiquetas: parseInt(qtdEtiquetas),
+          qtdVolumes: parseInt(qtdVolumes)
+        }
+      });
+
+      const finalizarResponse = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/v2/volumes/${conferenteCodigo}/${nroUnico}`,
+        {
+          qtdEtiquetas: parseInt(qtdEtiquetas),
+          qtdVolumes: parseInt(qtdVolumes)
+        }
+      );
+      console.log("Resposta da API (Finalizar Conferência):", finalizarResponse.data);
+
+      // Fechar o popup
+      fecharPopup();
+      // Mostrar notificação de sucesso
+      mostrarNotificacao("Conferência finalizada com sucesso!", "sucesso");
+      // Limpar dados locais visto que a conferência foi concluída
+      localStorage.removeItem(`conferencia_${nroUnico}_${conferenteCodigo}`);
+      // Redirecionar para a página de etiquetas
+      navigate(`/etiquetas/${conferenteCodigo}/${nroUnico}`);
+    } catch (error) {
+      console.error("Erro ao finalizar conferência:", error);
+      // Pode ser útil verificar qual requisição falhou para dar feedback mais específico
+      const mensagemErro = error.response?.data?.mensagem || error.message;
+      mostrarNotificacao(`Erro ao finalizar a conferência: ${mensagemErro}`, "erro");
+    } finally {
+      setCarregando(false);
+    }
+  };
+
 
   // Toggle de seleção para usar a chave composta
   const toggleItemSelecionado = (produto) => {
@@ -303,7 +417,7 @@ const ConferenciaPedido = () => {
     produtosConferidos.forEach(produto => {
       const chave = getProdutoChaveUnica(produto);
       todosItens[chave] = true;
-      
+
       // Inicializar quantidades do relatório se não existirem
       if (!quantidadesRelatorio[chave]) {
         setQuantidadesRelatorio(prev => ({
@@ -324,17 +438,17 @@ const ConferenciaPedido = () => {
   const visualizarRelatorio = () => {
     // Inicializa as quantidades do relatório para itens selecionados que não têm valor
     const novasQuantidades = { ...quantidadesRelatorio };
-    
+
     produtosConferidos.forEach(produto => {
       const chave = getProdutoChaveUnica(produto);
       if (itensSelecionados[chave] && !novasQuantidades[chave]) {
         novasQuantidades[chave] = produto.quantidadeInformada || 0;
       }
     });
-    
+
     setQuantidadesRelatorio(novasQuantidades);
     setMostrarRelatorio(true);
-    
+
     // Adiciona um timeout para imprimir após o componente ter sido renderizado
     setTimeout(() => {
       window.print();
@@ -406,6 +520,31 @@ const ConferenciaPedido = () => {
             <button className="finalizar-conferencia-btn" onClick={abrirFinalizarPopup}>
               Finalizar Conferência
             </button>
+
+           
+
+<button
+  className="devolucao-separador-btn"
+  onClick={abrirDevolucaoSeparadorPopup}
+  style={{ marginLeft: 8 }}
+>
+  Devolução p/ Separador
+</button>
+
+
+<DevolucaoSeparadorPopup
+  isOpen={showDevolucaoPopup}
+  onClose={() => setShowDevolucaoPopup(false)}
+  nunota={nroUnico}
+  conferenteCodigo={conferenteCodigo}
+  items={devolucaoPopupItems}
+  onSuccess={() => {
+    // Você pode adicionar tratamento de sucesso se quiser recarregar produtos, mostrar mensagem, etc.
+  }}
+  onError={() => {}}
+/>
+
+
           </div>
         </div>
         {/* Notificação */}
@@ -452,7 +591,8 @@ const ConferenciaPedido = () => {
                         <div
                           key={`${chaveUnica}-${index}`}
                           className={`produto-card ${produtoSelecionado?.Codigo_Produto === produto.Codigo_Produto &&
-                            produtoSelecionado?.Lote === produto.Lote ? 'selecionado' : ''}`}
+                            produtoSelecionado?.Lote === produto.Lote  &&
+                            produtoSelecionado?.sequencia === produto.sequencia ?'selecionado' : ''}`}
                           onClick={() => selecionarProduto(produto)}
                         >
                           <div className="produto-card-header">
@@ -594,80 +734,89 @@ const ConferenciaPedido = () => {
                   )}
                 </div>
                 {produtosConferidos.length > 0 ? (
-                <div className="produtos-conferidos-lista">
-                  {produtosConferidos.map((produto) => {
-                    const chaveUnica = getProdutoChaveUnica(produto);
-                    return (
-                      <div
-                        key={chaveUnica}
-                        className={`produto-conferido-card ${produto.status} ${itensSelecionados[chaveUnica] ? 'selecionado' : ''}`}
-                      >
-                        {/* Checkbox para seleção */}
-                        <div className="produto-checkbox-container">
-                          <input
-                            type="checkbox"
-                            id={`check-${chaveUnica}`}
-                            className="produto-checkbox"
-                            checked={!!itensSelecionados[chaveUnica]}
-                            onChange={() => toggleItemSelecionado(produto)}
-                            onClick={(e) => e.stopPropagation()}
-                          />
-                          <label htmlFor={`check-${chaveUnica}`} className="produto-checkbox-label"></label>
-                        </div>
-                        <div className="produto-conferido-info">
-                          <div className="produto-conferido-header">
-                            <span className="produto-codigo">{produto.Codigo_Produto}</span>
-                            <span className={`produto-conferido-status ${produto.status}`}>
-                              {produto.status === 'sucesso' ? '✓ Correto' : '✕ Incorreto'}
-                            </span>
+                  <div className="produtos-conferidos-lista">
+                    {produtosConferidos.map((produto) => {
+                      const chaveUnica = getProdutoChaveUnica(produto);
+                      return (
+                        <div
+                          key={chaveUnica}
+                          className={`produto-conferido-card ${produto.status} ${itensSelecionados[chaveUnica] ? 'selecionado' : ''}`}
+                        >
+                          {/* Checkbox para seleção */}
+                          <div className="produto-checkbox-container">
+                            <input
+                              type="checkbox"
+                              id={`check-${chaveUnica}`}
+                              className="produto-checkbox"
+                              checked={!!itensSelecionados[chaveUnica]}
+                              onChange={() => toggleItemSelecionado(produto)}
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                            <label htmlFor={`check-${chaveUnica}`} className="produto-checkbox-label"></label>
                           </div>
-                          <div className="produto-conferido-descricao">
-                            {produto.Descricao_Produto}
-                          </div>
-                          <div className="produto-conferido-detalhes">
-                            <div className="detalhes-row">
-                              <span className="detalhe-label">Informado:</span>
-                              <span className="detalhe-valor">
-                                {produto.quantidadeInformada?.toLocaleString('pt-BR')} {produto.Uni}
+                          <div className="produto-conferido-info">
+                            <div className="produto-conferido-header">
+                              <span className="produto-codigo">{produto.Codigo_Produto}</span>
+                              <span className={`produto-conferido-status ${produto.status}`}>
+                                {produto.status === 'sucesso' ? '✓ Correto' : '✕ Incorreto'}
                               </span>
                             </div>
-                            {produto.quantidade_real !== null && (
+                            <div className="produto-conferido-descricao">
+                              {produto.Descricao_Produto}
+                            </div>
+                            <div className="produto-conferido-detalhes">
                               <div className="detalhes-row">
-                                <span className="detalhe-label">Real:</span>
+                                <span className="detalhe-label">Informado:</span>
                                 <span className="detalhe-valor">
-                                  {produto.quantidade_real?.toLocaleString('pt-BR')} {produto.Uni}
+                                  {produto.quantidadeInformada?.toLocaleString('pt-BR')} {produto.Uni}
                                 </span>
                               </div>
-                            )}
-                            {produto.mensagem && (
-                              <div className="produto-mensagem">
-                                {produto.mensagem}
+
+                              {produto.quantidade_real !== null && (
+                                <div className="detalhes-row">
+                                  <span className="detalhe-label">Real:</span>
+                                  <span className="detalhe-valor">
+                                    {produto.quantidade_real?.toLocaleString('pt-BR')} {produto.Uni}
+                                  </span>
+
+                                </div>
+
+                              )}
+                              <div>
+                                <span className="detalhe-label">Lote: </span>
+                                <span className="detalhe-valor">
+                                  {produto.Lote.toLocaleString('pt-BR')}
+                                </span>
+                                {produto.mensagem && (
+                                  <div className="produto-mensagem">
+                                    {produto.mensagem}
+                                  </div>
+                                )}
                               </div>
-                            )}
-                            {/* Input para especificar quantidade indo no relatório */}
-                            <div className="detalhes-row">
-                              <span className="detalhe-label">Quant. Relatório:</span>
-                              <input
-                                type="number"
-                                className="quantidade-relatorio-input"
-                                value={quantidadesRelatorio[chaveUnica] || ''}
-                                onChange={(e) => handleQuantidadeRelatorioChange(produto, e.target.value)}
-                                min="0"
-                              />
+                              {/* Input para especificar quantidade indo no relatório */}
+                              <div className="detalhes-row">
+                                <span className="detalhe-label">Declaração de Conteúdo:</span>
+                                <input
+                                  type="number"
+                                  className="quantidade-relatorio-input"
+                                  value={quantidadesRelatorio[chaveUnica] || ''}
+                                  onChange={(e) => handleQuantidadeRelatorioChange(produto, e.target.value)}
+                                  min="0"
+                                />
+                              </div>
                             </div>
                           </div>
+                          {!produto.bloqueado && (
+                            <button
+                              className="editar-button"
+                              onClick={() => editarProdutoConferido(produto)}
+                            >
+                              Editar
+                            </button>
+                          )}
                         </div>
-                        {!produto.bloqueado && (
-                          <button
-                            className="editar-button"
-                            onClick={() => editarProdutoConferido(produto)}
-                          >
-                            Editar
-                          </button>
-                        )}
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
                   </div>
                 ) : (
                   <div className="empty-state">
@@ -686,80 +835,94 @@ const ConferenciaPedido = () => {
           <div className="popup-overlay">
             <div className="popup-container">
               <div className="popup-header">
-                <h3>Finalizar Conferência</h3>
-                <button className="popup-close" onClick={fecharPopup}>×</button>
+                <h3 className="popup-titulo">Finalizar Conferência</h3>
+                <button className="popup-fechar" onClick={fecharPopup}>×</button>
               </div>
               <div className="popup-content">
-                <p className="popup-instructions">
+                <p>
                   Antes de finalizar a conferência, informe a quantidade de volumes e etiquetas:
                 </p>
-
-                <div className="popup-form">
-                  <div className="form-group">
+                <div>
+                  <div className="popup-form-group">
                     <label htmlFor="qtdVolumes">Quantidade de Volumes:</label>
-                    <div className="input-counter">
-                      <button 
-                        className="counter-btn" 
-                        onClick={() => setQtdVolumes(prev => Math.max(1, prev - 1))}
-                      >
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        id="qtdVolumes"
-                        value={qtdVolumes}
-                        onChange={(e) => setQtdVolumes(Math.max(1, parseInt(e.target.value) || 1))}
-                        min="1"
-                      />
-                      <button 
-                        className="counter-btn"
-                        onClick={() => setQtdVolumes(prev => prev + 1)}
-                      >
-                        +
-                      </button>
-                    </div>
+                    <input
+                      type="number"
+                      id="qtdVolumes"
+                      className="popup-input"
+                      value={qtdVolumes}
+                      onChange={(e) => setQtdVolumes(parseInt(e.target.value) )}
+                    />
                   </div>
-
-                  <div className="form-group">
+                  <div className="popup-form-group">
                     <label htmlFor="qtdEtiquetas">Quantidade de Etiquetas:</label>
-                    <div className="input-counter">
-                      <button 
-                        className="counter-btn"
-                        onClick={() => setQtdEtiquetas(prev => Math.max(1, prev - 1))}
-                      >
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        id="qtdEtiquetas"
-                        value={qtdEtiquetas}
-                        onChange={(e) => setQtdEtiquetas(Math.max(1, parseInt(e.target.value) || 1))}
-                        min="1"
-                      />
-                      <button 
-                        className="counter-btn"
-                        onClick={() => setQtdEtiquetas(prev => prev + 1)}
-                      >
-                        +
-                      </button>
-                    </div>
+                    <input
+                      type="number"
+                      id="qtdEtiquetas"
+                      className="popup-input"
+                      value={qtdEtiquetas}
+                      onChange={(e) => setQtdEtiquetas(parseInt(e.target.value) )}
+                    />
                   </div>
-                </div>
+                  {/* NOVO: Seleção de Volumes e Quantidades */}
+<div className="popup-form-group volumes-expedicao-group">
+  <label className="popup-label">Volumes:</label>
+  <div className="volumes-list">
+    {/* Array com os textos dos labels na ordem desejada */}
+    {
+      [
+        "Modelo 001",
+        "Modelo 002",
+        "Modelo 003",
+        "Modelo 004",
+        "Modelo 008",
+        "Modelo 009"
+      ].map((volumeLabelText, index) => {
 
+        const volNum = index + 1;
+
+        return (
+          <div key={`vol-${volNum}`} className="volume-item">
+            <input
+              type="checkbox"
+              id={`vol-${volNum}`}
+              checked={!!volumesExpedicao[String(volNum)]}
+              onChange={() => handleVolumeSelection(volNum)}
+            />
+            {/* Usamos o texto do array para o label */}
+            <label htmlFor={`vol-${volNum}`}>{volumeLabelText}</label>
+
+            {/* Mostra input se o volume estiver selecionado, usando o volNum original (1-6) */}
+            {volumesExpedicao[String(volNum)] !== undefined && (
+              <input
+                type="number"
+                className="volume-quantidade-input"
+                value={volumesExpedicao[String(volNum)]}
+                onChange={(e) => handleVolumeQuantityChange(volNum, e.target.value)}
+                min=" "
+                placeholder="Qtd"
+              />
+            )}
+          </div>
+        );
+      })
+    }
+  </div>
+</div>
+                </div>
                 {produtos.length > 0 && (
-                  <div className="popup-warning">
-                    <div className="warning-icon">⚠️</div>
-                    <div className="warning-text">
+                  <div className="estado-vazio">
+                    <div>⚠️</div>
+                    <div>
                       <strong>Atenção!</strong> Ainda existem {produtos.length} produtos não conferidos.
                       É necessário conferir todos os produtos antes de finalizar.
                     </div>
                   </div>
                 )}
               </div>
-              <div className="popup-actions">
-                <button className="popup-cancel" onClick={fecharPopup}>Cancelar</button>
-                <button 
-                  className={`popup-confirm ${produtos.length > 0 ? 'disabled' : ''}`}
+              <div className="popup-footer">
+                <button className="popup-cancelar" onClick={fecharPopup}>Cancelar</button>
+                <button
+                  className={`popup-confirmar ${produtos.length > 0 ? 'disabled' : ''}`}
                   onClick={finalizarConferencia}
                   disabled={produtos.length > 0}
                 >
@@ -769,6 +932,8 @@ const ConferenciaPedido = () => {
             </div>
           </div>
         )}
+
+
       </div>
     </div>
   );

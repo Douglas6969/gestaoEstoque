@@ -6,7 +6,8 @@ import cors from 'cors';
 import userRouter from './routes/users.route.js';
 import authRoutes from './routes/auth.route.js';
 import pedidosroutes from './routes/pedidos.route.js';
-import conferenciaroutes from './routes/conferencia.routes.js'
+import conferenciaroutes from './routes/conferencia.routes.js';
+import admin from './routes/admin.route.js';
 
 
 dotenv.config();
@@ -26,6 +27,9 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/auth', authRoutes);
 app.use('/api/v1', pedidosroutes);
 app.use('/api/v2', conferenciaroutes);
+app.use('/api/v3', admin);
+
+
 
 // Configuração do servidor
 

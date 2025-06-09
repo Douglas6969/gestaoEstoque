@@ -1,2 +1,3 @@
 # Ignorar o arquivo .env
 .env
+/node_modules/

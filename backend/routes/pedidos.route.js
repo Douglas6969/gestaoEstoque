@@ -33,4 +33,6 @@ router.put('/separacao-finalizada/:nroUnico', separacaoFinalizada);
 router.put('/historico/:nroUnico/:separadorCodigo', atualizarHistorico);
 router.put('/imprimir/:nroUnico/:separadorCodigo', imprimirEtiqueta);
 
+
+
 export default router;

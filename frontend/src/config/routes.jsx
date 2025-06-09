@@ -8,6 +8,9 @@ import PerfilUsuario from "../pages/perfil/PerfilUsuario";
 import ConferenciaPedido from "../pages/listConf/ConferenciaPedido";
 import Etiquetas from "../pages/etiquetas/etiquetas";
 import IniciarConferencia from "../pages/iniciarConferencia/IniciarConferencia";
+import RankingSeparadoresPage from "../pages/RankingSeparadoresPage/RankingSeparadoresPage";
+import RankingGeral from "../pages/RankingSeparadoresPage/RankingSeparadoresPage";
+
 
 function Rotas() {
   return (
@@ -20,6 +23,8 @@ function Rotas() {
       <Route path="/conferencia/:nroUnico/:conferenteCodigo" element={<ConferenciaPedido />} />
       <Route path="/etiquetas/:conferenteCodigo/:nroUnico" element={<Etiquetas />} />
       <Route path="/iniciar-conferencia/:conferenteCodigo" element={<IniciarConferencia />} />
+   <Route path="/ranking" element={<RankingGeral />} /> 
+
 
     </Routes>
   );

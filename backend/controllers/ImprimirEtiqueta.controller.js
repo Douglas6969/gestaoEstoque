@@ -149,16 +149,7 @@ const generateLabelLayout = (details) => {
     layout += normalFont + `${primeiroItem.Nome_Separador}\n\n`;
     layout += largeFont + 'NUMERO UNICO\n';
     layout += normalFont + `${primeiroItem.Nro_Unico}\n\n`;
-    layout += largeFont + 'PRODUTOS\n';
-    layout += normalFont + '===================\n';
-    details.forEach(item => {
-        layout += `COD: ${item.Codigo_Produto}\n`;
-        layout += `DESC: ${item.Descricao_Produto}\n`;
-        layout += `MARCA: ${item.Marca}\n`;
-        layout += `LOTE: ${item.Lote}\n`;
-        layout += `QTD: ${formatarQuantidade(item.Quantidade)} ${item.Unidade}\n`;
-        layout += '-------------------\n';
-    });
+    
     layout += cutPaper;
     return layout;
 };

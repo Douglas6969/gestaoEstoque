@@ -5,7 +5,19 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: '0.0.0.0',  // Faz o servidor escutar em todas as interfaces de rede
-    port: 5173,       // Ou qualquer outra porta que você preferir
+    host: '0.0.0.0',
+    port: 5173,
+    proxy: {
+      // Redireciona todas as requisições que começam com '/api'
+      // para o seu backend rodando em 'http://10.10.10.92:5000'
+      '/api': {
+        target: 'http://10.10.10.92:5000', // <--- Endereço CORRETO do seu backend
+        changeOrigin: true,
+        // Sua rota de backend inclui '/api/v1/perfil/score',
+        // então o prefixo '/api' já faz parte da URL do backend.
+        // Não precisamos remover o '/api' com rewrite neste caso.
+        // rewrite: (path) => path.replace(/^\/api/, ''), // <-- Remova ou comente esta linha
+      },
+    },
   },
 })

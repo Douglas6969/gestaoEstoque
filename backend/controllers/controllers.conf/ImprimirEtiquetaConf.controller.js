@@ -17,23 +17,38 @@ const getBearerTokenFromDB = async (conferenteCodigo) => {
             'SELECT id_usuario FROM usuario WHERE codsep = $1',
             [Number(conferenteCodigo)]
         );
+
         if (userResult.rows.length === 0) {
             throw new Error('Conferente não encontrado.');
         }
+
         const id_usuario = userResult.rows[0].id_usuario;
+
         const tokenResult = await db.query(
-            'SELECT bearer_token, expira_em FROM tokens_usuario WHERE id_usuario = $1 ORDER BY id DESC LIMIT 1',
+            // *** VERIFIQUE SE ESTA CONSULTA ESTÁ EXATAMENTE ASSIM ***
+            'SELECT bearer_token, expira_em FROM tokens_usuario WHERE id_usuario = $1 LIMIT 1',
             [id_usuario]
         );
+
         if (tokenResult.rows.length > 0) {
             const { bearer_token, expira_em } = tokenResult.rows[0];
+            // Verificar se o token ainda é válido
             if (new Date(expira_em) > new Date()) {
+                console.log(`Token válido encontrado para o usuário ${conferenteCodigo}.`);
                 return { bearer_token, id_usuario };
+            } else {
+                console.log(`Token expirado para o usuário ${conferenteCodigo}.`);
             }
+        } else {
+             console.log(`Nenhum token encontrado no banco para o usuário ${conferenteCodigo}.`);
         }
+
         return { bearer_token: null, id_usuario };
+
     } catch (error) {
         console.error('Erro ao recuperar token do banco de dados:', error);
+        // Este é o ponto onde o erro "coluna id não existe" pode ser lançado
+        // se a consulta ainda estiver incorreta.
         throw error;
     }
 };

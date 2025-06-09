@@ -587,7 +587,7 @@ body {
   font-size: var(--font-size-lg);
   margin: 0 0 var(--spacing-lg);
   line-height: 1.4;
-  color: var(--color-text);
+  color: black;
   font-weight: 500;
 }
 
@@ -934,9 +934,15 @@ body {
 }
 
 .produto-checkbox-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute; /* Posicionamento absoluto para controle total */
+  left: 5px; /* Distância do canto esquerdo - ajuste conforme necessário */
+  top: 50%; /* Centraliza verticalmente */
+  transform: translateY(-50%); /* Ajuste fino para centralização vertical exata */
+  width: 14px;
+  height: 14px;
+  z-index: 2; /* Garante que fique acima de outros elementos */
+  margin: 0;
+  padding: 0;
 }
 
 .produto-checkbox {
@@ -948,19 +954,19 @@ body {
 }
 
 .produto-checkbox-label {
-  position: relative;
-  cursor: pointer;
-  font-size: 22px;
-  user-select: none;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 24px;
   height: 24px;
-  border-radius: var(--border-radius-sm);
+  border-radius: 5px;
+  cursor: pointer;
   background-color: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition-normal);
+  transition: all 0.2s;
 }
 
 .produto-checkbox:checked + .produto-checkbox-label {
@@ -972,9 +978,10 @@ body {
   content: '✓';
   position: absolute;
   color: white;
-  font-size: 14px;
+  font-size: 8px;
   font-weight: bold;
 }
+
 
 /* Botões de navegação e ação */
 .nav-buttons {
@@ -1219,6 +1226,7 @@ body {
   flex-wrap: wrap;
   gap: var(--spacing-lg);
   margin-top: var(--spacing-xs);
+  margin-left: 20px;
 }
 
 .produto-conferido-detalhe {
@@ -1447,6 +1455,19 @@ body {
   flex-direction: column;
   gap: var(--spacing-sm);
 }
+.devolucao-separador-btn {
+background: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.devolucao-separador-btn:hover {
+  background: #6d0000;
+}
 
 .popup-form-group label {
   font-weight: 500;
@@ -1542,6 +1563,47 @@ body {
   text-align: center;
 }
 
+
+
+.divergencia-button {
+  background-color: #ffa726;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.Erro-button {
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.divergencia-button:hover {
+  background-color: #f57c00;
+}
+
+.divergencia-button:disabled {
+  background-color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+
+
 .finalizar-conferencia-btn {
   background: var(--color-primary-gradient);
   color: var(--color-text);
@@ -1600,6 +1662,8 @@ body {
 .icone-pendente {
   color: var(--color-warning);
 }
+
+
 
 /* Media queries para responsividade */
 @media (max-width: 1400px) {
@@ -1939,4 +2003,148 @@ body {
     color: black !important;
     display: none !important; /* Ocultar botões durante impressão */
   }
+}
+/* Estilos para o grupo principal que contém todos os volumes */
+.popup-form-group.volumes-expedicao-group {
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    padding: calc(var(--spacing-unit) * 4);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-base);
+    background-color: var(--background-color);
+    box-shadow: 0 4px 10px var(--shadow-color-subtle); /* Sombra um pouco mais presente */
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Fonte moderna e comum */
+    color: var(--text-color-dark);
+}
+
+/* Estilo para o rótulo principal "Volumes:" */
+.popup-label {
+    display: block;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    font-size: 1.3em; /* Tamanho de fonte claro */
+    font-weight: 700; /* Negrito forte */
+    color: var(--primary-dark-color); /* Cor primária escura para o título */
+    border-bottom: 2px solid var(--primary-color); /* Linha separadora com cor de destaque */
+    padding-bottom: calc(var(--spacing-unit) * 2);
+    /* Ajustes para a linha se estender, mantendo o padding do texto */
+    margin-left: calc(var(--spacing-unit) * -4); /* Negativo do padding do container */
+    margin-right: calc(var(--spacing-unit) * -4); /* Negativo do padding do container */
+    padding-left: calc(var(--spacing-unit) * 4); /* Igual ao padding do container */
+    padding-right: calc(var(--spacing-unit) * 4); /* Igual ao padding do container */
+    letter-spacing: -0.3px; /* Espaçamento sutil */
+}
+
+/* Container para a lista de itens de volume */
+.volumes-list {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 1.5); /* Espaço generoso entre os itens */
+}
+
+/* Estilo para cada linha individual de volume (checkbox + label + input) */
+.volume-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-unit) calc(var(--spacing-unit) * 2); /* Padding interno */
+    border-radius: var(--border-radius-base);
+    border: 1px solid transparent; /* Borda transparente inicial */
+    transition: background-color var(--transition-duration) ease, border-color var(--transition-duration) ease;
+    cursor: pointer; /* Indica que o item é interativo */
+}
+
+/* Estilo ao passar o mouse sobre o item */
+.volume-item:hover {
+    background-color: var(--primary-light-color);
+    border-color: #cce5ff; /* Borda clara no hover */
+}
+
+/* Estilo para o item quando o checkbox está marcado */
+.volume-item input[type="checkbox"]:checked + label {
+    color: var(--primary-dark-color); /* Cor mais escura para o texto selecionado */
+    font-weight: 600;
+}
+
+/* Adiciona um fundo sutil ao item quando o checkbox está marcado */
+.volume-item input[type="checkbox"]:checked {
+    /* O checkbox nativo não recebe estilo direto aqui */
+}
+
+/* Estilo opcional para o checkbox nativo quando marcado */
+.volume-item input[type="checkbox"]:checked {
+    accent-color: var(--primary-color); /* Altera a cor do checkbox nativo (suporte varia) */
+}
+
+/* Estilo para o checkbox nativo */
+.volume-item input[type="checkbox"] {
+    margin-right: calc(var(--spacing-unit) * 2);
+    min-width: 20px; /* Tamanho um pouco maior */
+    min-height: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+    /* Alinhamento vertical fino */
+    position: relative;
+    top: 1px; /* Ajuste fino para alinhar com o texto */
+}
+
+/* Estilo para o label "Modelo X" */
+.volume-item label {
+    flex-grow: 1; /* Permite que o label ocupe o espaço restante */
+    margin-right: calc(var(--spacing-unit) * 2.5); /* Espaço entre label e input */
+    cursor: pointer;
+    color: var(--text-color-medium);
+    font-size: 1.05em; /* Tamanho de fonte levemente maior */
+    user-select: none;
+}
+
+/* Estilo para o input de quantidade */
+.volume-quantidade-input {
+  background-color: #00000060;
+    width: calc(var(--spacing-unit) * 10); /* Largura adequada */
+    padding: var(--spacing-unit) calc(var(--spacing-unit) * 1.5);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-base);
+    font-size: 1em;
+    text-align: center;
+    transition: border-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+    flex-shrink: 0;
+    color: var(--text-color-dark);
+
+    /* Remover setas padrão */
+    -moz-appearance: textfield;
+}
+
+.volume-quantidade-input::-webkit-outer-spin-button,
+.volume-quantidade-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Estilo para o input de quantidade quando está focado */
+.volume-quantidade-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra de foco mais visível */
+    background-color: var(--background-color);
+}
+
+/* Estilo para o input de quantidade quando está desabilitado */
+.volume-quantidade-input:disabled {
+    background-color: #f8f8f8;
+    color: var(--text-color-light);
+    cursor: not-allowed;
+}
+
+/* Estilo para o input de quantidade quando o item PAI está selecionado */
+.volume-item input[type="checkbox"]:checked ~ .volume-quantidade-input {
+     border-color: var(--border-color-focus); /* Borda clara azulada */
+     background-color: var(--background-color);
+     box-shadow: none; /* Remover sombra para manter clean */
+}
+
+/* Opcional: Adiciona um fundo sutil ao item quando selecionado */
+.volume-item input[type="checkbox"]:checked + label + .volume-quantidade-input {
+     /* Este seletor é um pouco frágil, dependendo da ordem exata dos elementos.
+        Uma alternativa mais robusta seria aplicar a cor de fundo no .volume-item
+        quando o checkbox dentro dele está checked, mas isso requer um seletor pai,
+        o que não é possível diretamente em CSS. Você pode precisar de JS para adicionar
+        uma classe ao .volume-item quando o checkbox é marcado. */
 }

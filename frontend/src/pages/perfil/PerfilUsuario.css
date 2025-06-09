@@ -598,3 +598,345 @@ body {
     scroll-behavior: auto !important;
   }
 }
+/* Adicionando ao seu PerfilUsuario.css existente */
+
+/* Estilo para o card do primeiro colocado */
+.score-card.first-place {
+  background: linear-gradient(145deg, #ffc107, #ff9800);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 215, 0, 0.2);
+  position: relative;
+  overflow: visible;
+}
+
+/* Animação de brilho para o card do primeiro colocado */
+@keyframes golden-glow {
+  0% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.7); }
+  100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+}
+
+.score-card.first-place {
+  animation: golden-glow 2s infinite ease-in-out;
+}
+
+/* Coroa para o primeiro colocado */
+.crown-badge {
+  position: absolute;
+  top: -15px;
+  right: -10px;
+  z-index: 10;
+  transform: rotate(30deg);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  animation: crown-float 3s ease-in-out infinite;
+}
+
+@keyframes crown-float {
+  0%, 100% { transform: rotate(30deg) translateY(0); }
+  50% { transform: rotate(30deg) translateY(-5px); }
+}
+
+
+
+/* Adicionando/Substituindo no seu PerfilUsuario.css existente */
+
+/* Estilo base do card de pontuação - Tema Escuro/Moderno */
+.score-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5); /* Usando variável de espaçamento */
+  /* Fundo escuro com gradiente sutil */
+  background: linear-gradient(145deg, var(--color-dark) 0%, rgba(52, 58, 64, 0.95) 100%);
+  border-radius: var(--border-radius-lg); /* Usando variável de border-radius */
+  /* Sombra forte para destacar */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 5px 10px rgba(0, 0, 0, 0.2);
+  min-width: 280px;
+  position: relative;
+  transition: all var(--transition-normal) ease; /* Usando variável de transição */
+  overflow: hidden; /* Para garantir que elementos absolutos fiquem dentro */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Leve contorno claro */
+  color: var(--color-text); /* Cor de texto padrão clara */
+  flex-shrink: 0; /* Impede que o card encolha em flex containers */
+  /* Adiciona um pseudo-elemento para um efeito de fundo sutil */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 0, rgba(var(--color-primary), 0.1) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
+/* Efeito hover aprimorado */
+.score-card:hover {
+  transform: translateY(-8px); /* Efeito de "levantar" mais pronunciado */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 8px 15px rgba(0, 0, 0, 0.3); /* Sombra maior no hover */
+}
+
+/* Estilo para o card do primeiro colocado - Tema Ouro/Premium */
+.score-card.first-place {
+  /* Gradiente de ouro escuro e rico */
+  background: linear-gradient( #FFD700 );
+  border: 1px solid rgba(255, 215, 0, 0.5); /* Contorno dourado */
+  /* Sombra e brilho dourado intenso */
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.3);
+  animation: golden-pulse 3s infinite ease-in-out; /* Animação de pulso dourado */
+  color: #333; /* Cor de texto escura para contraste */
+   &::before {
+    background: radial-gradient(circle at 50% 0, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+  }
+}
+
+/* Animação de pulso dourado para o card do primeiro colocado */
+@keyframes golden-pulse {
+  0%, 100% { box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.3); }
+  50% { box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.5); }
+}
+
+/* Coroa para o primeiro colocado */
+.crown-badge {
+  position: absolute;
+  top: -25px; /* Ajusta a posição da coroa */
+  right: -20px; /* Ajusta a posição da coroa */
+  z-index: var(--z-30); /* Garante que a coroa fique acima de tudo */
+  background-color: transparent; /* Remove fundo */
+  width: auto;
+  height: auto;
+  display: block;
+  box-shadow: none; /* Remove sombra do badge */
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)); /* Sombra mais forte na coroa */
+  animation: crown-float 3s ease-in-out infinite; /* Animação de flutuar */
+}
+
+.crown {
+  font-size: 3.5rem; /* Aumenta ainda mais o tamanho da coroa */
+  /* Adiciona um brilho sutil à coroa */
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+/* Animação de flutuar para a coroa */
+@keyframes crown-float {
+  0%, 100% { transform: rotate(15deg) translateY(0); } /* Rotação leve e posição inicial/final */
+  50% { transform: rotate(15deg) translateY(-10px); } /* Move para cima no meio da animação */
+}
+
+/* Conteúdo do card */
+.score-header,
+.ranking-info,
+.score-footer {
+  position: relative; /* Para garantir que fiquem acima do pseudo-elemento ::before */
+  z-index: 1;
+}
+
+
+/* Cabeçalho do card (Pontuação do Mês) */
+.score-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--space-4); /* Usando variável de espaçamento */
+  align-items: center;
+}
+
+.score-label {
+  font-size: var(--font-size-sm); /* Usando variável de tamanho de fonte */
+  color: rgba(var(--color-text), 0.7); /* Cor mais suave */
+  margin-bottom: var(--space-1);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Aumenta o espaçamento entre letras */
+}
+
+.score-card.first-place .score-label {
+  color: rgba(51, 51, 51, 0.8); /* Cor mais escura para o primeiro lugar */
+}
+
+.score-value {
+  font-size: var(--font-size-4xl); /* Tamanho maior para o valor da pontuação */
+  font-weight: 900; /* Ultra negrito */
+  color: var(--color-text); /* Cor clara */
+  text-shadow: 0 0 10px rgba(var(--color-primary-light), 0.5); /* Brilho sutil */
+  line-height: 1.1;
+}
+
+.score-card.first-place .score-value {
+  color: #4a3a2a; /* Cor marrom dourado escuro para o valor do primeiro lugar */
+  text-shadow: 0 0 10px rgba(74, 58, 42, 0.5); /* Brilho sutil escuro */
+}
+
+/* Informação de Ranking (Badge de posição) */
+.ranking-info {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-4); /* Usando variável de espaçamento */
+}
+
+.position-badge {
+  display: flex;
+  align-items: center;
+  /* Fundo com cor primária e transparência */
+  background-color: rgba(var(--color-primary-light), 0.2);
+  border-radius: var(--border-radius-full); /* Completamente arredondado */
+  padding: var(--space-2) var(--space-4); /* Usando variáveis de espaçamento */
+  gap: var(--space-2); /* Usando variável de espaçamento */
+  border: 1px solid rgba(var(--color-primary-light), 0.3); /* Contorno */
+  backdrop-filter: blur(5px); /* Efeito de desfoque */
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.score-card.first-place .position-badge {
+   /* Fundo mais claro para o primeiro lugar */
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.position-number {
+  font-weight: 900; /* Ultra negrito */
+  font-size: var(--font-size-xl); /* Tamanho maior */
+  color: var(--color-primary-light); /* Cor primária clara */
+  text-shadow: 0 0 5px rgba(var(--color-primary-light), 0.5); /* Brilho sutil */
+}
+
+.score-card.first-place .position-number {
+  color: #4a3a2a; /* Cor do primeiro lugar */
+  text-shadow: none; /* Remove brilho para o primeiro lugar */
+}
+
+.position-text {
+  font-weight: 600; /* Mais negrito */
+  color: rgba(var(--color-text), 0.8); /* Cor mais suave */
+}
+
+.score-card.first-place .position-text {
+  color: rgba(51, 51, 51, 0.9); /* Cor mais escura */
+}
+
+/* Footer do card (Diferença de pontos) */
+.score-footer {
+  padding-top: var(--space-4); /* Adiciona padding no topo */
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Linha separadora clara */
+  display: flex; /* Garante que o conteúdo do footer use flexbox */
+  justify-content: center; /* Centraliza o conteúdo */
+}
+
+.score-card.first-place .score-footer {
+   border-top: 1px solid rgba(51, 51, 51, 0.1); /* Linha separadora escura */
+}
+
+
+.first-place-text {
+  font-weight: 700; /* Mais negrito */
+  color: #4a3a2a; /* Cor do primeiro lugar */
+  font-size: var(--font-size-lg); /* Tamanho maior */
+  text-transform: uppercase; /* Deixa em maiúsculas */
+  letter-spacing: 1px; /* Aumenta o espaçamento */
+  text-align: center; /* Centraliza o texto */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+
+.points-difference-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1); /* Espaço reduzido */
+}
+
+.points-difference-value {
+  font-size: var(--font-size-2xl); /* Tamanho maior para o valor */
+  font-weight: 900; /* Ultra negrito */
+  color: var(--color-danger); /* Mantém a cor vermelha para indicar "atrás" */
+  text-shadow: 0 0 8px rgba(var(--color-danger), 0.6); /* Brilho vermelho */
+}
+
+.points-difference-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: var(--font-size-sm); /* Tamanho ajustado */
+  color: rgba(var(--color-text), 0.6); /* Cor mais suave */
+  text-align: center;
+  line-height: 1.3;
+}
+
+.score-card.first-place .points-difference-text {
+   color: rgba(51, 51, 51, 0.7); /* Cor mais escura */
+}
+
+
+.next-position {
+  font-weight: 700; /* Mais negrito */
+  color: var(--color-text); /* Cor clara */
+}
+
+.score-card.first-place .next-position {
+  color: #333; /* Cor escura */
+}
+
+
+/* Ajustes de responsividade para o score card */
+@media (max-width: 768px) {
+  .score-card {
+    padding: var(--space-4); /* Ajusta padding em telas menores */
+  }
+  .score-value {
+    font-size: var(--font-size-3xl); /* Ajusta tamanho da pontuação */
+  }
+  .position-badge {
+    padding: var(--space-1) var(--space-3); /* Ajusta padding */
+  }
+  .position-number {
+    font-size: var(--font-size-lg); /* Ajusta tamanho */
+  }
+  .points-difference-value {
+    font-size: var(--font-size-xl); /* Ajusta tamanho */
+  }
+  .points-difference-text {
+    font-size: var(--font-size-xs); /* Ajusta tamanho */
+  }
+   .crown {
+    font-size: 3rem; /* Ajusta tamanho da coroa */
+  }
+   .crown-badge {
+    top: -20px;
+    right: -15px;
+   }
+}
+
+@media (max-width: 480px) {
+  .score-card {
+    padding: var(--space-3); /* Ajusta padding em telas muito pequenas */
+    min-width: auto; /* Remove min-width */
+  }
+  .score-value {
+    font-size: var(--font-size-2xl); /* Ajusta tamanho da pontuação */
+  }
+   .crown {
+    font-size: 2.5rem; /* Reduz tamanho da coroa */
+  }
+   .crown-badge {
+    top: -15px;
+    right: -10px;
+   }
+  .position-badge {
+    padding: var(--space-1) var(--space-2); /* Ajusta padding */
+    gap: var(--space-1);
+  }
+  .position-number {
+    font-size: var(--font-size-md); /* Ajusta tamanho */
+  }
+  .points-difference-value {
+    font-size: var(--font-size-lg); /* Ajusta tamanho */
+  }
+  .points-difference-text {
+    font-size: var(--font-size-xs); /* Ajusta tamanho */
+  }
+  .first-place-text {
+    font-size: var(--font-size-md); /* Ajusta tamanho */
+  }
+}
+

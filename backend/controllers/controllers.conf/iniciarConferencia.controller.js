@@ -2,15 +2,14 @@ import axios from 'axios';
 import { db } from '../../database/connection.database.js';
 import dotenv from 'dotenv';
 import moment from 'moment-timezone';
+import { getBearerToken } from '../auth.controller.js';  // Importe o helper
 
 dotenv.config();
 
 export const iniciarConferencia = async (req, res) => {
     const { codigoConferente } = req.params;
-    
     // Aceitar tanto nroUnico quanto nruUnico (para compatibilidade)
     const nroUnico = req.body.nroUnico || req.body.nruUnico;
-    
     const novoStatus = "5"; // Status de conferência iniciada
     
     console.log("Body recebido:", req.body);
@@ -32,13 +31,13 @@ export const iniciarConferencia = async (req, res) => {
         // Garantir que nroUnico seja tratado como string para evitar problemas com números grandes
         const nroUnicoStr = String(nroUnico);
         if (!/^\d+$/.test(nroUnicoStr)) {
-            return res.status(400).json({ 
-                erro: "Número único inválido.", 
+            return res.status(400).json({
+                erro: "Número único inválido.",
                 detalhe: "O número único deve conter apenas dígitos."
             });
         }
         
-        // 2. Busca usuário e token
+        // 2. Busca usuário
         const userResult = await db.query(
             'SELECT id_usuario FROM usuario WHERE codsep = $1',
             [Number(codigoConferente)]
@@ -50,18 +49,14 @@ export const iniciarConferencia = async (req, res) => {
         
         const id_usuario = userResult.rows[0].id_usuario;
         
-        const tokenResult = await db.query(
-            'SELECT bearer_token FROM tokens_usuario WHERE id_usuario = $1 ORDER BY id DESC LIMIT 1',
-            [id_usuario]
-        );
+        // Usar o helper getBearerToken em vez de consulta direta
+        const bearerToken = await getBearerToken(id_usuario);
         
-        if (tokenResult.rows.length === 0 || !tokenResult.rows[0].bearer_token) {
-            return res.status(404).json({ 
-                erro: 'Token de autenticação não encontrado para o usuário.' 
+        if (!bearerToken) {
+            return res.status(404).json({
+                erro: 'Token de autenticação não encontrado para o usuário.'
             });
         }
-        
-        const bearerToken = tokenResult.rows[0].bearer_token;
         
         // 3. Atualiza o status da nota diretamente
         const atualizaRequestBody = {
@@ -144,7 +139,7 @@ export const iniciarConferencia = async (req, res) => {
         
         if (historicoResponse.data?.status !== "1") {
             console.error("Erro ao registrar histórico:", historicoResponse.data);
-            return res.status(400).json({ 
+            return res.status(400).json({
                 erro: "Erro ao registrar histórico de início da conferência.",
                 motivo: historicoResponse.data?.statusMessage || JSON.stringify(historicoResponse.data)
             });
@@ -157,18 +152,15 @@ export const iniciarConferencia = async (req, res) => {
         });
     } catch (error) {
         console.error("Erro ao iniciar conferência:", error);
-        
         // Melhor tratamento do erro
         let detalhesErro = 'Erro interno no servidor';
-        
         if (error.response && error.response.data) {
-            detalhesErro = typeof error.response.data === 'object' 
-                ? JSON.stringify(error.response.data) 
+            detalhesErro = typeof error.response.data === 'object'
+                ? JSON.stringify(error.response.data)
                 : error.response.data;
         } else if (error.message) {
             detalhesErro = error.message;
         }
-        
         return res.status(500).json({
             erro: "Erro ao iniciar a conferência.",
             detalhes: detalhesErro

@@ -33,7 +33,7 @@ const OrdemCard = ({ ordem, iniciarConferencia }) => {
   const podeIniciarConferencia = ordem?.Status === "Liberado para Separação";
   
   // Verificar se pode ver o pedido de acordo com os status
-  const podeVerPedido = ["Separação Iniciada", "Divergência Encontrada", "Conferencia Iniciada"].includes(
+  const podeVerPedido = ["Separação Iniciada", "Divergência Encontrada", "Conferencia Iniciada", "err404"].includes(
     ordem?.Status?.trim()
   );
 

@@ -1,0 +1,1085 @@
+/*
+ * Tema Cyberpunk Dark
+ * Paleta de cores: Azul, Preto e Vermelho (com toques de Roxo e tons metálicos)
+ */
+/* ==================== Variáveis CSS (Design Tokens) ==================== */
+:root {
+    /* Cores base */
+    --background-color: #0D1117; /* Preto muito escuro / Azul-petróleo escuro (Inspirado no GitHub Dark) */
+    --primary-color: #161B22; /* Azul-petróleo escuro */
+    --secondary-color: #21262D; /* Azul-acinzentado escuro */
+    --card-background: #1B2028; /* Azul-acinzentado escuro para cards e elementos de fundo */
+    /* Cores de texto e acento */
+    --text-color: #C9D1D9; /* Cinza-azul claro (Texto principal) */
+    --text-secondary-color: #8B949E; /* Cinza médio (Texto secundário/labels) */
+    --accent-blue: #58A6FF; /* Azul vibrante (Links, hover, destaque, bordas) */
+    --accent-red: #F85149; /* Vermelho vibrante (Erros, alertas, status de problema) */
+    --accent-purple: #A371F7; /* Roxo (Alternativa para destaque, gradientes) */
+    /* Cores de status */
+    --status-success: #3FB950; /* Verde (Sucesso/Concluído) */
+    --status-processing: #58A6FF; /* Azul (Em andamento/Processando) - Usando accent-blue */
+    --status-error: #F85149; /* Vermelho (Erro/Problema) - Usando accent-red */
+    /* Gradientes */
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    --gradient-card: linear-gradient(145deg, #1B2028, #21262D); /* Gradiente sutil para cards */
+    --gradient-title: linear-gradient(90deg, var(--text-color), var(--accent-blue)); /* Gradiente para título */
+    --gradient-title-line: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); /* Gradiente para linha do título */
+    --gradient-gold: linear-gradient(45deg, #FFD700, #FFA500); /* Ouro para 1ª posição */
+    --gradient-silver: linear-gradient(45deg, #C0C0C0, #A9A9A9); /* Prata para 2ª posição */
+    --gradient-bronze: linear-gradient(45deg, #CD7F32, #A0522D); /* Bronze para 3ª posição */
+    /* Sombras */
+    --shadow-sm: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.25);
+    --shadow-deep: 0 25px 50px rgba(0, 0, 0, 0.3), 0 15px 30px rgba(0, 0, 0, 0.2);
+    --shadow-card-hover: 0 20px 40px rgba(0, 0, 0, 0.35), 0 15px 30px rgba(0, 0, 0, 0.25);
+    --shadow-modal: 0 30px 60px rgba(0, 0, 0, 0.6), 0 20px 40px rgba(0, 0, 0, 0.4); /* Sombra mais escura para modal */
+    --shadow-neon-blue: 0 0 10px rgba(88, 166, 255, 0.5);
+    --shadow-neon-purple: 0 0 8px rgba(163, 113, 247, 0.6);
+    --shadow-neon-gold: 0 0 15px rgba(255, 215, 0, 0.8);
+    --shadow-neon-silver: 0 0 15px rgba(192, 192, 192, 0.8);
+    --shadow-neon-bronze: 0 0 15px rgba(205, 127, 50, 0.8);
+    /* Espaçamento */
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 20px;
+    --spacing-lg: 30px;
+    --spacing-xl: 40px;
+    /* Bordas e Raio */
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-color-light: rgba(255, 255, 255, 0.2);
+    --border-color-dark: rgba(255, 255, 255, 0.05);
+    --border-radius-sm: 5px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 15px;
+    --border-radius-xl: 20px;
+    --border-radius-round: 50%;
+    /* Transições */
+    --transition-ease-out: all 0.3s ease-out;
+    --transition-bezier: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-bezier-lg: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    --transition-fade: opacity 0.3s ease-out;
+    --transition-slide: transform 0.4s ease-out, opacity 0.4s ease-out;
+}
+/* ==================== Estilos Base ==================== */
+body {
+    font-family: 'Inter', 'SF Pro', 'Roboto', sans-serif; /* Fontes modernas */
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6; /* Ajuste leve para melhor leitura */
+    -webkit-font-smoothing: antialiased; /* Suaviza fontes no Webkit */
+    text-rendering: optimizeLegibility; /* Otimiza a renderização do texto */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Evita scroll horizontal indesejado */
+}
+/* Estilos globais de link */
+a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease; /* Adiciona transição para sombra */
+}
+a:hover {
+    color: var(--text-color);
+    text-decoration: underline;
+    text-shadow: 0 0 5px rgba(88, 166, 255, 0.3); /* Sombra sutil no hover */
+}
+/* Scrollbar estilizada (apenas para navegadores baseados em Webkit) */
+::-webkit-scrollbar {
+    width: var(--spacing-sm); /* Largura da barra */
+}
+::-webkit-scrollbar-track {
+    background: var(--primary-color); /* Fundo da barra */
+    border-radius: var(--border-radius-sm);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color); /* Cor do "pegador" */
+    border-radius: var(--border-radius-sm);
+    border: 2px solid var(--primary-color); /* Borda para destacar */
+    transition: background-color 0.3s ease; /* Transição para hover */
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-blue); /* Cor no hover */
+}
+/* ==================== Layout e Containers ==================== */
+.ranking-container {
+    background: var(--gradient-primary);
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-xl);
+    margin: 800px auto 50px auto; /* Centraliza e adiciona margem vertical */
+    max-width: 1600px; /* Largura máxima */
+    /* width: 95%; /* Ocupa a maior parte da largura em telas menores que max-width */
+    box-shadow: var(--shadow-deep);
+    position: relative;
+    z-index: 1;
+    border: 1px solid var(--border-color-dark);
+    overflow: hidden; /* Garante que elementos internos não vazem */
+}
+/* ==================== Título e Elementos Decorativos ==================== */
+.title {
+    text-align: center;
+    font-size: 3.2rem; /* Levemente maior */
+    font-weight: 900;
+    background: var(--gradient-title);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 5px; /* Mais espaçamento */
+    position: relative;
+    margin-bottom: 45px; /* Mais espaço abaixo */
+    text-shadow: var(--shadow-neon-blue); /* Sombra neon sutil */
+    animation: neon-glow-blue 1.5s ease-in-out infinite alternate; /* Animação de brilho */
+}
+
+/* Animação de brilho neon azul */
+@keyframes neon-glow-blue {
+    from { text-shadow: 0 0 5px rgba(88, 166, 255, 0.3), 0 0 10px rgba(88, 166, 255, 0.3); }
+    to { text-shadow: 0 0 10px rgba(88, 166, 255, 0.6), 0 0 20px rgba(88, 166, 255, 0.6); }
+}
+
+/* Linha decorativa abaixo do título */
+.title::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; /* Ajuste de posição */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px; /* Mais largo */
+    height: 6px; /* Mais espesso */
+    background: var(--gradient-title-line);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-neon-purple); /* Sombra neon para a linha */
+    animation: neon-glow-purple 1.8s ease-in-out infinite alternate; /* Animação de brilho */
+}
+
+/* Animação de brilho neon roxo */
+@keyframes neon-glow-purple {
+    from { box-shadow: 0 0 4px rgba(163, 113, 247, 0.4), 0 0 8px rgba(163, 113, 247, 0.4); }
+    to { box-shadow: 0 0 8px rgba(163, 113, 247, 0.7), 0 0 15px rgba(163, 113, 247, 0.7); }
+}
+
+
+/* ==================== Informações Gerais ==================== */
+.ranking-info {
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 1.15rem; /* Levemente maior */
+    color: var(--text-secondary-color); /* Cor secundária */
+}
+.ranking-info p {
+    margin: 6px 0; /* Ajuste de margem */
+}
+.info-value {
+    font-weight: 700; /* Mais negrito */
+    color: var(--text-color);
+}
+/* ==================== Seção de Status Totais ==================== */
+.status-totals-section {
+    margin-bottom: 45px;
+}
+.status-totals-section h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--accent-blue); /* Cor de destaque */
+    font-size: 2rem; /* Levemente maior */
+    font-weight: 800; /* Mais negrito */
+    text-shadow: 0 0 5px rgba(88, 166, 255, 0.3); /* Sombra sutil */
+}
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Ajusta min width */
+    gap: var(--spacing-lg); /* Mais espaço */
+}
+.status-item {
+    background: var(--card-background);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg); /* Mais padding */
+    transition: var(--transition-bezier);
+    border: 1px solid var(--border-color); /* Borda mais visível */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--shadow-sm); /* Sombra inicial */
+    position: relative; /* Para efeitos de borda */
+    overflow: hidden; /* Para o efeito de brilho */
+}
+
+/* Efeito de brilho sutil no hover */
+.status-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: skewX(-20deg);
+    transition: transform 0.5s ease;
+}
+
+.status-item:hover {
+    transform: translateY(-10px); /* Efeito mais suave */
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-color-light); /* Borda mais clara no hover */
+}
+
+.status-item:hover::before {
+    transform: translateX(250%) skewX(-20deg); /* Brilho deslizando */
+}
+
+
+.status-item strong {
+    display: block;
+    margin-bottom: var(--spacing-xs); /* Mais espaço */
+    font-size: 1.2rem; /* Levemente maior */
+    color: var(--text-secondary-color); /* Cor secundária para o label */
+    font-weight: 600;
+}
+.status-item span {
+    font-size: 1.8rem; /* Maior */
+    font-weight: 900; /* Mais negrito */
+    color: var(--text-color); /* Cor principal para o valor */
+}
+/* Estilos específicos para os status */
+.status-item.status-1 span { color: var(--status-success); }
+.status-item.status-2 span { color: var(--status-processing); }
+.status-item.status-9 span { color: var(--status-error); }
+/* Estilo para o link/span clicável nos totais de status */
+.status-count-link {
+    cursor: pointer;
+    text-decoration: none; /* Remove underline padrão */
+    color: var(--text-color);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    position: relative; /* Para o underline animado */
+    padding-bottom: 2px; /* Espaço para o underline */
+    display: inline-block; /* Permite o padding-bottom funcionar */
+}
+.status-count-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-blue);
+    transition: width 0.3s ease;
+}
+.status-count-link:hover {
+    color: var(--accent-blue); /* Muda a cor no hover */
+    text-shadow: 0 0 8px rgba(88, 166, 255, 0.5); /* Sombra neon no hover */
+}
+.status-count-link:hover::after {
+    width: 100%; /* Underline animado */
+}
+/* ==================== Cards de Ranking ==================== */
+.ranking-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Ajusta min width */
+    gap: 35px; /* Mais espaço */
+    margin-top: 45px;
+}
+.separator-card {
+    background: var(--gradient-card); /* Usando gradiente */
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-bezier-lg);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: var(--shadow-sm); /* Sombra inicial */
+    position: relative; /* Para efeitos de borda */
+    overflow: hidden; /* Para o efeito de brilho */
+}
+
+/* Efeito de brilho sutil no hover para cards */
+.separator-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: skewX(-20deg);
+    transition: transform 0.5s ease;
+}
+
+.separator-card:hover {
+    transform: translateY(-12px); /* Efeito mais pronunciado */
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--border-color-light);
+}
+
+.separator-card:hover::before {
+    transform: translateX(250%) skewX(-20deg); /* Brilho deslizando */
+}
+
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px; /* Mais espaço */
+    border-bottom: 1px solid var(--border-color-dark); /* Linha separadora */
+    padding-bottom: 15px;
+}
+.posicao-badge {
+    width: 45px; /* Levemente maior */
+    height: 45px; /* Levemente maior */
+    border-radius: var(--border-radius-round); /* Arredonda */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem; /* Maior */
+    font-weight: 900;
+    color: var(--background-color); /* Texto escuro */
+    margin-right: var(--spacing-md); /* Espaço à direita */
+    flex-shrink: 0; /* Não encolhe */
+    box-shadow: var(--shadow-sm); /* Sombra sutil */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição para hover */
+}
+
+/* Estilos específicos para os badges de posição */
+.posicao-badge.posicao-1 { background: var(--gradient-gold); box-shadow: var(--shadow-neon-gold); animation: neon-glow-gold 1.6s ease-in-out infinite alternate; }
+.posicao-badge.posicao-2 { background: var(--gradient-silver); box-shadow: var(--shadow-neon-silver); animation: neon-glow-silver 1.7s ease-in-out infinite alternate; }
+.posicao-badge.posicao-3 { background: var(--gradient-bronze); box-shadow: var(--shadow-neon-bronze); animation: neon-glow-bronze 1.9s ease-in-out infinite alternate; }
+
+/* Animações de brilho neon para badges */
+@keyframes neon-glow-gold {
+    from { box-shadow: 0 0 8px rgba(255, 215, 0, 0.5); }
+    to { box-shadow: 0 0 15px rgba(255, 215, 0, 0.9); }
+}
+@keyframes neon-glow-silver {
+    from { box-shadow: 0 0 8px rgba(192, 192, 192, 0.5); }
+    to { box-shadow: 0 0 15px rgba(192, 192, 192, 0.9); }
+}
+@keyframes neon-glow-bronze {
+    from { box-shadow: 0 0 8px rgba(205, 127, 50, 0.5); }
+    to { box-shadow: 0 0 15px rgba(205, 127, 50, 0.9); }
+}
+
+
+/* --- CONTINUAÇÃO DO SEU CÓDIGO --- */
+/* Estilo padrão para outras posições (além do top 3) */
+.posicao-badge:not(.posicao-1):not(.posicao-2):not(.posicao-3) {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    font-size: 1.3rem; /* Levemente menor que o top 3 */
+    font-weight: 700;
+}
+.posicao-badge:hover {
+    transform: scale(1.1); /* Efeito de zoom sutil no hover */
+}
+
+.separator-info {
+    flex-grow: 1; /* Permite que ocupe espaço disponível */
+}
+.separator-name {
+    font-size: 1.8rem; /* Maior */
+    font-weight: 800;
+    color: var(--text-color);
+    margin-bottom: 5px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.1); /* Sombra sutil */
+}
+.total-score {
+    font-size: 1.2rem;
+    color: var(--text-secondary-color);
+    font-weight: 500;
+}
+.score-value {
+    font-size: 1.6rem; /* Maior */
+    font-weight: 900;
+    color: var(--accent-blue); /* Cor de destaque */
+    text-shadow: var(--shadow-neon-blue); /* Sombra neon para o score */
+}
+.card-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-color-dark); /* Borda tracejada */
+}
+.detail-item {
+    display: inline-block; /* Exibe lado a lado */
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: var(--border-radius-md);
+    padding: 6px 12px; /* Ajusta padding */
+    margin-right: var(--spacing-xs); /* Espaço entre itens */
+    margin-bottom: var(--spacing-xs); /* Espaço para quebra de linha */
+    font-size: 0.95rem;
+    color: var(--text-secondary-color);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.detail-item:last-child {
+    margin-right: 0;
+}
+.detail-item:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-color);
+}
+.detail-item strong {
+    font-weight: 700;
+    color: var(--text-color);
+    margin-right: 4px;
+}
+
+/* Seções de Métricas e Erros no Card */
+.metrics-section, .errors-section {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color-dark);
+}
+.metrics-section h4, .errors-section h4 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: var(--text-secondary-color);
+    text-align: center;
+}
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Ajusta min width */
+    gap: var(--spacing-md);
+}
+.metric-item {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.metric-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-sm);
+}
+.metric-item strong {
+    display: block;
+    font-size: 1.6rem; /* Maior */
+    font-weight: 800;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+.metric-item span {
+    font-size: 0.95rem;
+    color: var(--text-secondary-color);
+}
+/* Estilos específicos para métricas */
+.metric-item.metric-success strong { color: var(--status-success); }
+.metric-item.metric-processing strong { color: var(--status-processing); }
+.metric-item.metric-error strong { color: var(--status-error); }
+
+/* Botão Voltar */
+.botoes-container {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+}
+.botao.voltar {
+    display: inline-block;
+    background: var(--accent-blue);
+    color: var(--background-color); /* Texto escuro */
+    padding: 18px 40px; /* Mais padding */
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+}
+.botao.voltar:hover {
+    background-color: #4a90e2; /* Azul levemente mais claro */
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md), var(--shadow-neon-blue); /* Adiciona sombra neon */
+}
+.botao.voltar:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ==================== Modal (Popup) ==================== */
+/* Overlay do Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo mais escuro */
+    backdrop-filter: blur(8px); /* Efeito de blur no fundo */
+    z-index: 1000; /* Acima de outros elementos */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Inicialmente invisível */
+    visibility: hidden; /* Oculta completamente */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Conteúdo do Modal */
+.modal-content {
+    background: var(--card-background); /* Fundo do card */
+    border-radius: var(--border-radius-xl); /* Raio grande */
+    padding: var(--spacing-xl);
+    max-width: 800px; /* Largura máxima */
+    width: 90%; /* Ocupa a maior parte da largura */
+    max-height: 90vh; /* Altura máxima */
+    overflow-y: auto; /* Adiciona scroll se o conteúdo for grande */
+    position: relative;
+    box-shadow: var(--shadow-modal); /* Sombra profunda */
+    border: 1px solid var(--border-color-light); /* Borda mais visível */
+    transform: translateY(50px); /* Começa um pouco abaixo */
+    opacity: 0; /* Inicialmente invisível */
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease-out; /* Animação de entrada */
+}
+
+.modal-overlay.visible .modal-content {
+    transform: translateY(0); /* Desliza para a posição final */
+    opacity: 1;
+}
+
+/* Animação de saída do modal */
+.modal-overlay.hiding {
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s; /* Atraso para a animação do conteúdo */
+}
+.modal-overlay.hiding .modal-content {
+    transform: translateY(50px); /* Desliza para baixo ao sair */
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19), opacity 0.3s ease-out;
+}
+
+
+/* Botão de Fechar Modal */
+.modal-close {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: none;
+    border: none;
+    font-size: 2rem; /* Maior */
+    color: var(--text-secondary-color);
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+    z-index: 10; /* Garante que fique acima do conteúdo */
+}
+.modal-close:hover {
+    color: var(--accent-red); /* Muda para vermelho no hover */
+    transform: rotate(90deg); /* Gira no hover */
+}
+
+/* Título do Modal */
+.modal-content h3 {
+    font-size: 2rem;
+    color: var(--accent-blue); /* Cor de destaque */
+    margin-bottom: 30px;
+    text-align: center;
+    text-shadow: 0 0 5px rgba(88, 166, 255, 0.3);
+}
+
+/* Grid de Detalhes no Modal */
+.modal-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Ajusta min width */
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px dashed var(--border-color-dark);
+}
+.modal-detail-item {
+    background-color: rgba(255, 255, 255, 0.05); /* Fundo sutil */
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Borda mais visível */
+    text-align: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.modal-detail-item:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--border-color);
+}
+.modal-detail-item strong {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--text-secondary-color);
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+.modal-detail-item span {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-color);
+}
+/* Estilos específicos para contadores no modal */
+.modal-detail-item .error-count { color: var(--status-error); }
+.modal-detail-item .ordens-status-2-count { color: var(--status-processing); }
+
+/* Título da Lista no Modal */
+.modal-global-list h3 {
+    font-size: 1.6rem;
+    color: var(--text-secondary-color);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+/* Estilos para a lista dentro do modal */
+.nunota-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px; /* Altura máxima para a lista */
+    overflow-y: auto; /* Adiciona scroll se a lista for grande */
+    border-top: 1px solid var(--border-color-dark);
+    padding-top: var(--spacing-sm);
+}
+.nunota-item {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    border: 1px solid var(--border-color-dark);
+    font-size: 1rem;
+    color: var(--text-color);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.nunota-item:last-child {
+    margin-bottom: 0;
+}
+.nunota-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: var(--border-color);
+}
+
+/* Mensagens de estado no modal (sem dados, carregando, erro) */
+.no-data-message, .loading-spinner, .error-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-secondary-color);
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color-dark);
+}
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.loading-spinner i {
+    font-size: 3rem;
+    color: var(--accent-blue);
+    animation: spin 1.5s linear infinite; /* Animação de rotação */
+    text-shadow: var(--shadow-neon-blue); /* Sombra neon para o spinner */
+}
+.loading-spinner p {
+    margin-top: var(--spacing-sm);
+    font-size: 1rem;
+    color: var(--text-secondary-color);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.error-message {
+    color: var(--status-error);
+    border-color: var(--status-error);
+    text-shadow: 0 0 5px rgba(248, 81, 73, 0.3); /* Sombra sutil de erro */
+}
+
+/* ==================== Notificação (Toast) ==================== */
+.notificacao-card {
+    position: fixed;
+    bottom: var(--spacing-lg); /* Mais afastado da borda */
+    right: var(--spacing-lg); /* Mais afastado da borda */
+    background-color: var(--card-background);
+    color: var(--text-color);
+    padding: 18px var(--spacing-lg); /* Mais padding */
+    border-radius: var(--border-radius-md); /* Mais arredondado */
+    box-shadow: var(--shadow-md); /* Sombra mais pronunciada */
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md); /* Mais espaço */
+    z-index: 1010; /* Acima do modal */
+    border-left: 6px solid; /* Borda mais espessa */
+    opacity: 0; /* Inicialmente invisível */
+    transform: translateY(20px); /* Começa um pouco abaixo */
+    animation: slideInUp 0.4s ease-out forwards; /* Animação de entrada */
+    transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transições para interações */
+}
+
+/* Animação de entrada */
+@keyframes slideInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Animação de saída (necessita de JS para adicionar a classe 'slideOutDown') */
+.notificacao-card.slideOutDown {
+    animation: slideOutDown 0.4s ease-in forwards;
+}
+@keyframes slideOutDown {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(20px); }
+}
+
+
+.notificacao-card.sucesso { border-color: var(--status-success); box-shadow: var(--shadow-md), 0 0 10px rgba(63, 185, 80, 0.3); } /* Verde + sombra sutil */
+.notificacao-card.erro { border-color: var(--status-error); box-shadow: var(--shadow-md), 0 0 10px rgba(248, 81, 73, 0.3); } /* Vermelho + sombra sutil */
+.notificacao-card.info { border-color: var(--status-processing); box-shadow: var(--shadow-md), 0 0 10px rgba(88, 166, 255, 0.3); } /* Azul + sombra sutil */
+
+.notificacao-icon {
+    font-size: 2rem; /* Maior */
+    /* Cores dos ícones baseadas no tipo */
+    color: inherit; /* Herda a cor da borda */
+}
+.notificacao-mensagem {
+    margin: 0;
+    font-size: 1.1rem; /* Levemente maior */
+    font-weight: 500;
+}
+.notificacao-fechar {
+    background: none;
+    border: none;
+    color: var(--text-secondary-color); /* Cor secundária */
+    font-size: 1.4rem; /* Maior */
+    cursor: pointer;
+    opacity: 0.8;
+    transition: color 0.3s ease, opacity 0.3s ease, transform 0.2s ease; /* Adiciona transição de transform */
+}
+.notificacao-fechar:hover {
+    color: var(--text-color); /* Cor principal no hover */
+    opacity: 1;
+    transform: rotate(90deg); /* Gira no hover */
+}
+
+/* ==================== Responsividade ==================== */
+@media (max-width: 1024px) {
+    .ranking-container {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-lg) auto;
+    }
+    .title {
+        font-size: 2.8rem;
+        letter-spacing: 4px;
+    }
+     .title::after {
+        width: 150px;
+        bottom: -15px;
+        height: 5px;
+     }
+    .ranking-list {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+    }
+    .modal-content {
+        max-width: 600px;
+        padding: var(--spacing-lg);
+    }
+}
+@media (max-width: 768px) {
+    .ranking-container {
+        padding: var(--spacing-md);
+        margin: var(--spacing-md) auto;
+    }
+    .title {
+        font-size: 2.2rem;
+        letter-spacing: 3px;
+    }
+    .title::after {
+        width: 120px;
+        bottom: -12px;
+        height: 4px;
+    }
+    .status-totals-section h3 {
+        font-size: 1.8rem;
+    }
+    .status-grid {
+        grid-template-columns: 1fr; /* Empilha em telas menores */
+        gap: var(--spacing-md);
+    }
+    .status-item {
+        padding: 25px;
+    }
+     .status-item strong {
+         font-size: 1.1rem;
+     }
+     .status-item span {
+         font-size: 1.6rem;
+     }
+    .ranking-list {
+        grid-template-columns: 1fr; /* Empilha os cards */
+        gap: var(--spacing-md);
+    }
+    .separator-card {
+        padding: 25px;
+    }
+    .card-header {
+        flex-direction: column; /* Empilha header items */
+        align-items: flex-start;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+     .posicao-badge {
+         margin-right: 0;
+         margin-bottom: var(--spacing-sm);
+         width: 40px;
+         height: 40px;
+         font-size: 1.3rem;
+     }
+     .separator-info {
+         width: 100%; /* Garante que ocupe a largura total */
+     }
+     .separator-name {
+         font-size: 1.6rem;
+     }
+     .total-score {
+         text-align: left;
+         width: 100%; /* Ocupa toda a largura */
+         margin-top: var(--spacing-sm);
+         font-size: 1.1rem;
+     }
+     .score-value {
+         font-size: 1.4rem;
+     }
+     .card-details {
+         margin-top: 15px;
+         padding-top: 15px;
+     }
+     .detail-item {
+         font-size: 1rem;
+         padding: 4px 8px;
+     }
+     .metrics-section h4, .errors-section h4 {
+         font-size: 1.2rem;
+         margin-bottom: 15px;
+     }
+     .metrics-grid {
+         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Ajusta min width */
+         gap: var(--spacing-sm);
+     }
+     .metric-item {
+         padding: var(--spacing-sm);
+     }
+     .metric-item strong {
+         font-size: 1.4rem;
+     }
+     .botoes-container {
+         margin-top: var(--spacing-xl);
+     }
+     .botao.voltar {
+         padding: 15px 30px;
+         font-size: 1rem;
+     }
+     .modal-content {
+         padding: var(--spacing-lg) var(--spacing-md); /* Ajusta padding horizontal */
+         max-height: 85vh; /* Ajusta altura máxima */
+     }
+     .modal-close {
+         font-size: 1.8rem;
+         top: 15px;
+         right: 15px;
+     }
+     .modal-content h3 {
+         font-size: 1.8rem;
+         margin-bottom: 25px;
+     }
+     .modal-details-grid {
+         grid-template-columns: 1fr; /* Empilha detalhes no modal */
+         gap: 15px;
+         margin-bottom: 25px;
+         padding-bottom: 15px;
+     }
+     .modal-detail-item {
+         padding: 15px;
+     }
+     .modal-detail-item strong {
+         font-size: 1rem;
+     }
+     .modal-detail-item span {
+         font-size: 1.3rem;
+     }
+      .modal-global-list h3 {
+         font-size: 1.3rem;
+         margin-bottom: 15px;
+      }
+     .nunota-list {
+         max-height: 250px; /* Ajusta altura da lista no modal */
+         padding-top: 10px;
+     }
+     .nunota-item {
+         padding: 10px 15px;
+         margin-bottom: 8px;
+         font-size: 0.9rem;
+     }
+     .no-data-message, .loading-spinner, .error-message {
+         font-size: 1.1rem;
+         margin-top: 30px;
+         padding: 15px;
+     }
+     .loading-spinner i {
+         font-size: 2.5rem;
+     }
+     .notificacao-card {
+         bottom: 15px;
+         right: 15px;
+         padding: 15px 20px;
+         gap: 15px;
+     }
+     .notificacao-icon {
+         font-size: 1.6rem;
+     }
+     .notificacao-mensagem {
+         font-size: 1rem;
+     }
+     .notificacao-fechar {
+         font-size: 1.2rem;
+     }
+}
+@media (max-width: 480px) {
+    .ranking-container {
+        padding: 15px;
+        margin: 15px auto;
+    }
+    .title {
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+    }
+    .title::after {
+        width: 80px;
+        bottom: -10px;
+        height: 3px;
+    }
+    .ranking-info {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+    .status-totals-section h3 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    .status-item {
+        padding: 20px;
+    }
+     .status-item strong {
+         font-size: 1.1rem;
+     }
+     .status-item span {
+         font-size: 1.6rem;
+     }
+    .ranking-list {
+        gap: 15px;
+    }
+    .separator-card {
+        padding: 20px;
+    }
+     .posicao-badge {
+         width: 35px;
+         height: 35px;
+         font-size: 1.2rem;
+         margin-bottom: 8px;
+     }
+     .separator-name {
+         font-size: 1.4rem;
+     }
+     .total-score {
+         font-size: 1rem;
+     }
+     .score-value {
+         font-size: 1.3rem;
+     }
+     .metrics-section h4, .errors-section h4 {
+         font-size: 1.1rem;
+         margin-bottom: 10px;
+     }
+     .metrics-grid {
+         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+         gap: 8px;
+     }
+     .metric-item {
+         padding: 10px;
+         font-size: 0.85rem;
+     }
+     .metric-item strong {
+         font-size: 1.2rem;
+     }
+     .botoes-container {
+         margin-top: 30px;
+     }
+     .botao.voltar {
+         padding: 12px 25px;
+         font-size: 0.9rem;
+     }
+     .modal-content {
+         padding: 25px 15px;
+     }
+     .modal-close {
+         font-size: 1.5rem;
+         top: 10px;
+         right: 10px;
+     }
+     .modal-content h3 {
+         font-size: 1.6rem;
+         margin-bottom: 20px;
+     }
+     .modal-details-grid {
+         gap: 10px;
+     }
+     .modal-detail-item {
+         padding: 12px;
+     }
+     .modal-detail-item strong {
+         font-size: 0.9rem;
+     }
+     .modal-detail-item span {
+         font-size: 1.2rem;
+     }
+      .modal-global-list h3 {
+         font-size: 1.2rem;
+         margin-bottom: 10px;
+      }
+     .nunota-list {
+         max-height: 200px;
+         padding-top: 8px;
+     }
+     .nunota-item {
+         padding: 8px 12px;
+         margin-bottom: 6px;
+         font-size: 0.85rem;
+     }
+     .no-data-message, .loading-spinner, .error-message {
+         font-size: 1rem;
+         margin-top: 20px;
+         padding: 15px;
+     }
+     .loading-spinner i {
+         font-size: 2rem;
+     }
+     .notificacao-card {
+         bottom: 10px;
+         right: 10px;
+         padding: 12px 18px;
+         gap: 10px;
+     }
+     .notificacao-icon {
+         font-size: 1.4rem;
+     }
+     .notificacao-mensagem {
+         font-size: 0.9rem;
+     }
+     .notificacao-fechar {
+         font-size: 1.1rem;
+     }
+}
+

@@ -1,0 +1,132 @@
+/* src/components/GlobalListModal/GlobalListModal.css */
+
+/* Este CSS pode ser muito similar ao SeparatorDetailModal.css
+   Podemos reutilizar muitas classes ou definir variáveis comuns.
+   Para simplificar, vamos copiar e ajustar o necessário. */
+
+/* Variáveis CSS (podem ser importadas ou redefinidas se necessário) */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --danger-color: #dc3545;
+    --dark-color: #343a40;
+    --white-color: #fff;
+    --info-color: #17a2b8;
+    --warning-color: #ffc107;
+
+    --border-radius: 8px;
+    --spacing-unit: 1rem;
+    --box-shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    /* Animação de entrada do overlay */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Classe adicionada via JS para mostrar o overlay */
+.modal-overlay.visible {
+     opacity: 1;
+}
+
+
+.modal-content {
+    background-color: var(--white-color);
+    padding: calc(var(--spacing-unit) * 2);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-medium);
+    max-width: 700px; /* Pode ser um pouco mais largo para listas */
+    width: 90%;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    /* Animação de entrada do modal */
+    transform: translateY(-50px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Classe adicionada via JS para mostrar o modal */
+.modal-overlay.visible .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+.modal-close {
+    position: absolute;
+    top: var(--spacing-unit);
+    right: var(--spacing-unit);
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--secondary-color);
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: var(--dark-color);
+    }
+     &:focus { /* Estilo para acessibilidade de teclado */
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+     }
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    color: var(--dark-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+/* Estilo específico para a lista global, se necessário */
+.modal-global-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+     /* Pode usar um layout diferente ou mais colunas se a lista for longa */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.6rem;
+}
+
+.nunota-item {
+    background-color: #e9ecef;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    font-size: 0.95em;
+    text-align: center;
+    color: var(--dark-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        padding: var(--spacing-unit);
+    }
+     .modal-global-list {
+         grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Ajusta colunas */
+         gap: 0.5rem;
+     }
+}

@@ -1,0 +1,279 @@
+/* src/components/ProdutoConferenciaArea/ProdutoConferenciaArea.css */
+
+/* Estilos para o estado inicial "Selecione um produto" */
+.selecione-produto-container {
+  flex: 1; /* Permite que o container ocupe o espaço disponível */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  text-align: center;
+  height: 100%; /* Garante que ele ocupe a altura total do container pai */
+}
+
+.selecione-produto-mensagem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--color-text-light);
+  max-width: 300px;
+}
+
+.selecione-icon {
+  font-size: 4rem; /* Ícone maior */
+  margin-bottom: var(--spacing-sm);
+  opacity: 0.7;
+}
+
+.selecione-texto {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text); /* Título um pouco mais visível */
+}
+
+.selecione-subtexto {
+  font-size: var(--font-size-md);
+  margin: 0;
+  line-height: 1.5;
+  color: var(--color-text-light);
+}
+
+/* Estilos para a área de conferência de produto (quando um produto é selecionado) */
+/* Reutilizando estilos já definidos em _layout.css */
+/*
+.painel-header { ... }
+.painel-title { ... }
+.produto-conferencia { ... }
+.produto-header { ... }
+*/
+
+/* Estilos específicos para os detalhes do produto dentro da área de conferência */
+.produto-codigo-badge {
+  background-color: var(--color-primary);
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: var(--shadow-sm);
+}
+
+.produto-controlado-badge {
+  background-color: var(--color-error); /* Cor de destaque para "Controlado" */
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-sm);
+}
+
+.produto-descricao {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin: var(--spacing-md) 0 var(--spacing-lg);
+  color: var(--color-text-dark);
+  line-height: 1.3;
+}
+
+.produto-detalhes {
+  display: flex;
+  flex-wrap: wrap; /* Permite que os grupos quebrem em telas menores */
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.detalhes-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  flex: 1; /* Permite que os grupos ocupem espaço */
+  min-width: 180px; /* Largura mínima antes de quebrar */
+}
+
+.detalhe-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.detalhe-label {
+  font-weight: 500;
+  color: var(--color-text-light);
+  font-size: var(--font-size-md);
+}
+
+.detalhe-valor {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+}
+
+.detalhe-valor.destaque {
+  color: var(--color-secondary); /* Cor de destaque para localização */
+  font-weight: 700;
+}
+
+/* Estilos para a área de quantidade */
+.quantidade-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.quantidade-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.quantidade-label {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+
+.quantidade-dica {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.quantidade-input-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.quantidade-input {
+  flex: 1; /* Permite que o input ocupe o máximo de espaço */
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-xl); /* Fonte maior para a quantidade */
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.08); /* Fundo levemente transparente */
+  color: var(--color-text-dark); /* Cor do texto mais escura */
+  transition: all var(--transition-fast);
+  width: auto; /* Remove largura fixa se houver */
+  min-width: 100px; /* Garante um tamanho mínimo */
+}
+
+.quantidade-input:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(82, 148, 226, 0.3); /* Sombra de foco mais proeminente */
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.unidade-badge {
+  background-color: var(--color-text-light);
+  color: var(--color-surface);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Estilos para o botão de confirmar */
+.confirmar-button {
+  background: var(--color-secondary-gradient); /* Gradiente secundário */
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  position: relative;
+  overflow: hidden;
+  min-width: 180px; /* Largura mínima para o botão */
+  align-self: flex-start; /* Alinha o botão à esquerda */
+}
+
+.confirmar-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: all 0.6s;
+}
+
+.confirmar-button:hover::before {
+  left: 100%;
+}
+
+.confirmar-button:hover {
+  transform: translateY(-3px); /* Efeito sutil de elevação */
+  box-shadow: var(--shadow-lg);
+}
+
+.confirmar-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.confirmar-button:disabled {
+  background: var(--color-border);
+  color: var(--color-text-light);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.7;
+}
+
+/* Estilo para o botão quando não está em estado de loading (se aplicável) */
+.confirmar-button.no-loading {
+  /* Adicione estilos específicos se houver diferença quando não está carregando */
+}
+
+/* Media Query para telas menores */
+@media (max-width: 768px) {
+  .produto-detalhes {
+    flex-direction: column; /* Empilha os grupos de detalhes em telas menores */
+    gap: var(--spacing-md);
+  }
+
+  .detalhes-grupo {
+    min-width: auto; /* Remove a largura mínima */
+  }
+
+  .quantidade-input-group {
+    flex-direction: column; /* Empilha input e badge */
+    align-items: stretch;
+  }
+
+  .quantidade-input {
+    font-size: var(--font-size-lg); /* Ajusta tamanho da fonte do input */
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .unidade-badge {
+    align-self: flex-end; /* Alinha o badge à direita */
+  }
+
+  .confirmar-button {
+    width: 100%; /* Botão ocupa largura total */
+    min-width: auto;
+    font-size: var(--font-size-md);
+    padding: var(--spacing-md);
+    align-self: stretch; /* Estica o botão para a largura total */
+  }
+}

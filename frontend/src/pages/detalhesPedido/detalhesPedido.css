@@ -1,39 +1,51 @@
 /* Variáveis globais */
 :root {
   --primary-color: #457a9c;
+  --primary-light: rgba(69, 122, 156, 0.7);
+  --primary-dark: #305570;
   --success-color: #28a745;
   --success-dark: #218838;
+  --success-light: rgba(40, 167, 69, 0.2);
+  --success-glow: rgba(40, 167, 69, 0.6);
   --danger-color: #e63946;
   --danger-dark: #c82333;
+  --danger-light: rgba(230, 57, 70, 0.1);
+  --danger-glow: rgba(230, 57, 70, 0.6);
   --warning-color: #ffc107;
   --warning-dark: #e0a800;
+  --warning-light: rgba(255, 193, 7, 0.1);
+  --warning-glow: rgba(255, 193, 7, 0.6);
+  --info-color: #17a2b8;
   --white: #ffffff;
   --light-bg: #fefefe;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   --box-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.2);
   --transition-speed: 0.3s;
+  --transition-elastic: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  --border-radius: 8px;
+  --border-radius-large: 16px;
 }
 
 /* Container principal do pedido */
 .detalhes-pedido-container {
-  height: 100%;
+  height: auto;
+  min-height: calc(100vh - 120px);
   background: rgba(69, 122, 156, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-radius: 16px;
-  margin-top: 70px;
+  border-radius: var(--border-radius-large);
+  margin-top: 300px;
   padding: 24px;
   margin-bottom: 24px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  transition: box-shadow 0.4s ease;
   overflow: hidden;
   position: relative;
-  
 }
 
+/* Removido o transform no hover para evitar problemas no mobile */
 .detalhes-pedido-container:hover {
-  transform: translateY(-5px);
   box-shadow: var(--box-shadow-hover);
 }
 
@@ -62,29 +74,93 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Lista de produtos com rolagem */
+/* Observação Geral */
+.observacao-geral-container {
+  background: var(--danger-light);
+  border-left: 4px solid var(--danger-color);
+  border-radius: var(--border-radius);
+  padding: 16px 20px;
+  margin: 20px 0;
+  animation: fadeInScale 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.observacao-titulo {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--danger-color);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.observacao-titulo::before {
+  content: "⚠️";
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.observacao-texto {
+  color: var(--white);
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap; /* Preserva quebras de linha */
+  font-style: italic;
+  padding-left: 5px;
+  border-left: 2px solid rgba(230, 57, 70, 0.3);
+}
+
+/* Alerta de devolução */
+.alerta-devolucao {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--warning-light), rgba(255, 193, 7, 0.05));
+  border-left: 4px solid var(--warning-color);
+  border-radius: var(--border-radius);
+  padding: 14px 20px;
+  margin: 15px 0 25px;
+  animation: fadeInScale 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alerta-icone {
+  font-size: 24px;
+  margin-right: 15px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.alerta-devolucao p {
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--white);
+}
+
+/* Lista de produtos com rolagem adaptativa */
 .produto-list-container {
-  height: 580px;
+  max-height: calc(100vh - 300px);
+  min-height: 400px;
   overflow-y: auto;
   padding-right: 10px;
   margin-top: 15px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   scrollbar-width: thin;
   scrollbar-color: var(--primary-color) rgba(255, 255, 255, 0.1);
 }
 
 .produto-list-container::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .produto-list-container::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 .produto-list-container::-webkit-scrollbar-thumb {
   background-color: var(--primary-color);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 /* Mensagem quando não há detalhes */
@@ -94,8 +170,8 @@
   font-size: 18px;
   font-weight: bold;
   padding: 20px;
-  background: rgba(230, 57, 70, 0.1);
-  border-radius: 8px;
+  background: var(--danger-light);
+  border-radius: var(--border-radius);
   margin: 20px 0;
 }
 
@@ -106,10 +182,10 @@
   text-align: center;
   font-weight: bold;
   padding: 20px;
-  background: rgba(230, 57, 70, 0.1);
-  border-radius: 8px;
+  background: var(--danger-light);
+  border-radius: var(--border-radius);
   margin: 20px auto;
-  max-width: 80%;
+  max-width: 90%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -161,7 +237,7 @@
   font-size: 16px;
   font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   transition: all var(--transition-speed) ease;
   text-align: center;
@@ -175,36 +251,57 @@
 }
 
 .finalizar {
-  background: linear-gradient(145deg, var(--success-color), #218838);
+  background: linear-gradient(145deg, var(--success-color), var(--success-dark));
   color: var(--white);
 }
 
-.finalizar:hover {
-  background: linear-gradient(145deg, #218838, var(--success-color));
-  transform: translateY(-3px);
+.finalizar:hover:not(:active) {
+  background: linear-gradient(145deg, var(--success-dark), var(--success-color));
   box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
 }
 
+@media (hover: hover) {
+  .finalizar:hover {
+    transform: translateY(-3px);
+  }
+}
+
 .divergencia {
-  background: linear-gradient(145deg, var(--warning-color), #e0a800);
+  background: linear-gradient(145deg, var(--warning-color), var(--warning-dark));
   color: #000;
 }
 
-.divergencia:hover {
-  background: linear-gradient(145deg, #e0a800, var(--warning-color));
-  transform: translateY(-3px);
+.divergencia:hover:not(:active) {
+  background: linear-gradient(145deg, var(--warning-dark), var(--warning-color));
   box-shadow: 0 6px 12px rgba(255, 193, 7, 0.3);
 }
 
+@media (hover: hover) {
+  .divergencia:hover {
+    transform: translateY(-3px);
+  }
+}
+
 .voltar {
-  background: linear-gradient(145deg, var(--danger-color), #c82333);
+  background: linear-gradient(145deg, var(--danger-color), var(--danger-dark));
   color: var(--white);
 }
 
-.voltar:hover {
-  background: linear-gradient(145deg, #c82333, var(--danger-color));
-  transform: translateY(-3px);
+.voltar:hover:not(:active) {
+  background: linear-gradient(145deg, var(--danger-dark), var(--danger-color));
   box-shadow: 0 6px 12px rgba(230, 57, 70, 0.3);
+}
+
+@media (hover: hover) {
+  .voltar:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Botão em modo ativo para feedback em toque */
+.botao:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Notificação Inline */
@@ -219,25 +316,25 @@
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  border-radius: 8px;
-  background-color: rgba(23, 162, 184, 0.9);
+  border-radius: var(--border-radius);
+  background-color: rgba(23, 162, 184, 0.95);
   color: var(--white);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   animation: slideDown 0.5s forwards;
   z-index: 1000;
   backdrop-filter: blur(5px);
 }
 
 .notificacao-card.sucesso {
-  background-color: rgba(40, 167, 69, 0.9);
+  background-color: rgba(40, 167, 69, 0.95);
 }
 
 .notificacao-card.erro {
-  background-color: rgba(230, 57, 70, 0.9);
+  background-color: rgba(230, 57, 70, 0.95);
 }
 
 .notificacao-card.aviso {
-  background-color: rgba(255, 193, 7, 0.9);
+  background-color: rgba(255, 193, 7, 0.95);
 }
 
 .notificacao-icon {
@@ -249,7 +346,7 @@
 .notificacao-mensagem {
   flex: 1;
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
 }
 
@@ -257,11 +354,11 @@
   background: none;
   border: none;
   color: var(--white);
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
-  padding: 0;
+  padding: 0 0 0 12px;
   line-height: 1;
-  opacity: 0.7;
+  opacity: 0.8;
   transition: opacity 0.2s;
 }
 
@@ -277,6 +374,11 @@
 @keyframes slideUp {
   from { top: 16px; opacity: 1; }
   to { top: -80px; opacity: 0; }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* --- Estilos do Popup --- */
@@ -310,7 +412,12 @@
   max-width: 450px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
-  animation: slideUp 0.3s ease-in-out;
+  animation: slideUpPopup 0.3s ease-in-out;
+}
+
+@keyframes slideUpPopup {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 /* Título do popup */
@@ -326,7 +433,7 @@
   width: 100%;
   padding: 12px;
   border: 2px solid #ccc;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   margin-bottom: 20px;
   font-size: 16px;
   transition: border-color 0.3s ease-in-out;
@@ -351,7 +458,7 @@
   font-size: 16px;
   font-weight: bold;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   text-align: center;
@@ -359,100 +466,400 @@
 
 /* Botão de confirmar */
 .popup-button.confirmar {
-  background: linear-gradient(145deg, var(--success-color), #218838);
+  background: linear-gradient(145deg, var(--success-color), var(--success-dark));
   color: var(--white);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 .popup-button.confirmar:hover {
-  background: linear-gradient(145deg, #218838, var(--success-color));
-  transform: scale(1.05);
+  background: linear-gradient(145deg, var(--success-dark), var(--success-color));
+}
+
+@media (hover: hover) {
+  .popup-button.confirmar:hover {
+    transform: scale(1.05);
+  }
 }
 
 /* Botão de cancelar */
 .popup-button.cancelar {
-  background: linear-gradient(145deg, var(--danger-color), #c82333);
+  background: linear-gradient(145deg, var(--danger-color), var(--danger-dark));
   color: var(--white);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
-.popup-button.cancelar:hover {
-  background: linear-gradient(145deg, #c82333, var(--danger-color));
-  transform: scale(1.05);
+/* Estilos para o botão de correção */
+.botao.correcao {
+  background: linear-gradient(145deg, var(--warning-color), #e0a800);
+  color: #000;
+  font-weight: 700;
 }
 
-/* Responsividade */
+.botao.correcao:hover:not(:active) {
+  background: linear-gradient(145deg, #e0a800, var(--warning-color));
+  box-shadow: 0 6px 12px rgba(255, 193, 7, 0.3);
+}
+
+@media (hover: hover) {
+  .botao.correcao:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Ajuste para destacar o modo de correção no título */
+.title.correcao {
+  color: var(--warning-color);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.popup-button.cancelar:hover {
+  background: linear-gradient(145deg, var(--danger-dark), var(--danger-color));
+}
+
+@media (hover: hover) {
+  .popup-button.cancelar:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Estilos melhorados para checkbox */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--primary-color);
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: inline-block;
+  position: relative;
+  margin-right: 8px;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-dark);
+}
+
+input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  display: block;
+}
+
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(69, 122, 156, 0.3);
+}
+
+/* Estilo para label de checkbox (sem hover effects) */
+.checkbox-label {
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+  color: var(--white);
+  margin-bottom: 0;
+}
+
+/* Responsividade - Adaptado e melhorado */
 @media (max-width: 768px) {
   .detalhes-pedido-container {
-    margin-top: 130px;
-    padding: 15px;
-    height: 95vh;
-    
+    margin-top: 100px;
+    padding: 16px;
+    min-height: calc(100vh - 100px);
+    height: auto;
   }
-
+  
   .produto-list-container {
-    max-height: 55vh;
+    max-height: calc(100vh - 350px);
+    min-height: 300px;
     margin-top: 10px;
-   
   }
-
+  
   .title {
     font-size: 20px;
     padding-bottom: 12px;
   }
-
+  
   .nro-unico {
     font-size: 16px;
     padding: 6px 12px;
   }
-
-  .botoes-container {
-    flex-direction: column;
-    gap: 10px;
+  
+  .observacao-geral-container {
+    padding: 12px 15px;
+    margin: 15px 0;
   }
-
+  
+  .observacao-titulo {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+  
+  .observacao-texto {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  .alerta-devolucao {
+    padding: 10px 15px;
+    margin: 12px 0 20px;
+  }
+  
+  .alerta-icone {
+    font-size: 20px;
+  }
+  
+  .alerta-devolucao p {
+    font-size: 13px;
+  }
+  
+  .botoes-container {
+    padding: 14px 5px;
+    gap: 10px;
+    flex-direction: row; /* Mantém os botões lado a lado em tablets */
+  }
+  
   .botao {
-    width: 100%;
-    padding: 10px;
+    padding: 12px 10px;
     font-size: 14px;
   }
-
+  
   .popup-container {
     width: 95%;
     padding: 20px;
   }
-
+  
   .popup-input {
     font-size: 14px;
     padding: 10px;
   }
-
+  
   .popup-button {
-    font-size: 14px;
-    padding: 10px;
+    font-size: 15px;
+    padding: 11px;
+  }
+  
+  /* Melhorar checkbox em telas menores */
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+  
+  input[type="checkbox"]:checked::after {
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
   .detalhes-pedido-container {
-    padding: 12px;
+    padding: 14px;
+    margin-top: 200px;
+    border-radius: 12px;
   }
-
-  .popup-container {
-    width: 95%;
+  
+  .produto-list-container {
+    max-height: calc(100vh - 320px);
+    min-height: 250px;
   }
-
-  .popup-buttons {
+  
+  .title {
+    font-size: 18px;
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+  }
+  
+  .nro-unico {
+    font-size: 15px;
+    padding: 6px 10px;
+    margin-bottom: 16px;
+  }
+  
+  /* Layout de botões em tela pequena - empilhados */
+  .botoes-container {
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
-
-  .popup-button {
+  
+  .botao {
     width: 100%;
+    padding: 13px 10px;
+    font-size: 15px;
+    justify-content: center;
   }
-
+  
   .notificacao-card {
     width: 95%;
     padding: 10px 16px;
+    top: 10px;
   }
+  
+  .notificacao-mensagem {
+    font-size: 14px;
+  }
+  
+  .notificacao-icon {
+    font-size: 16px;
+  }
+  
+  /* Ajuste popup para mobile */
+  .popup-container h3 {
+    font-size: 20px;
+  }
+  
+  .popup-buttons {
+    flex-direction: column-reverse; /* Coloca o botão principal em cima */
+    gap: 10px;
+  }
+  
+  .popup-button {
+    padding: 12px;
+    font-size: 15px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .detalhes-pedido-container {
+    padding: 12px;
+    margin-top: 65px;
+  }
+  
+  .produto-list-container {
+    max-height: calc(100vh - 300px);
+    min-height: 200px;
+  }
+  
+  .observacao-geral-container {
+    padding: 10px;
+  }
+  
+  .observacao-titulo {
+    font-size: 14px;
+  }
+  
+  .observacao-texto {
+    font-size: 13px;
+    padding-left: 3px;
+  }
+  
+  .title {
+    font-size: 17px;
+  }
+  
+  .nro-unico {
+    font-size: 14px;
+  }
+  
+  .botao {
+    font-size: 14px;
+    padding: 11px 8px;
+  }
+  
+  .notificacao-mensagem {
+    font-size: 13px;
+  }
+  
+  /* Melhorar checkbox em telas muito pequenas */
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+  
+  input[type="checkbox"]:checked::after {
+    left: 5px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+  }
+}
+
+/* Ajustes para altura mínima em dispositivos pequenos */
+@media (max-height: 700px) {
+  .produto-list-container {
+    max-height: calc(100vh - 280px);
+    min-height: 180px;
+  }
+  
+  .detalhes-pedido-container {
+    margin-top: 65px;
+  }
+}
+
+/* Melhorias para telas de toque */
+@media (pointer: coarse) {
+  input[type="checkbox"] {
+    width: 22px; /* Maior área de toque */
+    height: 22px;
+  }
+  
+  .botao, .popup-button {
+    min-height: 48px; /* Recomendação de acessibilidade para touch */
+  }
+  
+  .notificacao-fechar {
+    font-size: 24px;
+    padding: 0 0 0 15px; /* Aumenta área de toque */
+  }
+}
+
+/* Suporte para modo escuro do sistema */
+@media (prefers-color-scheme: dark) {
+  .popup-container {
+    background: #1e1e1e;
+    color: #f0f0f0;
+  }
+  
+  .popup-container h3 {
+    color: #90CAF9;
+  }
+  
+  .popup-input {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #fff;
+  }
+  
+  .popup-input:focus {
+    border-color: var(--primary-light);
+  }
+}
+
+/* Adicionando uma classe para o elemento de sequência nos cards */
+.produto-card-sequencia {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.sequencia-label {
+  color: var(--white);
+  margin-right: 0.5rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.sequencia-value {
+  color: var(--white);
+  font-weight: 600;
+  background-color: rgba(69, 122, 156, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
 }

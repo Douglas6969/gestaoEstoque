@@ -37,7 +37,7 @@ const Home = () => {
       console.error("Erro ao verificar separação:", error);
       if (error.response) {
         // O servidor respondeu com um status de erro
-        setErro(error.response.data.message || "Erro no servidor. Tente novamente.");
+        setErro(error.response.data.message || "Há pedidos em aberto. Verifique seu Perfil.");
       } else if (error.request) {
         // A requisição foi feita, mas não houve resposta
         setErro("Sem resposta do servidor. Verifique sua conexão.");

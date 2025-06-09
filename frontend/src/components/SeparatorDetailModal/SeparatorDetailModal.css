@@ -1,0 +1,166 @@
+/* src/components/SeparatorDetailModal/SeparatorDetailModal.css */
+
+/* Variáveis CSS (podem ser importadas ou redefinidas se necessário) */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --danger-color: #dc3545;
+    --dark-color: #343a40;
+    --white-color: #fff;
+
+    --border-radius: 8px;
+    --spacing-unit: 1rem;
+    --box-shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo escuro semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que fique acima de outros elementos */
+
+    /* Animação de entrada do overlay */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Classe adicionada via JS para mostrar o overlay */
+.modal-overlay.visible {
+     opacity: 1;
+}
+
+
+.modal-content {
+    background-color: var(--white-color);
+    padding: calc(var(--spacing-unit) * 2);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-medium);
+    max-width: 600px; /* Largura máxima do modal */
+    width: 90%; /* Ocupa 90% da largura em telas menores */
+    position: relative; /* Para posicionar o botão de fechar */
+    max-height: 90vh; /* Altura máxima para evitar overflow */
+    overflow-y: auto; /* Adiciona scroll se o conteúdo for muito grande */
+
+    /* Animação de entrada do modal */
+    transform: translateY(-50px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Classe adicionada via JS para mostrar o modal */
+/* Nota: Para animação de saída suave, o JS precisaria gerenciar a remoção da classe 'visible'
+   e esperar a transição terminar antes de remover o componente do DOM.
+   O código JSX atual simplesmente monta/desmonta, o que funciona para a animação de entrada. */
+.modal-overlay.visible .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+.modal-close {
+    position: absolute;
+    top: var(--spacing-unit);
+    right: var(--spacing-unit);
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--secondary-color);
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: var(--dark-color);
+    }
+     &:focus { /* Estilo para acessibilidade de teclado */
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+     }
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    color: var(--dark-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.modal-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Layout responsivo */
+    gap: var(--spacing-unit);
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+}
+
+.modal-detail-item {
+    font-size: 1em;
+    color: var(--secondary-color);
+
+    strong {
+        color: var(--dark-color);
+        margin-right: 0.5rem;
+    }
+}
+
+.modal-ordens-status-2 {
+    margin-top: calc(var(--spacing-unit) * 1.5);
+    padding-top: var(--spacing-unit);
+    border-top: 1px solid #eee;
+
+     h4 {
+        margin-top: 0;
+        margin-bottom: 0.8rem;
+        color: var(--dark-color);
+        font-size: 1.1em;
+         display: flex;
+        align-items: center;
+        gap: 0.5rem;
+         /* Estilo para ícones se usados */
+         .fas {
+             color: var(--warning-color); /* Cor para ícones de status 2 */
+         }
+    }
+}
+
+.nunota-list {
+    list-style: none; /* Remove marcadores padrão */
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Layout responsivo para NUNOTAs */
+    gap: 0.5rem;
+}
+
+.nunota-item {
+    background-color: #e9ecef;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    font-size: 0.9em;
+    text-align: center;
+    color: var(--dark-color);
+    white-space: nowrap; /* Evita quebra de linha */
+    overflow: hidden; /* Esconde texto extra */
+    text-overflow: ellipsis; /* Adiciona '...' se o texto for cortado */
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        padding: var(--spacing-unit);
+    }
+
+    .modal-details-grid {
+        grid-template-columns: 1fr; /* Uma coluna em telas menores */
+    }
+     .nunota-list {
+         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Ajusta colunas para NUNOTAs */
+     }
+}

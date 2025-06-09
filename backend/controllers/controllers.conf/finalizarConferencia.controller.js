@@ -2,6 +2,8 @@ import axios from 'axios';
 import { db } from '../../database/connection.database.js';
 import dotenv from 'dotenv';
 import moment from 'moment-timezone';
+
+// Garante que as variáveis de ambiente sejam carregadas
 dotenv.config();
 
 export const finalizarConferencia = async (req, res) => {
@@ -19,7 +21,6 @@ export const finalizarConferencia = async (req, res) => {
         if (!codigoConferente || isNaN(Number(codigoConferente))) {
             return res.status(400).json({ erro: "Código do conferente inválido." });
         }
-
         if (!nroUnico) {
             return res.status(400).json({
                 erro: "Número único não informado.",
@@ -47,13 +48,17 @@ export const finalizarConferencia = async (req, res) => {
         }
 
         const id_usuario = userResult.rows[0].id_usuario;
+
+        // *** CORREÇÃO DA CONSULTA SQL: Removido ORDER BY id DESC ***
         const tokenResult = await db.query(
-            'SELECT bearer_token FROM tokens_usuario WHERE id_usuario = $1 ORDER BY id DESC LIMIT 1',
+            'SELECT bearer_token FROM tokens_usuario WHERE id_usuario = $1 LIMIT 1',
             [id_usuario]
         );
 
         if (tokenResult.rows.length === 0 || !tokenResult.rows[0].bearer_token) {
-            return res.status(404).json({
+            // Se não encontrar o token no banco, pode ser necessário fazer login novamente
+            // (Essa lógica de renovação/login não está aqui, mas é onde seria integrada)
+             return res.status(404).json({
                 erro: 'Token de autenticação não encontrado para o usuário.'
             });
         }
@@ -66,11 +71,13 @@ export const finalizarConferencia = async (req, res) => {
             requestBody: {
                 entityName: "CabecalhoNota",
                 standAlone: false,
+                // Verifique se estes nomes de campos estão corretos no Sankhya
                 fields: ["AD_CODIGO", "AD_SEPARADORNEW", "AD_STATUSDACONFERENCIA"],
                 records: [
                     {
                         pk: { NUNOTA: nroUnicoStr },
                         values: {
+                            // Os índices (0, 1, 2) devem corresponder à ordem dos campos em 'fields'
                             "0": novoStatus,
                             "1": codigoConferente,
                             "2": statusConferencia
@@ -81,6 +88,8 @@ export const finalizarConferencia = async (req, res) => {
         };
 
         console.log("Request para finalizar nota:", JSON.stringify(atualizaRequestBody, null, 2));
+
+        // *** CORREÇÃO DA URL: Usando a URL hardcoded novamente para evitar o erro undefined ***
         const atualizaResponse = await axios.post(
             "https://api.sandbox.sankhya.com.br/gateway/v1/mge/service.sbr?serviceName=DatasetSP.save&outputType=json",
             atualizaRequestBody,
@@ -88,14 +97,14 @@ export const finalizarConferencia = async (req, res) => {
                 headers: {
                     'Authorization': `Bearer ${bearerToken}`,
                     'Content-Type': 'application/json',
-                    'appkey': process.env.SANKHYA_APPKEY
+                    'appkey': process.env.SANKHYA_APPKEY // appkey ainda usa variável de ambiente
                 }
             }
         );
 
         if (atualizaResponse.data?.status !== "1") {
             // Resposta detalhada de erro da Sankhya
-            console.error("Erro na resposta da API Sankhya:", atualizaResponse.data);
+            console.error("Erro na resposta da API Sankhya (Atualização):", atualizaResponse.data);
             return res.status(400).json({
                 erro: "Erro ao atualizar o status da conferência.",
                 motivo: atualizaResponse.data?.statusMessage || JSON.stringify(atualizaResponse.data)
@@ -103,21 +112,25 @@ export const finalizarConferencia = async (req, res) => {
         }
 
         // 4. Registra histórico de finalização da conferência
+        // Usando moment-timezone para garantir o fuso horário correto
         const dataHoraAtual = moment().tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm:ss");
+
         const historicoRequestBody = {
             serviceName: "DatasetSP.save",
             requestBody: {
-                entityName: "AD_TGFEXP",
+                entityName: "AD_TGFEXP", // Verifique se o nome da entidade está correto no Sankhya
                 standAlone: false,
+                // Verifique se estes nomes de campos estão corretos no Sankhya
                 fields: ["DATA", "NUNOTA", "STATUS", "CODUSU", "OPERADOR"],
                 records: [
                     {
                         values: {
+                            // Os índices (0, 1, 2, 3, 4) devem corresponder à ordem dos campos em 'fields'
                             "0": dataHoraAtual,
                             "1": nroUnicoStr,
                             "2": novoStatus,
-                            "3": "0",
-                            "4": codigoConferente
+                            "3": id_usuario, // Usar o id_usuario obtido do banco
+                            "4": codigoConferente // Manter o código do conferente (codsep)
                         }
                     }
                 ]
@@ -125,14 +138,16 @@ export const finalizarConferencia = async (req, res) => {
         };
 
         console.log("Request para registrar histórico:", JSON.stringify(historicoRequestBody, null, 2));
+
+        // *** CORREÇÃO DA URL: Usando a URL hardcoded novamente para evitar o erro undefined ***
         const historicoResponse = await axios.post(
-            "https://api.sandbox.sankhya.com.br/gateway/v1/mge/service.sbr?serviceName=DatasetSP.save&outputType=json",
+             "https://api.sandbox.sankhya.com.br/gateway/v1/mge/service.sbr?serviceName=DatasetSP.save&outputType=json",
             historicoRequestBody,
             {
                 headers: {
                     'Authorization': `Bearer ${bearerToken}`,
                     'Content-Type': 'application/json',
-                    'appkey': process.env.SANKHYA_APPKEY
+                    'appkey': process.env.SANKHYA_APPKEY // appkey ainda usa variável de ambiente
                 }
             }
         );
@@ -162,6 +177,7 @@ export const finalizarConferencia = async (req, res) => {
         } else if (error.message) {
             detalhesErro = error.message;
         }
+
         return res.status(500).json({
             erro: "Erro ao finalizar a conferência.",
             detalhes: detalhesErro
